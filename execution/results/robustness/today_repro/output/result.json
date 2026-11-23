@@ -1,0 +1,111 @@
+{
+ "case_id": "today",
+ "status": "success",
+ "summary": "SUCCESS: main.tex with pdflatex, 1 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:18:03Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "main.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex"
+  ],
+  "engine_passes": 1,
+  "converged": true,
+  "timeout": false,
+  "seconds": 0.49,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.49,
+    "aux_sha256": "fbabe80c887f95a1ede6847f22dd91b380bda9d17ae8bfaa72e1741b16aa41e9",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516",
+   "pdf_sha256_build2": "bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [],
+ "change_records": [],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\today_repro\\input",
+  "materials": [
+   "case.json",
+   "main.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 0,
+  "details": "environment.json"
+ },
+ "pdf": "main.pdf"
+}

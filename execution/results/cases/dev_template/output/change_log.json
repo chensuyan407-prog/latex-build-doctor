@@ -1,0 +1,80 @@
+[
+ {
+  "hunk": "H001",
+  "file": "jcsa.cls",
+  "kind": "new_file",
+  "old_lines": [
+   1,
+   0
+  ],
+  "new_lines": [
+   1,
+   14
+  ],
+  "old": "",
+  "new": "\\NeedsTeXFormat{LaTeX2e}\n\\ProvidesClass{jcsa}[2024/01/01 v1.2 Journal of Computational Surface Analysis]\n\\LoadClass[10pt,twocolumn]{article}\n\\RequirePackage{graphicx}\n\\def\\@journalname{}\n\\newcommand{\\journalname}[1]{\\gdef\\@journalname{#1}}\n\\def\\@keywords{}\n\\newcommand{\\keywords}[1]{\\gdef\\@keywords{#1}}\n\\renewcommand{\\maketitle}{%\n  \\ifx\\@journalname\\@empty\n    \\ClassError{jcsa}{\\string\\journalname\\space is required by the JCSA template}{Add \\string\\journalname{...} to the preamble.}%\n  \\fi\n  \\twocolumn[{\\centering{\\Large\\bfseries\\@title\\par}\\vskip 1em{\\@author\\par}\\vskip .5em{\\small\\itshape\\@journalname\\par}\\vskip 1em}]}\n\\AtEndDocument{\\ifx\\@keywords\\@empty\\ClassWarningNoLine{jcsa}{No \\string\\keywords\\space given}\\fi}",
+  "reasons": [
+   "template class copied unchanged from template/ (v1.2) next to main.tex"
+  ],
+  "fixes": [
+   "missing_class"
+  ],
+  "types": [
+   "new_file"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "main.tex",
+  "kind": "insert",
+  "old_lines": [
+   3,
+   2
+  ],
+  "new_lines": [
+   3,
+   4
+  ],
+  "old": "",
+  "new": "\\journalname{Journal of Computational Surface Analysis}\n\\keywords{ellipsometry; thin films; oxide}",
+  "reasons": [
+   "required by template (task.md)",
+   "keywords given in task.md"
+  ],
+  "fixes": [
+   "template requirement",
+   "template requirement"
+  ],
+  "types": [
+   "template",
+   "template"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   15,
+   15
+  ],
+  "new_lines": [
+   17,
+   17
+  ],
+  "old": "  \\includegraphics[width=\\linewidth]{figures/Psi_Delta.png}",
+  "new": "  \\includegraphics[width=\\linewidth]{figures/psi_delta.png}",
+  "reasons": [
+   "exact file name (Linux is case-sensitive)"
+  ],
+  "fixes": [
+   "missing_file"
+  ],
+  "types": [
+   "path"
+  ],
+  "documented": true
+ }
+]

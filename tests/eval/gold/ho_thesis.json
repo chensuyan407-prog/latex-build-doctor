@@ -1,0 +1,22 @@
+{
+ "case": "ho_thesis", "set": "holdout",
+ "note": "gold written after a first look at the frozen tool's output for this case (the planted xcolor option clash does not trigger in TeX Live 2026, so it is not a gold root)",
+ "roots": [
+  {"id": "g1", "class": "missing_file", "file": "thesis.tex", "line": 12, "detail": "\\include{chapters/ch3}; file is ch03.tex"},
+  {"id": "g2", "class": "undefined_cs", "file": "chapters/ch2.tex", "line": 6, "detail": "\\argmin not declared"},
+  {"id": "g3", "class": "duplicate_label", "file": "chapters/ch2.tex", "line": 3, "detail": "sec:setting reused for the Model section"},
+  {"id": "g4", "class": "undefined_ref", "file": "chapters/ch1.tex", "line": 6, "detail": "sec:model missing (it is the mislabeled section)"}
+ ],
+ "fix": [
+  {"file": "thesis.tex", "find": "\\include{chapters/ch3}", "replace": "\\include{chapters/ch03}"},
+  {"file": "thesis.tex", "find": "\\usepackage{tikz}\n\\usepackage[table]{xcolor}\n", "replace": "\\usepackage[table]{xcolor}\n\\usepackage{tikz}\n\\DeclareMathOperator*{\\argmin}{arg\\,min}\n"},
+  {"file": "chapters/ch2.tex", "find": "\\label{sec:setting}", "replace": "\\label{sec:model}"}
+ ],
+ "changes": {"changes": [
+  {"file": "thesis.tex", "line": 12, "from": "chapters/ch3", "to": "chapters/ch03", "reason": "chapter file is chapters/ch03.tex", "fixes": "missing_file", "type": "path"},
+  {"file": "thesis.tex", "line": 3, "from": "\\usepackage{tikz}", "to": "\\usepackage[table]{xcolor}", "reason": "xcolor with options before tikz", "fixes": "load_order", "type": "package"},
+  {"file": "thesis.tex", "line": 5, "from": "", "to": "\\DeclareMathOperator*{\\argmin}{arg\\,min}", "reason": "\\argmin undefined", "fixes": "undefined_cs", "type": "macro"},
+  {"file": "chapters/ch2.tex", "line": 3, "from": "\\label{sec:setting}", "to": "\\label{sec:model}", "reason": "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label", "fixes": "duplicate_label + undefined_ref", "type": "crossref", "accept_keys": true}
+ ]},
+ "expect_status": "success"
+}

@@ -1,0 +1,30 @@
+{
+ "case": "dev_math",
+ "roots": [
+  {"id": "g1", "class": "alignment", "file": "model.tex", "line": 7, "detail": "& inside equation"},
+  {"id": "g2", "class": "brace", "file": "model.tex", "line": 11, "lines": [11, 12], "detail": "\\left( without \\right"},
+  {"id": "g3", "class": "undefined_cs", "file": "model.tex", "line": 13, "detail": "\\mathbb needs amssymb", "expect_package": "amssymb"},
+  {"id": "g4", "class": "math_mode", "file": "model.tex", "line": 16, "lines": [15, 16, 17], "detail": "blank line in \\[ \\]"}
+ ],
+ "fix": [
+  {"file": "model.tex", "find": "\\usepackage{amsmath}\n", "replace": "\\usepackage{amsmath}\n\\usepackage{amssymb}\n"},
+  {"file": "model.tex", "find": "L(\\theta) &= \\sum", "replace": "L(\\theta) = \\sum"},
+  {"file": "model.tex", "find": "\\|\\theta\\|_2^2 \\label{eq:reg}", "replace": "\\|\\theta\\|_2^2 \\right) \\label{eq:reg}"},
+  {"file": "model.tex", "find": "W x + b\n\n\\]", "replace": "W x + b\n\\]"},
+  {"file": "model.tex", "find": "for $3 s$ per epoch", "replace": "for $3~\\mathrm{s}$ per epoch"}
+ ],
+ "changes": {
+  "changes": [
+   {"file": "model.tex", "line": 3, "from": "", "to": "\\usepackage{amssymb}", "reason": "\\mathbb undefined", "fixes": "undefined_cs \\mathbb", "type": "package"},
+   {"file": "model.tex", "line": 8, "from": "L(\\theta) &= ", "to": "L(\\theta) = ", "reason": "'&' is not allowed in a single-line equation", "fixes": "alignment", "type": "math"},
+   {"file": "model.tex", "line": 12, "from": "\\|_2^2 \\label", "to": "\\|_2^2 \\right) \\label", "reason": "\\left( had no \\right; closed after the norm (needs confirmation)", "fixes": "brace", "type": "math"},
+   {"file": "model.tex", "line": 17, "from": "\n\n\\]", "to": "\n\\]", "reason": "blank line inside display math", "fixes": "math_mode", "type": "math"},
+   {"file": "model.tex", "line": 18, "from": "$3 s$", "to": "$3~\\mathrm{s}$", "reason": "unit upright, value unchanged", "fixes": "unit_italic", "type": "format"}
+  ],
+  "needs_confirmation": [{"item": "closing parenthesis of \\left( placed after \\|\\theta\\|_2^2 - author to confirm the intended scope", "where": "model.tex:12"}]
+ },
+ "mutations": [
+  {"name": "changed step size", "expect": "number_changed", "fix": [{"file": "model.tex", "find": "$\\eta = 0.01$", "replace": "$\\eta = 0.001$"}]}
+ ],
+ "expect_status": "success"
+}

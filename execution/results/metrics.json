@@ -1,0 +1,86 @@
+{
+ "generated_by": "tests/run_eval.py",
+ "sets": {
+  "dev": {
+   "cases": [
+    "dev_bib",
+    "dev_env",
+    "dev_math",
+    "dev_multi",
+    "dev_template",
+    "dev_xe"
+   ],
+   "gold_roots": 22,
+   "root_recall": 1.0,
+   "root_precision": 1.0,
+   "reported_roots": 22,
+   "raw_log_errors": 32,
+   "baseline_first_error_recall": 0.13636363636363635,
+   "baseline_all_log_errors_recall": 0.5454545454545454,
+   "fix_status_ok": "6/6",
+   "remaining_ok": "6/6",
+   "byte_identical_rebuilds": "6/6",
+   "audit_clean_after_documented_fix": "6/6",
+   "mutation_probes_caught": "6/6",
+   "missed": []
+  },
+  "holdout": {
+   "cases": [
+    "ho_ieee",
+    "ho_report",
+    "ho_thesis"
+   ],
+   "gold_roots": 11,
+   "root_recall": 0.9090909090909091,
+   "root_precision": 1.0,
+   "reported_roots": 11,
+   "raw_log_errors": 9,
+   "baseline_first_error_recall": 0.2727272727272727,
+   "baseline_all_log_errors_recall": 0.5454545454545454,
+   "fix_status_ok": "3/3",
+   "remaining_ok": "3/3",
+   "byte_identical_rebuilds": "3/3",
+   "audit_clean_after_documented_fix": "3/3",
+   "mutation_probes_caught": "0/0",
+   "missed": [
+    "g1:package_conflict@conf.tex:3"
+   ]
+  }
+ },
+ "errors": [],
+ "holdout_at_freeze": {
+  "cases": [
+   "ho_ieee",
+   "ho_report",
+   "ho_thesis"
+  ],
+  "gold_roots": 11,
+  "root_recall": 0.9090909090909091,
+  "root_precision": 0.8461538461538461,
+  "reported_roots": 13,
+  "raw_log_errors": 9,
+  "baseline_first_error_recall": 0.2727272727272727,
+  "baseline_all_log_errors_recall": 0.5454545454545454,
+  "fix_status_ok": "3/3",
+  "remaining_ok": "3/3",
+  "byte_identical_rebuilds": "3/3",
+  "audit_clean_after_documented_fix": "1/3",
+  "mutation_probes_caught": "0/0",
+  "missed": [
+   "g1:package_conflict@conf.tex:3"
+  ]
+ },
+ "robustness": {
+  "no_main_file": true,
+  "two_mains_select": true,
+  "infinite_loop_timeout": true,
+  "missing_tool": true,
+  "zip_input": true,
+  "broken_changes_json": true,
+  "missing_glyph": true,
+  "missing_package": true,
+  "non_utf8_input": true,
+  "deterministic_rebuild": true,
+  "source_date_epoch_repro": true
+ }
+}

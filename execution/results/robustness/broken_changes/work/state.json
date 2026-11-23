@@ -1,0 +1,37 @@
+{
+ "skill_version": "0.1.0",
+ "case_id": "broken_changes",
+ "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\broken_changes\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\broken_changes\\input",
+ "contract_fields": [
+  "status",
+  "pdf"
+ ],
+ "materials": [
+  "case.json",
+  "main.tex"
+ ],
+ "mains": [
+  "main.tex"
+ ],
+ "main": "main.tex",
+ "created": "2026-11-23T10:17:44.903672+00:00",
+ "engine": "pdflatex",
+ "engine_reason": "no Unicode-engine package found",
+ "bibtool": null,
+ "bibtool_reason": "no \\bibliography / biblatex",
+ "order": [
+  "main.tex"
+ ],
+ "bibs": [],
+ "documentclass": {
+  "name": "article",
+  "options": [],
+  "line": 1
+ },
+ "unreached_tex": [],
+ "fonts": [],
+ "fonts_found": {},
+ "problems": [],
+ "other_mains": []
+}

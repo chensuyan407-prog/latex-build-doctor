@@ -1,0 +1,87 @@
+{
+ "recorded_at": "2026-11-23T10:17:22Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "pdflatex",
+  "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  23 NOV 2026 18:17"
+ },
+ "bibtool": {
+  "name": "bibtex",
+  "version": "BibTeX 0.99e (TeX Live 2026)\r"
+ },
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": {
+  "name": "article",
+  "date": "2025/01/22",
+  "version": "v1.4n Standard LaTeX document class"
+ },
+ "packages": {
+  "fontenc": {
+   "date": "2025/07/18",
+   "version": "v2.1d Standard LaTeX package"
+  },
+  "graphicx": {
+   "date": "2024/12/31",
+   "version": "v1.2e Enhanced LaTeX Graphics (DPC,SPQR)"
+  },
+  "keyval": {
+   "date": "2022/05/29",
+   "version": "v1.15 key=value parser (DPC)"
+  },
+  "graphics": {
+   "date": "2024/08/06",
+   "version": "v1.4g Standard LaTeX Graphics (DPC,SPQR)"
+  },
+  "trig": {
+   "date": "2023/12/02",
+   "version": "v1.11 sin cos tan (DPC)"
+  },
+  "epstopdf-base": {
+   "date": "2020-01-24",
+   "version": "v2.11 Base part for package epstopdf"
+  }
+ },
+ "project_files_used": [
+  "main.tex",
+  "plot.png"
+ ],
+ "distribution_files_used": 46,
+ "distribution": "TeX Live 2026",
+ "pdf_fonts": [
+  {
+   "name": "KVHNRS+SFBX1440",
+   "type": "Type 1 Custom",
+   "embedded": "yes"
+  },
+  {
+   "name": "QWCFBF+SFRM1000",
+   "type": "Type 1 Custom",
+   "embedded": "yes"
+  },
+  {
+   "name": "WOWCNF+CMSY10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "LOASWT+CMR10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "IIYXJX+SFTI1000",
+   "type": "Type 1 Custom",
+   "embedded": "yes"
+  }
+ ],
+ "pdf_fonts_not_embedded": [],
+ "pdf_info": {
+  "Pages": "1",
+  "Page size": "612 x 792 pts (letter)",
+  "PDF version": "1.7",
+  "Producer": "pdfTeX-1.40.29",
+  "Creator": "TeX"
+ }
+}

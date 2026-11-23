@@ -1,0 +1,41 @@
+{
+ "case": "dev_multi",
+ "roots": [
+  {"id": "g1", "class": "undefined_cs", "file": "sections/intro.tex", "line": 3, "detail": "\\SI needs siunitx", "expect_package": "siunitx"},
+  {"id": "g2", "class": "undefined_cs", "file": "sections/results.tex", "line": 10, "detail": "booktabs rules", "expect_package": "booktabs"},
+  {"id": "g3", "class": "brace", "file": "sections/intro.tex", "line": 4, "detail": "\\textbf{ not closed"},
+  {"id": "g4", "class": "alignment", "file": "sections/results.tex", "line": 11, "detail": "4 cells vs lcc"},
+  {"id": "g5", "class": "undefined_cite", "file": "sections/intro.tex", "line": 3, "detail": "smith2021 vs Smith2021"},
+  {"id": "g6", "class": "float_label", "file": "sections/results.tex", "line": 7, "detail": "label before caption"},
+  {"id": "g7", "class": "undefined_ref", "file": "sections/results.tex", "line": 26, "detail": "tab:ablation has no target"}
+ ],
+ "fix": [
+  {"file": "main.tex", "find": "\\usepackage{amsmath}\n\\usepackage{hyperref}\n\\usepackage{xcolor}\n", "replace": "\\usepackage{amsmath}\n\\usepackage{siunitx}\n\\usepackage{booktabs}\n\\usepackage{xcolor}\n\\usepackage{hyperref}\n"},
+  {"file": "sections/intro.tex", "find": "\\textbf{main contribution is a new estimator.", "replace": "\\textbf{main contribution} is a new estimator."},
+  {"file": "sections/intro.tex", "find": "\\cite{smith2021,lee2019}", "replace": "\\cite{Smith2021,lee2019}"},
+  {"file": "sections/results.tex", "find": "  \\label{tab:main}\n  \\caption{Errors of both methods.}\n  \\begin{tabular}{lcc}", "replace": "  \\caption{Errors of both methods.}\n  \\label{tab:main}\n  \\begin{tabular}{lccc}"}
+ ],
+ "changes": {
+  "changes": [
+   {"file": "main.tex", "line": 4, "from": "", "to": "\\usepackage{siunitx}", "reason": "\\SI is undefined (siunitx not loaded)", "fixes": "undefined_cs \\SI", "type": "package"},
+   {"file": "main.tex", "line": 5, "from": "", "to": "\\usepackage{booktabs}", "reason": "\\toprule/\\midrule/\\bottomrule undefined", "fixes": "undefined_cs \\toprule", "type": "package"},
+   {"file": "main.tex", "line": 6, "from": "\\usepackage{xcolor}", "to": "\\usepackage{xcolor}\n\\usepackage{hyperref}", "reason": "load hyperref last", "fixes": "load_order", "type": "package"},
+   {"file": "sections/intro.tex", "line": 4, "from": "\\textbf{main contribution is", "to": "\\textbf{main contribution} is", "reason": "close the \\textbf group (bold scope as in the sentence)", "fixes": "brace", "type": "fix"},
+   {"file": "sections/intro.tex", "line": 3, "from": "\\cite{smith2021,lee2019}", "to": "\\cite{Smith2021,lee2019}", "reason": "bib key is Smith2021 (case-sensitive); same work", "fixes": "undefined_cite smith2021", "type": "citation", "accept_keys": true},
+   {"file": "sections/results.tex", "line": 8, "from": "\\label{tab:main}", "to": "\\label{tab:main}", "reason": "label after caption so \\ref gives the table number", "fixes": "float_label", "type": "crossref"},
+   {"file": "sections/results.tex", "line": 9, "from": "{lcc}", "to": "{lccc}", "reason": "4 columns in every row (Method, RMSE, MAE, Time) as in data.csv", "fixes": "alignment", "type": "table"}
+  ],
+  "needs_confirmation": [
+   {"item": "Table~\\ref{tab:ablation} has no target in the materials (no ablation table)", "where": "sections/results.tex:26"},
+   {"item": "lee2019 (@inproceedings) has no booktitle; not in materials", "where": "refs.bib:9"}
+  ]
+ },
+ "mutations": [
+  {"name": "silent table value change", "expect": "number_changed", "fix": [{"file": "sections/results.tex", "find": "Ours & 0.287", "replace": "Ours & 0.278"}]},
+  {"name": "unrecorded edit", "expect": "undocumented_change", "fix": [{"file": "sections/results.tex", "find": "both components matter.", "replace": "both components clearly matter."}]},
+  {"name": "number not in materials", "expect": "number_not_in_materials", "fix": [{"file": "sections/results.tex", "find": "Ours & 0.287 & 0.205 & 14.1 \\\\", "replace": "Ours & 0.287 & 0.205 & 14.1 \\\\\n    Ours+ & 0.251 & 0.199 & 15.0 \\\\"}],
+   "changes": {"changes": [{"file": "sections/results.tex", "line": 15, "from": "", "to": "Ours+ & 0.251", "reason": "add variant row", "type": "table"}]}}
+ ],
+ "expect_status": "partial",
+ "expect_remaining": ["undefined_ref:tab:ablation"]
+}

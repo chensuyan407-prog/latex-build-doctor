@@ -1,0 +1,97 @@
+{
+ "recorded_at": "2026-11-23T10:17:14Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "pdflatex",
+  "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  23 NOV 2026 18:17"
+ },
+ "bibtool": null,
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": {
+  "name": "IEEEtran",
+  "date": "2015/08/26",
+  "version": "V1.8b by Michael Shell"
+ },
+ "packages": {
+  "graphicx": {
+   "date": "2024/12/31",
+   "version": "v1.2e Enhanced LaTeX Graphics (DPC,SPQR)"
+  },
+  "keyval": {
+   "date": "2022/05/29",
+   "version": "v1.15 key=value parser (DPC)"
+  },
+  "graphics": {
+   "date": "2024/08/06",
+   "version": "v1.4g Standard LaTeX Graphics (DPC,SPQR)"
+  },
+  "trig": {
+   "date": "2023/12/02",
+   "version": "v1.11 sin cos tan (DPC)"
+  },
+  "subcaption": {
+   "date": "2023/07/28",
+   "version": "v1.6b Sub-captions (AR)"
+  },
+  "caption": {
+   "date": "2023/08/05",
+   "version": "v3.6o Customizing captions (AR)"
+  },
+  "caption3": {
+   "date": "2023/07/31",
+   "version": "v2.4d caption3 kernel (AR)"
+  },
+  "algorithm": {
+   "date": "2009/08/24",
+   "version": "v0.1 Document Style `algorithm' - floating environment"
+  },
+  "float": {
+   "date": "2001/11/08",
+   "version": "v1.3d Float enhancements (AL)"
+  },
+  "ifthen": {
+   "date": "2024/03/16",
+   "version": "v1.1e Standard LaTeX ifthen package (DPC)"
+  },
+  "algorithmic": {
+   "date": "2009/08/24",
+   "version": "v0.1 Document Style `algorithmic'"
+  },
+  "epstopdf-base": {
+   "date": "2020-01-24",
+   "version": "v2.11 Base part for package epstopdf"
+  }
+ },
+ "project_files_used": [
+  "conf.tex"
+ ],
+ "distribution_files_used": 108,
+ "distribution": "TeX Live 2026",
+ "pdf_fonts": [
+  {
+   "name": "RQBWDV+NimbusRomNo9L-Regu",
+   "type": "Type 1 Custom",
+   "embedded": "yes"
+  },
+  {
+   "name": "QVCFWU+NimbusRomNo9L-MediItal",
+   "type": "Type 1 Custom",
+   "embedded": "yes"
+  },
+  {
+   "name": "NOKVZV+NimbusRomNo9L-Medi",
+   "type": "Type 1 Custom",
+   "embedded": "yes"
+  }
+ ],
+ "pdf_fonts_not_embedded": [],
+ "pdf_info": {
+  "Pages": "1",
+  "Page size": "612 x 792 pts (letter)",
+  "PDF version": "1.7",
+  "Producer": "pdfTeX-1.40.29",
+  "Creator": "TeX"
+ }
+}

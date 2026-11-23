@@ -1,0 +1,15 @@
+--- a/main.tex
++++ b/main.tex
+@@ -1,5 +1,5 @@
+-% !TEX program = pdflatex
++% !TEX program = xelatex
+ \documentclass[UTF8,fontset=fandol]{ctexart}
+ \usepackage{fontspec}
+-\setmainfont{NoSuchSerif Pro}
++\setmainfont{TeX Gyre Termes}
+ \usepackage{amsmath}
+@@ -15,3 +15,3 @@
+ \section{结果}
+-在 25~℃ 下测得厚度为 $120 nm$，相对误差为 $0.5\%$。
++在 25~℃ 下测得厚度为 $120~\mathrm{nm}$，相对误差为 $0.5\%$。
+ 表~\ref{tab:res} 给出三次测量结果。

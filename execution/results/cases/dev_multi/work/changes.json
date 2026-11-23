@@ -1,0 +1,78 @@
+{
+ "changes": [
+  {
+   "file": "main.tex",
+   "line": 4,
+   "from": "",
+   "to": "\\usepackage{siunitx}",
+   "reason": "\\SI is undefined (siunitx not loaded)",
+   "fixes": "undefined_cs \\SI",
+   "type": "package"
+  },
+  {
+   "file": "main.tex",
+   "line": 5,
+   "from": "",
+   "to": "\\usepackage{booktabs}",
+   "reason": "\\toprule/\\midrule/\\bottomrule undefined",
+   "fixes": "undefined_cs \\toprule",
+   "type": "package"
+  },
+  {
+   "file": "main.tex",
+   "line": 6,
+   "from": "\\usepackage{xcolor}",
+   "to": "\\usepackage{xcolor}\n\\usepackage{hyperref}",
+   "reason": "load hyperref last",
+   "fixes": "load_order",
+   "type": "package"
+  },
+  {
+   "file": "sections/intro.tex",
+   "line": 4,
+   "from": "\\textbf{main contribution is",
+   "to": "\\textbf{main contribution} is",
+   "reason": "close the \\textbf group (bold scope as in the sentence)",
+   "fixes": "brace",
+   "type": "fix"
+  },
+  {
+   "file": "sections/intro.tex",
+   "line": 3,
+   "from": "\\cite{smith2021,lee2019}",
+   "to": "\\cite{Smith2021,lee2019}",
+   "reason": "bib key is Smith2021 (case-sensitive); same work",
+   "fixes": "undefined_cite smith2021",
+   "type": "citation",
+   "accept_keys": true
+  },
+  {
+   "file": "sections/results.tex",
+   "line": 8,
+   "from": "\\label{tab:main}",
+   "to": "\\label{tab:main}",
+   "reason": "label after caption so \\ref gives the table number",
+   "fixes": "float_label",
+   "type": "crossref"
+  },
+  {
+   "file": "sections/results.tex",
+   "line": 9,
+   "from": "{lcc}",
+   "to": "{lccc}",
+   "reason": "4 columns in every row (Method, RMSE, MAE, Time) as in data.csv",
+   "fixes": "alignment",
+   "type": "table"
+  }
+ ],
+ "needs_confirmation": [
+  {
+   "item": "Table~\\ref{tab:ablation} has no target in the materials (no ablation table)",
+   "where": "sections/results.tex:26"
+  },
+  {
+   "item": "lee2019 (@inproceedings) has no booktitle; not in materials",
+   "where": "refs.bib:9"
+  }
+ ]
+}

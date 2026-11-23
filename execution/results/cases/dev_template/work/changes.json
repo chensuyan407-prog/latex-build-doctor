@@ -1,0 +1,56 @@
+{
+ "changes": [
+  {
+   "file": "jcsa.cls",
+   "from": "",
+   "to": "",
+   "reason": "template class copied unchanged from template/ (v1.2) next to main.tex",
+   "fixes": "missing_class",
+   "type": "new_file"
+  },
+  {
+   "file": "main.tex",
+   "line": 3,
+   "from": "",
+   "to": "\\journalname{Journal of Computational Surface Analysis}",
+   "reason": "required by template (task.md)",
+   "fixes": "template requirement",
+   "type": "template"
+  },
+  {
+   "file": "main.tex",
+   "line": 4,
+   "from": "",
+   "to": "\\keywords{ellipsometry; thin films; oxide}",
+   "reason": "keywords given in task.md",
+   "fixes": "template requirement",
+   "type": "template"
+  },
+  {
+   "file": "main.tex",
+   "line": 17,
+   "from": "Psi_Delta.png",
+   "to": "psi_delta.png",
+   "reason": "exact file name (Linux is case-sensitive)",
+   "fixes": "missing_file",
+   "type": "path"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "R1",
+   "desc": "journal name set via \\journalname",
+   "pattern": "\\\\journalname\\{Journal of Computational Surface Analysis\\}"
+  },
+  {
+   "id": "R2",
+   "desc": "keywords via \\keywords{}",
+   "pattern": "\\\\keywords\\{[^}]+\\}"
+  },
+  {
+   "id": "R3",
+   "desc": "template class jcsa used",
+   "pattern": "\\\\documentclass(\\[[^\\]]*\\])?\\{jcsa\\}"
+  }
+ ]
+}

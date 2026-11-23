@@ -1,0 +1,248 @@
+{
+ "case_id": "dev_env",
+ "status": "success",
+ "summary": "SUCCESS: report.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 2 edit hunk(s), 2 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:16:21Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/report.tex",
+  "pdf": "report.pdf",
+  "pdf_sha256": "1652172a40447efe359c3ce6a64c08c422b8ce097ea6eac41df3fcacb5735916",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "report.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape report.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape report.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 1.0,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape report.tex",
+    "exit": 0,
+    "seconds": 0.5,
+    "aux_sha256": "e1003f4b3636871cb3bac720d05db568ea58f156db172ddca18aa261b583756a",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape report.tex",
+    "exit": 0,
+    "seconds": 0.5,
+    "aux_sha256": "e1003f4b3636871cb3bac720d05db568ea58f156db172ddca18aa261b583756a",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "1652172a40447efe359c3ce6a64c08c422b8ce097ea6eac41df3fcacb5735916",
+   "pdf_sha256_build2": "1652172a40447efe359c3ce6a64c08c422b8ce097ea6eac41df3fcacb5735916",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1",
+    "pdflatex pass 2"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "report.tex",
+   "kind": "replace",
+   "old_lines": [
+    8,
+    10
+   ],
+   "new_lines": [
+    8,
+    9
+   ],
+   "old": "\\end{enumerate}\n\n\\item Anneal the sample.",
+   "new": "  \\item Anneal the sample.\n\\end{itemize}",
+   "reasons": [
+    "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed"
+   ],
+   "fixes": [
+    "env_mismatch + lonely item"
+   ],
+   "types": [
+    "structure"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "report.tex",
+   "kind": "insert",
+   "old_lines": [
+    16,
+    15
+   ],
+   "new_lines": [
+    15,
+    15
+   ],
+   "old": "",
+   "new": "\\end{figure}",
+   "reasons": [
+    "figure environment never closed; closed after its caption/label"
+   ],
+   "fixes": [
+    "env_mismatch figure"
+   ],
+   "types": [
+    "structure"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "report.tex",
+   "line": 8,
+   "from": "\\end{enumerate}",
+   "to": "\\end{itemize}",
+   "reason": "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed",
+   "fixes": "env_mismatch + lonely item",
+   "type": "structure"
+  },
+  {
+   "file": "report.tex",
+   "line": 14,
+   "from": "",
+   "to": "\\end{figure}",
+   "reason": "figure environment never closed; closed after its caption/label",
+   "fixes": "env_mismatch figure",
+   "type": "structure"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_env\\input",
+  "materials": [
+   "case.json",
+   "report.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [
+  {
+   "item": "'Anneal the sample.' was outside the list; moved in as the 3rd step",
+   "where": "report.tex:8"
+  }
+ ],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 5,
+  "details": "environment.json"
+ },
+ "fixed_source": [
+  {
+   "hunk": "H001",
+   "file": "report.tex",
+   "kind": "replace",
+   "old_lines": [
+    8,
+    10
+   ],
+   "new_lines": [
+    8,
+    9
+   ],
+   "old": "\\end{enumerate}\n\n\\item Anneal the sample.",
+   "new": "  \\item Anneal the sample.\n\\end{itemize}",
+   "reasons": [
+    "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed"
+   ],
+   "fixes": [
+    "env_mismatch + lonely item"
+   ],
+   "types": [
+    "structure"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "report.tex",
+   "kind": "insert",
+   "old_lines": [
+    16,
+    15
+   ],
+   "new_lines": [
+    15,
+    15
+   ],
+   "old": "",
+   "new": "\\end{figure}",
+   "reasons": [
+    "figure environment never closed; closed after its caption/label"
+   ],
+   "fixes": [
+    "env_mismatch figure"
+   ],
+   "types": [
+    "structure"
+   ],
+   "documented": true
+  }
+ ]
+}

@@ -1,0 +1,292 @@
+{
+ "case_id": "dev_xe",
+ "status": "success",
+ "summary": "SUCCESS: main.tex with xelatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:17:05Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "3d319a22d5f84faacde9254e7c1d3c910dd25f8fae15b925d05a7265bfe098fd",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "main.tex",
+  "engine": "xelatex",
+  "bibtool": null,
+  "commands": [
+   "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
+   "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 2.67,
+  "rounds": [
+   {
+    "step": "xelatex pass 1",
+    "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 1.39,
+    "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "xelatex pass 2",
+    "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 1.28,
+    "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "3d319a22d5f84faacde9254e7c1d3c910dd25f8fae15b925d05a7265bfe098fd",
+   "pdf_sha256_build2": "3d319a22d5f84faacde9254e7c1d3c910dd25f8fae15b925d05a7265bfe098fd",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "xelatex pass 1",
+    "xelatex pass 2"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    1,
+    1
+   ],
+   "new_lines": [
+    1,
+    1
+   ],
+   "old": "% !TEX program = pdflatex",
+   "new": "% !TEX program = xelatex",
+   "reasons": [
+    "ctexart + fontspec need XeLaTeX"
+   ],
+   "fixes": [
+    "engine_mismatch"
+   ],
+   "types": [
+    "engine"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    4,
+    4
+   ],
+   "new_lines": [
+    4,
+    4
+   ],
+   "old": "\\setmainfont{NoSuchSerif Pro}",
+   "new": "\\setmainfont{TeX Gyre Termes}",
+   "reasons": [
+    "font required by the task; NoSuchSerif Pro not installed"
+   ],
+   "fixes": [
+    "missing_font"
+   ],
+   "types": [
+    "font"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    16,
+    16
+   ],
+   "new_lines": [
+    16,
+    16
+   ],
+   "old": "在 25~℃ 下测得厚度为 $120 nm$，相对误差为 $0.5\\%$。",
+   "new": "在 25~℃ 下测得厚度为 $120~\\mathrm{nm}$，相对误差为 $0.5\\%$。",
+   "reasons": [
+    "unit upright; value unchanged"
+   ],
+   "fixes": [
+    "unit_italic"
+   ],
+   "types": [
+    "format"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "main.tex",
+   "line": 1,
+   "from": "pdflatex",
+   "to": "xelatex",
+   "reason": "ctexart + fontspec need XeLaTeX",
+   "fixes": "engine_mismatch",
+   "type": "engine"
+  },
+  {
+   "file": "main.tex",
+   "line": 4,
+   "from": "NoSuchSerif Pro",
+   "to": "TeX Gyre Termes",
+   "reason": "font required by the task; NoSuchSerif Pro not installed",
+   "fixes": "missing_font",
+   "type": "font"
+  },
+  {
+   "file": "main.tex",
+   "line": 16,
+   "from": "$120 nm$",
+   "to": "$120~\\mathrm{nm}$",
+   "reason": "unit upright; value unchanged",
+   "fixes": "unit_italic",
+   "type": "format"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_xe\\input",
+  "materials": [
+   "case.json",
+   "main.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 16,
+  "details": "environment.json"
+ },
+ "tex_source": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_xe\\input",
+  "materials": [
+   "case.json",
+   "main.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "pdf": "main.pdf",
+ "build_commands": {
+  "main": "main.tex",
+  "engine": "xelatex",
+  "bibtool": null,
+  "commands": [
+   "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
+   "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 2.67,
+  "rounds": [
+   {
+    "step": "xelatex pass 1",
+    "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 1.39,
+    "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "xelatex pass 2",
+    "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 1.28,
+    "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "3d319a22d5f84faacde9254e7c1d3c910dd25f8fae15b925d05a7265bfe098fd",
+   "pdf_sha256_build2": "3d319a22d5f84faacde9254e7c1d3c910dd25f8fae15b925d05a7265bfe098fd",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "xelatex pass 1",
+    "xelatex pass 2"
+   ]
+  }
+ }
+}

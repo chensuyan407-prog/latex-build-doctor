@@ -1,0 +1,1 @@
+{"case_id": "dev_math", "task": "Fix the math in model.tex so that it compiles; keep equation numbering and labels, keep all symbols and values.", "output_contract": {"fields": ["fixed_tex", "compile_log", "edits", "open_questions"]}}

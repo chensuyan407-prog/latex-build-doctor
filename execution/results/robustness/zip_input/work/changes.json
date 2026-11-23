@@ -1,0 +1,8 @@
+{
+ "_doc": "Record every source edit: file, line (in the NEW file), from, to, reason, fixes (diagnostic id or task item), type. requirements = template/task items to verify by regex; needs_confirmation = items a human must decide; fields = contract overrides.",
+ "changes": [],
+ "requirements": [],
+ "needs_confirmation": [],
+ "notes": [],
+ "fields": {}
+}

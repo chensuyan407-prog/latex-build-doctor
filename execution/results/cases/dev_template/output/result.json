@@ -1,0 +1,331 @@
+{
+ "case_id": "dev_template",
+ "status": "success",
+ "summary": "SUCCESS: main.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:16:54Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "f492f6c5d836a7e5e086f1f6239fb1ee7fc55ea37ffb97ae74edba5e8ef8bd00",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "main.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 1.07,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.53,
+    "aux_sha256": "704c535fd28be5dfd5729cfbbec9e44f68700317be63927524d927bd7c9c61bb",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.53,
+    "aux_sha256": "704c535fd28be5dfd5729cfbbec9e44f68700317be63927524d927bd7c9c61bb",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "f492f6c5d836a7e5e086f1f6239fb1ee7fc55ea37ffb97ae74edba5e8ef8bd00",
+   "pdf_sha256_build2": "f492f6c5d836a7e5e086f1f6239fb1ee7fc55ea37ffb97ae74edba5e8ef8bd00",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1",
+    "pdflatex pass 2"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "R1",
+   "desc": "journal name set via \\journalname",
+   "pattern": "\\\\journalname\\{Journal of Computational Surface Analysis\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  },
+  {
+   "id": "R2",
+   "desc": "keywords via \\keywords{}",
+   "pattern": "\\\\keywords\\{[^}]+\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  },
+  {
+   "id": "R3",
+   "desc": "template class jcsa used",
+   "pattern": "\\\\documentclass(\\[[^\\]]*\\])?\\{jcsa\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "jcsa.cls",
+   "kind": "new_file",
+   "old_lines": [
+    1,
+    0
+   ],
+   "new_lines": [
+    1,
+    14
+   ],
+   "old": "",
+   "new": "\\NeedsTeXFormat{LaTeX2e}\n\\ProvidesClass{jcsa}[2024/01/01 v1.2 Journal of Computational Surface Analysis]\n\\LoadClass[10pt,twocolumn]{article}\n\\RequirePackage{graphicx}\n\\def\\@journalname{}\n\\newcommand{\\journalname}[1]{\\gdef\\@journalname{#1}}\n\\def\\@keywords{}\n\\newcommand{\\keywords}[1]{\\gdef\\@keywords{#1}}\n\\renewcommand{\\maketitle}{%\n  \\ifx\\@journalname\\@empty\n    \\ClassError{jcsa}{\\string\\journalname\\space is required by the JCSA template}{Add \\string\\journalname{...} to the preamble.}%\n  \\fi\n  \\twocolumn[{\\centering{\\Large\\bfseries\\@title\\par}\\vskip 1em{\\@author\\par}\\vskip .5em{\\small\\itshape\\@journalname\\par}\\vskip 1em}]}\n\\AtEndDocument{\\ifx\\@keywords\\@empty\\ClassWarningNoLine{jcsa}{No \\string\\keywords\\space given}\\fi}",
+   "reasons": [
+    "template class copied unchanged from template/ (v1.2) next to main.tex"
+   ],
+   "fixes": [
+    "missing_class"
+   ],
+   "types": [
+    "new_file"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "main.tex",
+   "kind": "insert",
+   "old_lines": [
+    3,
+    2
+   ],
+   "new_lines": [
+    3,
+    4
+   ],
+   "old": "",
+   "new": "\\journalname{Journal of Computational Surface Analysis}\n\\keywords{ellipsometry; thin films; oxide}",
+   "reasons": [
+    "required by template (task.md)",
+    "keywords given in task.md"
+   ],
+   "fixes": [
+    "template requirement",
+    "template requirement"
+   ],
+   "types": [
+    "template",
+    "template"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    15,
+    15
+   ],
+   "new_lines": [
+    17,
+    17
+   ],
+   "old": "  \\includegraphics[width=\\linewidth]{figures/Psi_Delta.png}",
+   "new": "  \\includegraphics[width=\\linewidth]{figures/psi_delta.png}",
+   "reasons": [
+    "exact file name (Linux is case-sensitive)"
+   ],
+   "fixes": [
+    "missing_file"
+   ],
+   "types": [
+    "path"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "jcsa.cls",
+   "from": "",
+   "to": "",
+   "reason": "template class copied unchanged from template/ (v1.2) next to main.tex",
+   "fixes": "missing_class",
+   "type": "new_file"
+  },
+  {
+   "file": "main.tex",
+   "line": 3,
+   "from": "",
+   "to": "\\journalname{Journal of Computational Surface Analysis}",
+   "reason": "required by template (task.md)",
+   "fixes": "template requirement",
+   "type": "template"
+  },
+  {
+   "file": "main.tex",
+   "line": 4,
+   "from": "",
+   "to": "\\keywords{ellipsometry; thin films; oxide}",
+   "reason": "keywords given in task.md",
+   "fixes": "template requirement",
+   "type": "template"
+  },
+  {
+   "file": "main.tex",
+   "line": 17,
+   "from": "Psi_Delta.png",
+   "to": "psi_delta.png",
+   "reason": "exact file name (Linux is case-sensitive)",
+   "fixes": "missing_file",
+   "type": "path"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_template\\input",
+  "materials": [
+   "case.json",
+   "main.tex",
+   "task.md"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 17,
+  "details": "environment.json"
+ },
+ "deliverable_tex": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "f492f6c5d836a7e5e086f1f6239fb1ee7fc55ea37ffb97ae74edba5e8ef8bd00",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "pdf": "main.pdf",
+ "template_checklist": [
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "R1",
+   "desc": "journal name set via \\journalname",
+   "pattern": "\\\\journalname\\{Journal of Computational Surface Analysis\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  },
+  {
+   "id": "R2",
+   "desc": "keywords via \\keywords{}",
+   "pattern": "\\\\keywords\\{[^}]+\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  },
+  {
+   "id": "R3",
+   "desc": "template class jcsa used",
+   "pattern": "\\\\documentclass(\\[[^\\]]*\\])?\\{jcsa\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  }
+ ]
+}

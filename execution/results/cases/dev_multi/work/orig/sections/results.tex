@@ -1,0 +1,26 @@
+\section{Results}
+\label{sec:results}
+Table~\ref{tab:main} lists the errors and Figure~\ref{fig:curve} the curve; Eq.~\eqref{eq:err} defines $e_{max}$.
+
+\begin{table}[h]
+  \centering
+  \label{tab:main}
+  \caption{Errors of both methods.}
+  \begin{tabular}{lcc}
+    \toprule
+    Method & RMSE & MAE & Time (s) \\
+    \midrule
+    Baseline & 0.412 & 0.301 & 12.5 \\
+    Ours & 0.287 & 0.205 & 14.1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\linewidth]{figs/curve}
+  \caption{Training curve.}
+  \label{fig:curve}
+\end{figure}
+
+As shown in Table~\ref{tab:ablation}, both components matter.

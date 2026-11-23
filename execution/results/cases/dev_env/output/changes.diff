@@ -1,0 +1,14 @@
+--- a/report.tex
++++ b/report.tex
+@@ -7,5 +7,4 @@
+   \item Deposit the film at 300~K.
+-\end{enumerate}
+-
+-\item Anneal the sample.
++  \item Anneal the sample.
++\end{itemize}
+ 
+@@ -15,2 +14,3 @@
+   \caption{Deposition setup.}\label{fig:setup}
++\end{figure}
+ 

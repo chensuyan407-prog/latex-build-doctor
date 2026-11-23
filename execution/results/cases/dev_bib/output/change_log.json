@@ -1,0 +1,77 @@
+[
+ {
+  "hunk": "H001",
+  "file": "library.bib",
+  "kind": "replace",
+  "old_lines": [
+   13,
+   13
+  ],
+  "new_lines": [
+   13,
+   13
+  ],
+  "old": "  title     = {Semi-Supervised Classification with Graph Convolutional Networks}",
+  "new": "  title     = {Semi-Supervised Classification with Graph Convolutional Networks},",
+  "reasons": [
+   "missing comma between title and booktitle"
+  ],
+  "fixes": [
+   "bib_syntax"
+  ],
+  "types": [
+   "bibliography"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "library.bib",
+  "kind": "delete",
+  "old_lines": [
+   25,
+   31
+  ],
+  "new_lines": [
+   25,
+   24
+  ],
+  "old": "@article{scarselli2009,\n  author  = {Scarselli, F.},\n  title   = {The graph neural network model},\n  journal = {IEEE TNN},\n  year    = {2009}\n}\n",
+  "new": "",
+  "reasons": [
+   "duplicate key scarselli2009; kept the complete first entry (same work: same title, year)"
+  ],
+  "fixes": [
+   "bib_duplicate"
+  ],
+  "types": [
+   "bibliography"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "paper.tex",
+  "kind": "replace",
+  "old_lines": [
+   3,
+   3
+  ],
+  "new_lines": [
+   3,
+   3
+  ],
+  "old": "\\addbibresource{library}",
+  "new": "\\addbibresource{library.bib}",
+  "reasons": [
+   "\\addbibresource needs the file extension"
+  ],
+  "fixes": [
+   "bib_missing_file"
+  ],
+  "types": [
+   "bibliography"
+  ],
+  "documented": true
+ }
+]

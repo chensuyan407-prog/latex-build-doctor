@@ -1,0 +1,28 @@
+{
+ "status": "success",
+ "roots": [],
+ "diagnostics": [
+  {
+   "class": "unused_bib",
+   "severity": "info",
+   "file": "refs.bib",
+   "line": 9,
+   "message": "bib entry wang2019 is never cited",
+   "key": "wang2019",
+   "source": "static",
+   "id": "N001",
+   "source_line": "@book{wang2019,"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

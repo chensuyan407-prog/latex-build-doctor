@@ -1,0 +1,1 @@
+{"case_id": "dev_template", "task_file": "task.md", "output_contract": {"deliverable_tex": "editable LaTeX project", "pdf": "compiled PDF", "template_checklist": "required items and their state", "change_records": "list", "status": "success|partial|failed"}}

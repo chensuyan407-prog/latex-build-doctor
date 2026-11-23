@@ -1,0 +1,43 @@
+{
+ "status": "partial",
+ "roots": [],
+ "diagnostics": [
+  {
+   "class": "missing_glyph",
+   "severity": "warning",
+   "message": "Missing character: There is no 结 (U+7ED3) in font [lmroman10-regular]:mapping=tex-text;!",
+   "file": "main.tex",
+   "line": 4,
+   "char": "结 (U+7ED3)",
+   "font": "[lmroman10-regular]:mapping=tex-text;",
+   "hint": "Glyph 结 missing in font [lmroman10-regular]:mapping=tex-text; - it will be blank in the PDF.",
+   "id": "W001",
+   "source": "log",
+   "source_line": "Result 结果 ok."
+  },
+  {
+   "class": "missing_glyph",
+   "severity": "warning",
+   "message": "Missing character: There is no 果 (U+679C) in font [lmroman10-regular]:mapping=tex-text;!",
+   "file": "main.tex",
+   "line": 4,
+   "char": "果 (U+679C)",
+   "font": "[lmroman10-regular]:mapping=tex-text;",
+   "hint": "Glyph 果 missing in font [lmroman10-regular]:mapping=tex-text; - it will be blank in the PDF.",
+   "id": "W002",
+   "source": "log",
+   "source_line": "Result 结果 ok."
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

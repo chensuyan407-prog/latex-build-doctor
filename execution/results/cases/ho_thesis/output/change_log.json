@@ -1,0 +1,102 @@
+[
+ {
+  "hunk": "H001",
+  "file": "chapters/ch2.tex",
+  "kind": "replace",
+  "old_lines": [
+   3,
+   3
+  ],
+  "new_lines": [
+   3,
+   3
+  ],
+  "old": "\\label{sec:setting}",
+  "new": "\\label{sec:model}",
+  "reasons": [
+   "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label"
+  ],
+  "fixes": [
+   "duplicate_label + undefined_ref"
+  ],
+  "types": [
+   "crossref"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "thesis.tex",
+  "kind": "insert",
+  "old_lines": [
+   3,
+   2
+  ],
+  "new_lines": [
+   3,
+   3
+  ],
+  "old": "",
+  "new": "\\usepackage[table]{xcolor}",
+  "reasons": [
+   "xcolor with options before tikz"
+  ],
+  "fixes": [
+   "load_order"
+  ],
+  "types": [
+   "package"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "thesis.tex",
+  "kind": "replace",
+  "old_lines": [
+   4,
+   4
+  ],
+  "new_lines": [
+   5,
+   5
+  ],
+  "old": "\\usepackage[table]{xcolor}",
+  "new": "\\DeclareMathOperator*{\\argmin}{arg\\,min}",
+  "reasons": [
+   "\\argmin undefined"
+  ],
+  "fixes": [
+   "undefined_cs"
+  ],
+  "types": [
+   "macro"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H004",
+  "file": "thesis.tex",
+  "kind": "replace",
+  "old_lines": [
+   12,
+   12
+  ],
+  "new_lines": [
+   13,
+   13
+  ],
+  "old": "\\include{chapters/ch3}",
+  "new": "\\include{chapters/ch03}",
+  "reasons": [
+   "chapter file is chapters/ch03.tex"
+  ],
+  "fixes": [
+   "missing_file"
+  ],
+  "types": [
+   "path"
+  ],
+  "documented": true
+ }
+]

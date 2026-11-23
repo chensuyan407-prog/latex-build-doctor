@@ -1,0 +1,168 @@
+{
+ "_doc": "Template-required items checked by regex on the comment-free sources reached from the main file. severity error -> status partial if missing. Add your own per case in work/changes.json 'requirements' (same shape). 'absent': true means the pattern must NOT occur.",
+ "*": {
+  "required": [
+   {
+    "id": "G01",
+    "desc": "\\title{...} is set",
+    "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+    "severity": "warning",
+    "only_if": "\\\\maketitle"
+   },
+   {
+    "id": "G02",
+    "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+    "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+    "absent": true,
+    "severity": "warning"
+   }
+  ]
+ },
+ "elsarticle": {
+  "required": [
+   {
+    "id": "ELS01",
+    "desc": "\\journal{...} set (elsarticle)",
+    "pattern": "\\\\journal\\s*\\{\\s*[^}\\s]"
+   },
+   {
+    "id": "ELS02",
+    "desc": "frontmatter environment",
+    "pattern": "\\\\begin\\{frontmatter\\}"
+   },
+   {
+    "id": "ELS03",
+    "desc": "abstract inside frontmatter",
+    "pattern": "\\\\begin\\{frontmatter\\}.*\\\\begin\\{abstract\\}.*\\\\end\\{frontmatter\\}"
+   },
+   {
+    "id": "ELS04",
+    "desc": "keyword environment",
+    "pattern": "\\\\begin\\{keyword\\}",
+    "severity": "warning"
+   }
+  ]
+ },
+ "IEEEtran": {
+  "required": [
+   {
+    "id": "IEEE01",
+    "desc": "\\maketitle",
+    "pattern": "\\\\maketitle"
+   },
+   {
+    "id": "IEEE02",
+    "desc": "abstract environment",
+    "pattern": "\\\\begin\\{abstract\\}"
+   },
+   {
+    "id": "IEEE03",
+    "desc": "IEEEkeywords environment",
+    "pattern": "\\\\begin\\{IEEEkeywords\\}",
+    "severity": "warning"
+   },
+   {
+    "id": "IEEE04",
+    "desc": "authors via \\IEEEauthorblockN (conference) or \\author",
+    "pattern": "\\\\author\\s*\\{",
+    "severity": "warning"
+   }
+  ]
+ },
+ "llncs": {
+  "required": [
+   {
+    "id": "LNCS01",
+    "desc": "\\institute{...}",
+    "pattern": "\\\\institute\\s*\\{"
+   },
+   {
+    "id": "LNCS02",
+    "desc": "\\maketitle",
+    "pattern": "\\\\maketitle"
+   },
+   {
+    "id": "LNCS03",
+    "desc": "abstract environment",
+    "pattern": "\\\\begin\\{abstract\\}"
+   },
+   {
+    "id": "LNCS04",
+    "desc": "\\keywords{...}",
+    "pattern": "\\\\keywords\\s*\\{",
+    "severity": "warning"
+   },
+   {
+    "id": "LNCS05",
+    "desc": "splncs04 bibliography style",
+    "pattern": "\\\\bibliographystyle\\{splncs04\\}",
+    "severity": "warning"
+   }
+  ]
+ },
+ "acmart": {
+  "required": [
+   {
+    "id": "ACM01",
+    "desc": "abstract before \\maketitle (acmart)",
+    "pattern": "\\\\begin\\{abstract\\}.*\\\\maketitle"
+   },
+   {
+    "id": "ACM02",
+    "desc": "\\affiliation for authors",
+    "pattern": "\\\\affiliation\\s*\\{"
+   },
+   {
+    "id": "ACM03",
+    "desc": "CCS concepts (\\ccsdesc)",
+    "pattern": "\\\\ccsdesc",
+    "severity": "warning"
+   },
+   {
+    "id": "ACM04",
+    "desc": "\\keywords{...}",
+    "pattern": "\\\\keywords\\s*\\{",
+    "severity": "warning"
+   }
+  ]
+ },
+ "revtex4-2": {
+  "required": [
+   {
+    "id": "REV01",
+    "desc": "abstract before \\maketitle (revtex)",
+    "pattern": "\\\\begin\\{abstract\\}.*\\\\maketitle"
+   },
+   {
+    "id": "REV02",
+    "desc": "\\affiliation",
+    "pattern": "\\\\affiliation\\s*\\{"
+   }
+  ]
+ },
+ "revtex4-1": {
+  "required": [
+   {
+    "id": "REV01",
+    "desc": "abstract before \\maketitle (revtex)",
+    "pattern": "\\\\begin\\{abstract\\}.*\\\\maketitle"
+   },
+   {
+    "id": "REV02",
+    "desc": "\\affiliation",
+    "pattern": "\\\\affiliation\\s*\\{"
+   }
+  ]
+ },
+ "article": {
+  "required": [
+   {
+    "id": "ART01",
+    "desc": "\\maketitle after \\title",
+    "pattern": "\\\\title.*\\\\maketitle",
+    "severity": "warning",
+    "only_if": "\\\\maketitle"
+   }
+  ]
+ }
+}

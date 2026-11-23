@@ -1,0 +1,28 @@
+{
+ "changes": [
+  {
+   "file": "report.tex",
+   "line": 8,
+   "from": "\\end{enumerate}",
+   "to": "\\end{itemize}",
+   "reason": "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed",
+   "fixes": "env_mismatch + lonely item",
+   "type": "structure"
+  },
+  {
+   "file": "report.tex",
+   "line": 14,
+   "from": "",
+   "to": "\\end{figure}",
+   "reason": "figure environment never closed; closed after its caption/label",
+   "fixes": "env_mismatch figure",
+   "type": "structure"
+  }
+ ],
+ "needs_confirmation": [
+  {
+   "item": "'Anneal the sample.' was outside the list; moved in as the 3rd step",
+   "where": "report.tex:8"
+  }
+ ]
+}

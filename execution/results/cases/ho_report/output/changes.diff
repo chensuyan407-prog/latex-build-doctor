@@ -1,0 +1,21 @@
+--- a/main.tex
++++ b/main.tex
+@@ -6,6 +6,9 @@
+ \section{Summary}
+-The yield was 87\% with error ≤ 2\% \cite{chen2022}.
++The yield was 87\% with error $\leq 2\%$ \cite{chen2022}.
+ 
+-\includegraphics[width=0.5]{plot}
+-\caption{Yield over time.}
++\begin{figure}[htbp]
++  \centering
++  \includegraphics[width=0.5\linewidth]{plot}
++  \caption{Yield over time.}
++\end{figure}
+ 
+--- a/refs.bib
++++ b/refs.bib
+@@ -6,2 +6,3 @@
+   pages   = {12--19}
++}
+ 

@@ -1,0 +1,80 @@
+[
+ {
+  "hunk": "H001",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   7,
+   7
+  ],
+  "new_lines": [
+   7,
+   7
+  ],
+  "old": "The yield was 87\\% with error ≤ 2\\% \\cite{chen2022}.",
+  "new": "The yield was 87\\% with error $\\leq 2\\%$ \\cite{chen2022}.",
+  "reasons": [
+   "U+2264 not available under pdfLaTeX; same symbol in math"
+  ],
+  "fixes": [
+   "unicode_char"
+  ],
+  "types": [
+   "encoding"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   9,
+   10
+  ],
+  "new_lines": [
+   9,
+   13
+  ],
+  "old": "\\includegraphics[width=0.5]{plot}\n\\caption{Yield over time.}",
+  "new": "\\begin{figure}[htbp]\n  \\centering\n  \\includegraphics[width=0.5\\linewidth]{plot}\n  \\caption{Yield over time.}\n\\end{figure}",
+  "reasons": [
+   "width needs a unit; 0.5 interpreted as half the line width",
+   "\\caption needs a float"
+  ],
+  "fixes": [
+   "number_unit",
+   "float"
+  ],
+  "types": [
+   "figure",
+   "figure"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "refs.bib",
+  "kind": "insert",
+  "old_lines": [
+   7,
+   6
+  ],
+  "new_lines": [
+   7,
+   7
+  ],
+  "old": "",
+  "new": "}",
+  "reasons": [
+   "close entry chen2022"
+  ],
+  "fixes": [
+   "bib_syntax"
+  ],
+  "types": [
+   "bibliography"
+  ],
+  "documented": true
+ }
+]

@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+execution/results/cases/*/work/build/
+execution/results/cases/*/work/build_repro/
+execution/results/robustness/*/work/build*/

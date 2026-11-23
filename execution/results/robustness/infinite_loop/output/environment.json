@@ -1,0 +1,19 @@
+{
+ "recorded_at": "2026-11-23T10:17:41Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "pdflatex",
+  "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "banner": ""
+ },
+ "bibtool": null,
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": null,
+ "packages": {},
+ "project_files_used": [
+  "main.tex"
+ ],
+ "distribution_files_used": 10,
+ "distribution": "TeX Live 2026"
+}

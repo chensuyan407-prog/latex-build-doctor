@@ -1,0 +1,381 @@
+{
+ "case_id": "ho_thesis",
+ "status": "success",
+ "summary": "SUCCESS: thesis.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 4 edit hunk(s), 4 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:17:30Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/thesis.tex",
+  "pdf": "thesis.pdf",
+  "pdf_sha256": "f5f35e8b529b42d20f5e74176de3f5af4c82365d8b6217e72c6f6144e654bf8b",
+  "pdf_pages": 4,
+  "previews": [
+   "preview/page-1.png",
+   "preview/page-2.png",
+   "preview/page-3.png",
+   "preview/page-4.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "thesis.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 1.63,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
+    "exit": 0,
+    "seconds": 0.82,
+    "aux_sha256": "7dfcd637ee31af9537a64022cc0675fc62b924393daa28a309f5526131e4bdc9",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
+    "exit": 0,
+    "seconds": 0.81,
+    "aux_sha256": "7dfcd637ee31af9537a64022cc0675fc62b924393daa28a309f5526131e4bdc9",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "f5f35e8b529b42d20f5e74176de3f5af4c82365d8b6217e72c6f6144e654bf8b",
+   "pdf_sha256_build2": "f5f35e8b529b42d20f5e74176de3f5af4c82365d8b6217e72c6f6144e654bf8b",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1",
+    "pdflatex pass 2"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "chapters/ch2.tex",
+   "kind": "replace",
+   "old_lines": [
+    3,
+    3
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "\\label{sec:setting}",
+   "new": "\\label{sec:model}",
+   "reasons": [
+    "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label"
+   ],
+   "fixes": [
+    "duplicate_label + undefined_ref"
+   ],
+   "types": [
+    "crossref"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "thesis.tex",
+   "kind": "insert",
+   "old_lines": [
+    3,
+    2
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "",
+   "new": "\\usepackage[table]{xcolor}",
+   "reasons": [
+    "xcolor with options before tikz"
+   ],
+   "fixes": [
+    "load_order"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "thesis.tex",
+   "kind": "replace",
+   "old_lines": [
+    4,
+    4
+   ],
+   "new_lines": [
+    5,
+    5
+   ],
+   "old": "\\usepackage[table]{xcolor}",
+   "new": "\\DeclareMathOperator*{\\argmin}{arg\\,min}",
+   "reasons": [
+    "\\argmin undefined"
+   ],
+   "fixes": [
+    "undefined_cs"
+   ],
+   "types": [
+    "macro"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H004",
+   "file": "thesis.tex",
+   "kind": "replace",
+   "old_lines": [
+    12,
+    12
+   ],
+   "new_lines": [
+    13,
+    13
+   ],
+   "old": "\\include{chapters/ch3}",
+   "new": "\\include{chapters/ch03}",
+   "reasons": [
+    "chapter file is chapters/ch03.tex"
+   ],
+   "fixes": [
+    "missing_file"
+   ],
+   "types": [
+    "path"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "thesis.tex",
+   "line": 12,
+   "from": "chapters/ch3",
+   "to": "chapters/ch03",
+   "reason": "chapter file is chapters/ch03.tex",
+   "fixes": "missing_file",
+   "type": "path"
+  },
+  {
+   "file": "thesis.tex",
+   "line": 3,
+   "from": "\\usepackage{tikz}",
+   "to": "\\usepackage[table]{xcolor}",
+   "reason": "xcolor with options before tikz",
+   "fixes": "load_order",
+   "type": "package"
+  },
+  {
+   "file": "thesis.tex",
+   "line": 5,
+   "from": "",
+   "to": "\\DeclareMathOperator*{\\argmin}{arg\\,min}",
+   "reason": "\\argmin undefined",
+   "fixes": "undefined_cs",
+   "type": "macro"
+  },
+  {
+   "file": "chapters/ch2.tex",
+   "line": 3,
+   "from": "\\label{sec:setting}",
+   "to": "\\label{sec:model}",
+   "reason": "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label",
+   "fixes": "duplicate_label + undefined_ref",
+   "type": "crossref",
+   "accept_keys": true
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_thesis\\input",
+  "materials": [
+   "case.json",
+   "thesis.tex",
+   "chapters/ch03.tex",
+   "chapters/ch1.tex",
+   "chapters/ch2.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [
+    {
+     "id": "N001",
+     "class": "key_changed",
+     "file": "chapters/ch2.tex",
+     "line": 3,
+     "message": "\\label keys changed: ['sec:setting'] -> ['sec:model']",
+     "hint": "Changing which work/label is referenced changes meaning; confirm against the source (accept_keys:true with reason)."
+    }
+   ],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "report",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 42,
+  "details": "environment.json"
+ },
+ "fixed_project": [
+  {
+   "hunk": "H001",
+   "file": "chapters/ch2.tex",
+   "kind": "replace",
+   "old_lines": [
+    3,
+    3
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "\\label{sec:setting}",
+   "new": "\\label{sec:model}",
+   "reasons": [
+    "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label"
+   ],
+   "fixes": [
+    "duplicate_label + undefined_ref"
+   ],
+   "types": [
+    "crossref"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "thesis.tex",
+   "kind": "insert",
+   "old_lines": [
+    3,
+    2
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "",
+   "new": "\\usepackage[table]{xcolor}",
+   "reasons": [
+    "xcolor with options before tikz"
+   ],
+   "fixes": [
+    "load_order"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "thesis.tex",
+   "kind": "replace",
+   "old_lines": [
+    4,
+    4
+   ],
+   "new_lines": [
+    5,
+    5
+   ],
+   "old": "\\usepackage[table]{xcolor}",
+   "new": "\\DeclareMathOperator*{\\argmin}{arg\\,min}",
+   "reasons": [
+    "\\argmin undefined"
+   ],
+   "fixes": [
+    "undefined_cs"
+   ],
+   "types": [
+    "macro"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H004",
+   "file": "thesis.tex",
+   "kind": "replace",
+   "old_lines": [
+    12,
+    12
+   ],
+   "new_lines": [
+    13,
+    13
+   ],
+   "old": "\\include{chapters/ch3}",
+   "new": "\\include{chapters/ch03}",
+   "reasons": [
+    "chapter file is chapters/ch03.tex"
+   ],
+   "fixes": [
+    "missing_file"
+   ],
+   "types": [
+    "path"
+   ],
+   "documented": true
+  }
+ ],
+ "open_items": {
+  "value": null,
+  "note": "no automatic mapping for this field - set it in work/changes.json fields"
+ }
+}

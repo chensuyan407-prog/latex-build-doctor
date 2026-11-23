@@ -1,0 +1,52 @@
+[
+ {
+  "hunk": "H001",
+  "file": "report.tex",
+  "kind": "replace",
+  "old_lines": [
+   8,
+   10
+  ],
+  "new_lines": [
+   8,
+   9
+  ],
+  "old": "\\end{enumerate}\n\n\\item Anneal the sample.",
+  "new": "  \\item Anneal the sample.\n\\end{itemize}",
+  "reasons": [
+   "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed"
+  ],
+  "fixes": [
+   "env_mismatch + lonely item"
+  ],
+  "types": [
+   "structure"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "report.tex",
+  "kind": "insert",
+  "old_lines": [
+   16,
+   15
+  ],
+  "new_lines": [
+   15,
+   15
+  ],
+  "old": "",
+  "new": "\\end{figure}",
+  "reasons": [
+   "figure environment never closed; closed after its caption/label"
+  ],
+  "fixes": [
+   "env_mismatch figure"
+  ],
+  "types": [
+   "structure"
+  ],
+  "documented": true
+ }
+]

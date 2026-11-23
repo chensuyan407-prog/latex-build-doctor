@@ -1,0 +1,46 @@
+{
+ "changes": [
+  {
+   "file": "main.tex",
+   "line": 7,
+   "from": "≤ 2\\%",
+   "to": "$\\leq 2\\%$",
+   "reason": "U+2264 not available under pdfLaTeX; same symbol in math",
+   "fixes": "unicode_char",
+   "type": "encoding"
+  },
+  {
+   "file": "main.tex",
+   "line": 9,
+   "from": "\\includegraphics[width=0.5]{plot}",
+   "to": "\\includegraphics[width=0.5\\linewidth]{plot}",
+   "reason": "width needs a unit; 0.5 interpreted as half the line width",
+   "fixes": "number_unit",
+   "type": "figure"
+  },
+  {
+   "file": "main.tex",
+   "line": 9,
+   "from": "",
+   "to": "\\begin{figure}[htbp]",
+   "reason": "\\caption needs a float",
+   "fixes": "float",
+   "type": "figure"
+  },
+  {
+   "file": "refs.bib",
+   "line": 7,
+   "from": "",
+   "to": "}",
+   "reason": "close entry chen2022",
+   "fixes": "bib_syntax",
+   "type": "bibliography"
+  }
+ ],
+ "needs_confirmation": [
+  {
+   "item": "figure width 0.5\\linewidth assumed for width=0.5",
+   "where": "main.tex:11"
+  }
+ ]
+}

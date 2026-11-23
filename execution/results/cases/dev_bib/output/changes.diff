@@ -1,0 +1,23 @@
+--- a/library.bib
++++ b/library.bib
+@@ -12,3 +12,3 @@
+   author    = {Kipf, Thomas N. and Welling, Max},
+-  title     = {Semi-Supervised Classification with Graph Convolutional Networks}
++  title     = {Semi-Supervised Classification with Graph Convolutional Networks},
+   booktitle = {International Conference on Learning Representations},
+@@ -24,8 +24 @@
+ 
+-@article{scarselli2009,
+-  author  = {Scarselli, F.},
+-  title   = {The graph neural network model},
+-  journal = {IEEE TNN},
+-  year    = {2009}
+-}
+-
+--- a/paper.tex
++++ b/paper.tex
+@@ -2,3 +2,3 @@
+ \usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+-\addbibresource{library}
++\addbibresource{library.bib}
+ \usepackage{hyperref}

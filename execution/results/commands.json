@@ -1,0 +1,488 @@
+[
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/dev_bib/input/case.json",
+   "--out",
+   "execution/results/cases/dev_bib/output",
+   "--work",
+   "execution/results/cases/dev_bib/work"
+  ],
+  "exit": 0,
+  "seconds": 0.45,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: dev_bib | contract fields: ['compiled_pdf', 'bibliography_fixes', 'unresolved_citations', 'status']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_bib\\input | 2 files copied to work/src (edit there), snapshot in work/orig\nmain: paper.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: biber (biblatex backend=biber)\nfiles reached from main (1): paper.tex\nbib files: library.bib\nPRECHECK problems (1) - fix or confirm before compiling:\n  bib_missing_file paper.tex:3 \\addbibresource{library}: biblatex needs the full file name -> Write \\addbibresource{library.bib} - biber looks for the literal name and finds no data source.\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_bib\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_bib\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_bib/work",
+   "--out",
+   "execution/results/cases/dev_bib/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 7.66,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_bib/work",
+   "--out",
+   "execution/results/cases/dev_bib/output",
+   "--quiet"
+  ],
+  "exit": 1,
+  "seconds": 9.56,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/dev_env/input/case.json",
+   "--out",
+   "execution/results/cases/dev_env/output",
+   "--work",
+   "execution/results/cases/dev_env/work"
+  ],
+  "exit": 0,
+  "seconds": 0.42,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: dev_env | contract fields: ['fixed_source', 'build', 'changes', 'status']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_env\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: report.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): report.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_env\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_env\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_env/work",
+   "--out",
+   "execution/results/cases/dev_env/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 2,
+  "seconds": 1.2,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_env/work",
+   "--out",
+   "execution/results/cases/dev_env/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 3.12,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/dev_math/input/case.json",
+   "--out",
+   "execution/results/cases/dev_math/output",
+   "--work",
+   "execution/results/cases/dev_math/work"
+  ],
+  "exit": 0,
+  "seconds": 0.45,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: dev_math | contract fields: ['fixed_tex', 'compile_log', 'edits', 'open_questions']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_math\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: model.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): model.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_math\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_math\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_math/work",
+   "--out",
+   "execution/results/cases/dev_math/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 2.02,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_math/work",
+   "--out",
+   "execution/results/cases/dev_math/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 3.19,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_math/mut0",
+   "--out",
+   "execution/results/cases/dev_math/mut0_out",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 0,
+  "seconds": 2.06,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/dev_multi/input/case.json",
+   "--out",
+   "execution/results/cases/dev_multi/output",
+   "--work",
+   "execution/results/cases/dev_multi/work"
+  ],
+  "exit": 0,
+  "seconds": 0.48,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: dev_multi | contract fields: ['fixed_source', 'compile_status', 'change_log', 'remaining_issues']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_multi\\input | 6 files copied to work/src (edit there), snapshot in work/orig\ntask file: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_multi\\input\\task.md (read it fully)\nmain: main.tex  (other candidates: none)\nclass: article [11pt]  engine: pdflatex (no Unicode-engine package found)  bib: bibtex (\\bibliography{...})\nfiles reached from main (3): main.tex, sections/intro.tex, sections/results.tex\nbib files: refs.bib\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_multi\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_multi\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/work",
+   "--out",
+   "execution/results/cases/dev_multi/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 3.47,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/work",
+   "--out",
+   "execution/results/cases/dev_multi/output",
+   "--quiet"
+  ],
+  "exit": 1,
+  "seconds": 6.31,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/mut0",
+   "--out",
+   "execution/results/cases/dev_multi/mut0_out",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 3.79,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/mut1",
+   "--out",
+   "execution/results/cases/dev_multi/mut1_out",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 3.66,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/mut2",
+   "--out",
+   "execution/results/cases/dev_multi/mut2_out",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 3.46,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/dev_template/input/case.json",
+   "--out",
+   "execution/results/cases/dev_template/output",
+   "--work",
+   "execution/results/cases/dev_template/work"
+  ],
+  "exit": 0,
+  "seconds": 0.44,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: dev_template | contract fields: ['deliverable_tex', 'pdf', 'template_checklist', 'change_records', 'status']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_template\\input | 3 files copied to work/src (edit there), snapshot in work/orig\ntask file: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_template\\input\\task.md (read it fully)\nmain: main.tex  (other candidates: none)\nclass: jcsa []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nPRECHECK problems (2) - fix or confirm before compiling:\n  missing_class main.tex:1 class jcsa.cls exists at template/jcsa.cls but TeX only searches the main file's directory and the TeX tree -> Copy template/jcsa.cls next to main.tex (keep the template file unchanged), or set TEXINPUTS=./template//: - copying is more portable.\n  missing_file main.tex:15 graphic figures/Psi_Delta.png matches figures/psi_delta.png only case-insensitively -> Works on Windows/macOS, fails on Linux (case-sensitive): use the exact name figures/psi_delta.png in \\includegraphics (do not rename shared assets silently).\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_template\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_template\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_template/work",
+   "--out",
+   "execution/results/cases/dev_template/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 2,
+  "seconds": 1.2,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_template/work",
+   "--out",
+   "execution/results/cases/dev_template/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 3.09,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_template/mut0",
+   "--out",
+   "execution/results/cases/dev_template/mut0_out",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 1.96,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/dev_xe/input/case.json",
+   "--out",
+   "execution/results/cases/dev_xe/output",
+   "--work",
+   "execution/results/cases/dev_xe/work"
+  ],
+  "exit": 0,
+  "seconds": 0.8,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: dev_xe | contract fields: ['tex_source', 'pdf', 'build_commands', 'changes', 'needs_confirmation']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_xe\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: ctexart [UTF8,fontset=fandol]  engine: pdflatex (% !TEX program = pdflatex)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nfonts: NoSuchSerif Pro=MISSING\nPRECHECK problems (1) - fix or confirm before compiling:\n  missing_font main.tex:4 font 'NoSuchSerif Pro' not found by fc-list -> Install the font, ship it with the project (Path=./fonts/, Extension=.otf), or switch to an installed font (record the substitution; templates may mandate the font).\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_xe\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\dev_xe\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_xe/work",
+   "--out",
+   "execution/results/cases/dev_xe/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 2,
+  "seconds": 1.77,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_xe/work",
+   "--out",
+   "execution/results/cases/dev_xe/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 6.5,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_xe/mut0",
+   "--out",
+   "execution/results/cases/dev_xe/mut0_out",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 0,
+  "seconds": 3.83,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/ho_ieee/input/case.json",
+   "--out",
+   "execution/results/cases/ho_ieee/output",
+   "--work",
+   "execution/results/cases/ho_ieee/work"
+  ],
+  "exit": 0,
+  "seconds": 0.45,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: ho_ieee | contract fields: ['source', 'pdf', 'status']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_ieee\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: conf.tex  (other candidates: none)\nclass: IEEEtran [conference]  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): conf.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\ho_ieee\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\ho_ieee\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/ho_ieee/work",
+   "--out",
+   "execution/results/cases/ho_ieee/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 2.01,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/ho_ieee/work",
+   "--out",
+   "execution/results/cases/ho_ieee/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 3.11,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/ho_report/input/case.json",
+   "--out",
+   "execution/results/cases/ho_report/output",
+   "--work",
+   "execution/results/cases/ho_report/work"
+  ],
+  "exit": 0,
+  "seconds": 0.43,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: ho_report | contract fields: ['source', 'pdf', 'change_log', 'status']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_report\\input | 3 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: bibtex (\\bibliography{...})\nfiles reached from main (1): main.tex\nbib files: refs.bib\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\ho_report\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\ho_report\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/ho_report/work",
+   "--out",
+   "execution/results/cases/ho_report/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 2.75,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/ho_report/work",
+   "--out",
+   "execution/results/cases/ho_report/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 4.71,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "tests/cases/ho_thesis/input/case.json",
+   "--out",
+   "execution/results/cases/ho_thesis/output",
+   "--work",
+   "execution/results/cases/ho_thesis/work"
+  ],
+  "exit": 0,
+  "seconds": 0.47,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: ho_thesis | contract fields: ['fixed_project', 'status', 'changes', 'open_items']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_thesis\\input | 4 files copied to work/src (edit there), snapshot in work/orig\nmain: thesis.tex  (other candidates: none)\nclass: report [12pt]  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (3): thesis.tex, chapters/ch1.tex, chapters/ch2.tex\ntex files NOT reached from main: chapters/ch03.tex\nPRECHECK problems (1) - fix or confirm before compiling:\n  missing_file thesis.tex:12 \\include{chapters/ch3}: file not found -> Path is resolved relative to the MAIN file directory; check spelling/case/extension.\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\ho_thesis\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\cases\\ho_thesis\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/ho_thesis/work",
+   "--out",
+   "execution/results/cases/ho_thesis/output",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 2.49,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/ho_thesis/work",
+   "--out",
+   "execution/results/cases/ho_thesis/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 4.23,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ }
+]

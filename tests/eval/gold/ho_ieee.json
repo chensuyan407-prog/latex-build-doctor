@@ -1,0 +1,20 @@
+{
+ "case": "ho_ieee", "set": "holdout",
+ "note": "gold written before running the tool on this case",
+ "roots": [
+  {"id": "g1", "class": "package_conflict", "file": "conf.tex", "line": 3, "lines": [3, 4], "detail": "subfigure + subcaption"},
+  {"id": "g2", "class": "undefined_cs", "file": "conf.tex", "line": 13, "detail": "\\citep without natbib", "expect_package": "natbib"},
+  {"id": "g3", "class": "undefined_env", "file": "conf.tex", "line": 19, "detail": "algorithmic environment not loaded"}
+ ],
+ "fix": [
+  {"file": "conf.tex", "find": "\\usepackage{subfigure}\n", "replace": ""},
+  {"file": "conf.tex", "find": "\\usepackage{algorithm}\n", "replace": "\\usepackage{algorithm}\n\\usepackage{algorithmic}\n"},
+  {"file": "conf.tex", "find": "\\citep{ref1}", "replace": "\\cite{ref1}"}
+ ],
+ "changes": {"changes": [
+  {"file": "conf.tex", "line": 3, "from": "\\usepackage{subfigure}", "to": "", "reason": "obsolete, conflicts with subcaption; no \\subfigure used", "fixes": "package_conflict", "type": "package"},
+  {"file": "conf.tex", "line": 5, "from": "", "to": "\\usepackage{algorithmic}", "reason": "\\STATE / algorithmic environment", "fixes": "undefined_env", "type": "package"},
+  {"file": "conf.tex", "line": 12, "from": "\\citep{ref1}", "to": "\\cite{ref1}", "reason": "IEEEtran uses numeric \\cite; natbib not used by the template", "fixes": "undefined_cs", "type": "citation"}
+ ]},
+ "expect_status": "success"
+}

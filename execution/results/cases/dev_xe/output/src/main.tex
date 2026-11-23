@@ -1,0 +1,33 @@
+% !TEX program = xelatex
+\documentclass[UTF8,fontset=fandol]{ctexart}
+\usepackage{fontspec}
+\setmainfont{TeX Gyre Termes}
+\usepackage{amsmath}
+\usepackage{booktabs}
+
+\title{薄膜样品测试报告}
+\author{测试组}
+\date{2024年1月1日}
+
+\begin{document}
+\maketitle
+
+\section{结果}
+在 25~℃ 下测得厚度为 $120~\mathrm{nm}$，相对误差为 $0.5\%$。
+表~\ref{tab:res} 给出三次测量结果。
+
+\begin{table}[htbp]
+  \centering
+  \caption{三次测量的厚度}
+  \label{tab:res}
+  \begin{tabular}{cc}
+    \toprule
+    序号 & 厚度 (nm) \\
+    \midrule
+    1 & 119.6 \\
+    2 & 120.3 \\
+    3 & 120.1 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+\end{document}

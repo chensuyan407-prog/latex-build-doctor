@@ -1,0 +1,47 @@
+{
+ "skill_version": "0.1.0",
+ "case_id": "no_tex",
+ "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\no_tex_on_path\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\no_tex_on_path\\input",
+ "contract_fields": [
+  "status",
+  "pdf"
+ ],
+ "materials": [
+  "case.json",
+  "main.tex"
+ ],
+ "mains": [
+  "main.tex"
+ ],
+ "main": "main.tex",
+ "created": "2026-11-23T10:17:42.272874+00:00",
+ "engine": "pdflatex",
+ "engine_reason": "no Unicode-engine package found",
+ "bibtool": null,
+ "bibtool_reason": "no \\bibliography / biblatex",
+ "order": [
+  "main.tex"
+ ],
+ "bibs": [],
+ "documentclass": {
+  "name": "article",
+  "options": [],
+  "line": 1
+ },
+ "unreached_tex": [],
+ "fonts": [],
+ "fonts_found": {},
+ "problems": [
+  {
+   "class": "missing_tool",
+   "severity": "error",
+   "file": null,
+   "line": null,
+   "message": "pdflatex is not on PATH",
+   "hint": "Install TeX Live / MiKTeX with pdflatex, or choose another engine (--engine).",
+   "source": "precheck"
+  }
+ ],
+ "other_mains": []
+}

@@ -1,0 +1,39 @@
+{
+ "recorded_at": "2026-11-23T10:17:44Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "pdflatex",
+  "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  23 NOV 2026 18:17"
+ },
+ "bibtool": null,
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": {
+  "name": "article",
+  "date": "2025/01/22",
+  "version": "v1.4n Standard LaTeX document class"
+ },
+ "packages": {},
+ "project_files_used": [
+  "project_extracted/paper/main.tex",
+  "project_extracted/paper/sec.tex"
+ ],
+ "distribution_files_used": 12,
+ "distribution": "TeX Live 2026",
+ "pdf_fonts": [
+  {
+   "name": "TOITBA+CMR10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  }
+ ],
+ "pdf_fonts_not_embedded": [],
+ "pdf_info": {
+  "Pages": "1",
+  "Page size": "595.276 x 841.89 pts (A4)",
+  "PDF version": "1.7",
+  "Producer": "pdfTeX-1.40.29",
+  "Creator": "TeX"
+ }
+}

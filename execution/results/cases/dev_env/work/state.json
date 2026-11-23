@@ -1,0 +1,39 @@
+{
+ "skill_version": "0.1.0",
+ "case_id": "dev_env",
+ "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_env\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_env\\input",
+ "contract_fields": [
+  "fixed_source",
+  "build",
+  "changes",
+  "status"
+ ],
+ "materials": [
+  "case.json",
+  "report.tex"
+ ],
+ "mains": [
+  "report.tex"
+ ],
+ "main": "report.tex",
+ "created": "2026-11-23T10:16:16.381110+00:00",
+ "engine": "pdflatex",
+ "engine_reason": "no Unicode-engine package found",
+ "bibtool": null,
+ "bibtool_reason": "no \\bibliography / biblatex",
+ "order": [
+  "report.tex"
+ ],
+ "bibs": [],
+ "documentclass": {
+  "name": "article",
+  "options": [],
+  "line": 1
+ },
+ "unreached_tex": [],
+ "fonts": [],
+ "fonts_found": {},
+ "problems": [],
+ "other_mains": []
+}

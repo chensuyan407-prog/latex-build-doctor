@@ -1,0 +1,2 @@
+# no Python packages needed (standard library only)
+# system: TeX Live (pdflatex, xelatex, lualatex, bibtex, biber, kpsewhich; optional fc-list, pdftoppm, pdffonts, pdfinfo)

@@ -1,0 +1,28 @@
+{
+ "generated_by": "tests/run_eval.py",
+ "sets": {
+  "holdout": {
+   "cases": [
+    "ho_ieee",
+    "ho_report",
+    "ho_thesis"
+   ],
+   "gold_roots": 11,
+   "root_recall": 0.9090909090909091,
+   "root_precision": 0.8461538461538461,
+   "reported_roots": 13,
+   "raw_log_errors": 9,
+   "baseline_first_error_recall": 0.2727272727272727,
+   "baseline_all_log_errors_recall": 0.5454545454545454,
+   "fix_status_ok": "3/3",
+   "remaining_ok": "3/3",
+   "byte_identical_rebuilds": "3/3",
+   "audit_clean_after_documented_fix": "1/3",
+   "mutation_probes_caught": "0/0",
+   "missed": [
+    "g1:package_conflict@conf.tex:3"
+   ]
+  }
+ },
+ "errors": []
+}

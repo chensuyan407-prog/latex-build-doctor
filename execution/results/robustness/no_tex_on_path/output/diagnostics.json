@@ -1,0 +1,29 @@
+{
+ "status": "failed",
+ "roots": [
+  "S001"
+ ],
+ "diagnostics": [
+  {
+   "class": "missing_tool",
+   "severity": "error",
+   "file": null,
+   "line": null,
+   "message": "pdflatex is not on PATH",
+   "hint": "Install TeX Live / MiKTeX with pdflatex, or choose another engine (--engine).",
+   "source": "precheck",
+   "id": "S001"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

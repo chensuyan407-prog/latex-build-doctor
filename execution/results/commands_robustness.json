@@ -1,0 +1,328 @@
+[
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/no_main/input/case.json",
+   "--work",
+   "execution/results/robustness/no_main/work",
+   "--out",
+   "execution/results/robustness/no_main/output"
+  ],
+  "exit": 0,
+  "seconds": 0.11,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: no_main | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\no_main\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nNO MAIN FILE: no .tex with \\documentclass + \\begin{document}. tex files: none\nIf the task is to write a new document: create work/src/main.tex, then run lx_build.py --main main.tex\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/no_main/work",
+   "--out",
+   "execution/results/robustness/no_main/output",
+   "--quiet"
+  ],
+  "exit": 2,
+  "seconds": 0.12,
+  "stdout_tail": "FAILED: no main file in work/src. Create one or pass --main.\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/two_mains/input/case.json",
+   "--work",
+   "execution/results/robustness/two_mains/work",
+   "--out",
+   "execution/results/robustness/two_mains/output",
+   "--main",
+   "supplement.tex"
+  ],
+  "exit": 0,
+  "seconds": 0.42,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: two_mains | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\two_mains\\input | 2 files copied to work/src (edit there), snapshot in work/orig\nmain: supplement.tex  (other candidates: main.tex)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): supplement.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\two_mains\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\two_mains\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/two_mains/work",
+   "--out",
+   "execution/results/robustness/two_mains/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 1.85,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/infinite_loop/input/case.json",
+   "--work",
+   "execution/results/robustness/infinite_loop/work",
+   "--out",
+   "execution/results/robustness/infinite_loop/output"
+  ],
+  "exit": 0,
+  "seconds": 0.42,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: infinite_loop | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\infinite_loop\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\infinite_loop\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\infinite_loop\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/infinite_loop/work",
+   "--out",
+   "execution/results/robustness/infinite_loop/output",
+   "--quiet",
+   "--timeout",
+   "8",
+   "--budget",
+   "30"
+  ],
+  "exit": 2,
+  "seconds": 8.88,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/no_tex_on_path/input/case.json",
+   "--work",
+   "execution/results/robustness/no_tex_on_path/work",
+   "--out",
+   "execution/results/robustness/no_tex_on_path/output"
+  ],
+  "exit": 0,
+  "seconds": 0.09,
+  "stdout_tail": "2117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\no_tex_on_path\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nPRECHECK problems (1) - fix or confirm before compiling:\n  missing_tool None:None pdflatex is not on PATH -> Install TeX Live / MiKTeX with pdflatex, or choose another engine (--engine).\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\no_tex_on_path\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\no_tex_on_path\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/no_tex_on_path/work",
+   "--out",
+   "execution/results/robustness/no_tex_on_path/output",
+   "--quiet"
+  ],
+  "exit": 2,
+  "seconds": 0.18,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/zip_input/input/case.json",
+   "--work",
+   "execution/results/robustness/zip_input/work",
+   "--out",
+   "execution/results/robustness/zip_input/output"
+  ],
+  "exit": 0,
+  "seconds": 0.44,
+  "stdout_tail": "ract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\zip_input\\input | 2 files copied to work/src (edit there), snapshot in work/orig\nmain: project_extracted/paper/main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (2): project_extracted/paper/main.tex, project_extracted/paper/sec.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\zip_input\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\zip_input\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/zip_input/work",
+   "--out",
+   "execution/results/robustness/zip_input/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 1.9,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/broken_changes/input/case.json",
+   "--work",
+   "execution/results/robustness/broken_changes/work",
+   "--out",
+   "execution/results/robustness/broken_changes/output"
+  ],
+  "exit": 0,
+  "seconds": 0.45,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: broken_changes | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\broken_changes\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\broken_changes\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\broken_changes\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/broken_changes/work",
+   "--out",
+   "execution/results/robustness/broken_changes/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 1.91,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/missing_glyph/input/case.json",
+   "--work",
+   "execution/results/robustness/missing_glyph/work",
+   "--out",
+   "execution/results/robustness/missing_glyph/output"
+  ],
+  "exit": 0,
+  "seconds": 0.42,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: missing_glyph | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_glyph\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: xelatex (Unicode-engine package: fontspec)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_glyph\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_glyph\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/missing_glyph/work",
+   "--out",
+   "execution/results/robustness/missing_glyph/output",
+   "--quiet"
+  ],
+  "exit": 1,
+  "seconds": 3.0,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/missing_package/input/case.json",
+   "--work",
+   "execution/results/robustness/missing_package/work",
+   "--out",
+   "execution/results/robustness/missing_package/output"
+  ],
+  "exit": 0,
+  "seconds": 0.43,
+  "stdout_tail": "c (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nPRECHECK problems (1) - fix or confirm before compiling:\n  missing_package main.tex:2 package nosuchpkgxyz.sty not found (not in the project, not in the TeX installation) -> Package not installed: install it (tlmgr install), ship the .sty with the project, or remove it if unused (check which commands need it).\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_package\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_package\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/missing_package/work",
+   "--out",
+   "execution/results/robustness/missing_package/output",
+   "--quiet"
+  ],
+  "exit": 2,
+  "seconds": 1.19,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/gb18030_input/input/case.json",
+   "--work",
+   "execution/results/robustness/gb18030_input/work",
+   "--out",
+   "execution/results/robustness/gb18030_input/output"
+  ],
+  "exit": 0,
+  "seconds": 0.41,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: gb18030 | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\gb18030_input\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\gb18030_input\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\gb18030_input\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/gb18030_input/work",
+   "--out",
+   "execution/results/robustness/gb18030_input/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 1.9,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/work",
+   "--out",
+   "execution/results/robustness/det_a",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 3.47,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/cases/dev_multi/work",
+   "--out",
+   "execution/results/robustness/det_b",
+   "--quiet",
+   "--no-repro"
+  ],
+  "exit": 1,
+  "seconds": 3.54,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_init.py",
+   "--case",
+   "execution/results/robustness/today_repro/input/case.json",
+   "--work",
+   "execution/results/robustness/today_repro/work",
+   "--out",
+   "execution/results/robustness/today_repro/output"
+  ],
+  "exit": 0,
+  "seconds": 0.44,
+  "stdout_tail": "latex-build-doctor 0.1.0 init\ncase_id: today | contract fields: ['status', 'pdf']\ninput dir: C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\today_repro\\input | 1 files copied to work/src (edit there), snapshot in work/orig\nmain: main.tex  (other candidates: none)\nclass: article []  engine: pdflatex (no Unicode-engine package found)  bib: None (no \\bibliography / biblatex)\nfiles reached from main (1): main.tex\nprecheck: all classes, packages, bib files, graphics and fonts found\nnext: python lx_build.py --work C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\today_repro\\work --out C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\today_repro\\output\n",
+  "stderr_tail": ""
+ },
+ {
+  "argv": [
+   "submission/scripts/lx_build.py",
+   "--work",
+   "execution/results/robustness/today_repro/work",
+   "--out",
+   "execution/results/robustness/today_repro/output",
+   "--quiet"
+  ],
+  "exit": 0,
+  "seconds": 1.93,
+  "stdout_tail": "",
+  "stderr_tail": ""
+ }
+]

@@ -1,0 +1,1 @@
+{"case_id": "dev_multi", "task": "Fix the compilation errors of this two-section paper so that it compiles with pdfLaTeX and all references resolve. Keep all numbers.", "output_contract": {"fixed_source": "path", "compile_status": "string", "change_log": "list", "remaining_issues": "list"}}

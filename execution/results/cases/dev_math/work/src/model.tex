@@ -1,0 +1,19 @@
+\documentclass{article}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\begin{document}
+\section{Model}
+The loss is
+\begin{equation}
+  L(\theta) = \sum_{i=1}^{N} \ell(f_\theta(x_i), y_i) \label{eq:loss}
+\end{equation}
+with the regulariser
+\begin{equation}
+  R(\theta) = \lambda \left( \|\theta\|_2^2 \right) \label{eq:reg}
+\end{equation}
+where $\theta \in \mathbb{R}^d$ and the prediction is
+\[
+  \hat{y} = W x + b
+\]
+Equations~\eqref{eq:loss} and~\eqref{eq:reg} are minimised with step size $\eta = 0.01$ for $3~\mathrm{s}$ per epoch.
+\end{document}

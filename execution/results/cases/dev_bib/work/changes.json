@@ -1,0 +1,38 @@
+{
+ "changes": [
+  {
+   "file": "paper.tex",
+   "line": 3,
+   "from": "{library}",
+   "to": "{library.bib}",
+   "reason": "\\addbibresource needs the file extension",
+   "fixes": "bib_missing_file",
+   "type": "bibliography"
+  },
+  {
+   "file": "library.bib",
+   "line": 13,
+   "from": "Networks}",
+   "to": "Networks},",
+   "reason": "missing comma between title and booktitle",
+   "fixes": "bib_syntax",
+   "type": "bibliography"
+  },
+  {
+   "file": "library.bib",
+   "line": 24,
+   "from": "author  = {Scarselli, F.},",
+   "to": "",
+   "reason": "duplicate key scarselli2009; kept the complete first entry (same work: same title, year)",
+   "fixes": "bib_duplicate",
+   "type": "bibliography",
+   "accept_numbers": true
+  }
+ ],
+ "needs_confirmation": [
+  {
+   "item": "\\parencite{wu2021survey}: no entry in library.bib and no bibliographic data in the materials",
+   "where": "paper.tex:14"
+  }
+ ]
+}

@@ -1,0 +1,21 @@
+--- a/chapters/ch2.tex
++++ b/chapters/ch2.tex
+@@ -2,3 +2,3 @@
+ \section{Model}
+-\label{sec:setting}
++\label{sec:model}
+ The estimator is
+--- a/thesis.tex
++++ b/thesis.tex
+@@ -2,4 +2,5 @@
+ \usepackage{amsmath}
++\usepackage[table]{xcolor}
+ \usepackage{tikz}
+-\usepackage[table]{xcolor}
++\DeclareMathOperator*{\argmin}{arg\,min}
+ \usepackage{hyperref}
+@@ -11,3 +12,3 @@
+ \include{chapters/ch2}
+-\include{chapters/ch3}
++\include{chapters/ch03}
+ \end{document}

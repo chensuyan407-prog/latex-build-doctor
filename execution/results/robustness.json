@@ -1,0 +1,61 @@
+{
+ "checks": [
+  {
+   "check": "no_main_file",
+   "passed": true,
+   "detail": "init exit 0, build exit 2, status failed"
+  },
+  {
+   "check": "two_mains_select",
+   "passed": true,
+   "detail": "chosen supplement.tex, status success"
+  },
+  {
+   "check": "infinite_loop_timeout",
+   "passed": true,
+   "detail": "roots ['timeout'], status failed, 8.0 s"
+  },
+  {
+   "check": "missing_tool",
+   "passed": true,
+   "detail": "classes ['missing_tool'], exit 2"
+  },
+  {
+   "check": "zip_input",
+   "passed": true,
+   "detail": "main project_extracted/paper/main.tex, status success, traversal entry skipped"
+  },
+  {
+   "check": "broken_changes_json",
+   "passed": true,
+   "detail": "classes ['changes_json_invalid'] exit 0"
+  },
+  {
+   "check": "missing_glyph",
+   "passed": true,
+   "detail": "glyphs ['\u679c (U+679C)', '\u7ed3 (U+7ED3)'], engine xelatex"
+  },
+  {
+   "check": "missing_package",
+   "passed": true,
+   "detail": "first root missing_package:2, 1 roots"
+  },
+  {
+   "check": "non_utf8_input",
+   "passed": true,
+   "detail": "status success exit 0"
+  },
+  {
+   "check": "deterministic_rebuild",
+   "passed": true,
+   "detail": "diagnostics identical True, PDF identical True"
+  },
+  {
+   "check": "source_date_epoch_repro",
+   "passed": true,
+   "detail": "{\"checked\": true, \"pdf_sha256_build1\": \"bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516\", \"pdf_sha256_build2\": \"bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516\", \"byt"
+  }
+ ],
+ "passed": 11,
+ "total": 11
+}

@@ -1,0 +1,38 @@
+{
+ "status": "success",
+ "roots": [],
+ "diagnostics": [
+  {
+   "class": "package_warning",
+   "severity": "info",
+   "message": "Package epstopdf Warning: Shell escape feature is not enabled.",
+   "file": "thesis.tex",
+   "line": null,
+   "id": "W001",
+   "source": "log"
+  },
+  {
+   "class": "key_changed",
+   "severity": "info",
+   "file": "chapters/ch2.tex",
+   "line": 3,
+   "source": "audit",
+   "message": "\\label keys changed: ['sec:setting'] -> ['sec:model']",
+   "accepted": true,
+   "hint": "Changing which work/label is referenced changes meaning; confirm against the source (accept_keys:true with reason).",
+   "id": "N001",
+   "source_line": "\\label{sec:model}"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

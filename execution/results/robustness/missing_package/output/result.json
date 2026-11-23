@@ -1,0 +1,115 @@
+{
+ "case_id": "missing_package",
+ "status": "failed",
+ "summary": "FAILED: main.tex with pdflatex, 1 engine pass(es); 1 error(s) in log (1 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:17:52Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": null,
+  "pdf_sha256": null,
+  "pdf_pages": null,
+  "previews": [],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "main.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex"
+  ],
+  "engine_passes": 1,
+  "converged": true,
+  "timeout": false,
+  "seconds": 0.35,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 1,
+    "seconds": 0.35,
+    "aux_sha256": null,
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": false
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 1,
+  "root_causes": [
+   {
+    "id": "S001",
+    "class": "missing_package",
+    "file": "main.tex",
+    "line": 2,
+    "message": "package nosuchpkgxyz.sty not found (not in the project, not in the TeX installation)",
+    "hint": "Package not installed: install it (tlmgr install), ship the .sty with the project, or remove it if unused (check which commands need it).",
+    "name": "nosuchpkgxyz"
+   }
+  ],
+  "errors_total": 2,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [],
+ "change_records": [],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_package\\input",
+  "materials": [
+   "case.json",
+   "main.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [
+  "TeX stopped at a fatal error: errors after that point are not known yet - fix the root causes and rebuild",
+  "byte-reproducibility not tested (build failed, errors remain or --no-repro)"
+ ],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 0,
+  "details": "environment.json"
+ },
+ "pdf": null
+}

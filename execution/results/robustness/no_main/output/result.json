@@ -1,0 +1,10 @@
+{
+ "case_id": "no_main",
+ "status": "failed",
+ "skill": "latex-build-doctor 0.1.0",
+ "error": "no main .tex (\\documentclass + \\begin{document}) in work/src",
+ "uncertainty": [
+  "nothing compiled"
+ ],
+ "pdf": null
+}

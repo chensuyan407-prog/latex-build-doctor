@@ -1,0 +1,64 @@
+{
+ "skill_version": "0.1.0",
+ "case_id": "dev_template",
+ "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_template\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_template\\input",
+ "contract_fields": [
+  "deliverable_tex",
+  "pdf",
+  "template_checklist",
+  "change_records",
+  "status"
+ ],
+ "materials": [
+  "case.json",
+  "main.tex",
+  "task.md"
+ ],
+ "mains": [
+  "main.tex"
+ ],
+ "main": "main.tex",
+ "created": "2026-11-23T10:16:50.089398+00:00",
+ "engine": "pdflatex",
+ "engine_reason": "no Unicode-engine package found",
+ "bibtool": null,
+ "bibtool_reason": "no \\bibliography / biblatex",
+ "order": [
+  "main.tex"
+ ],
+ "bibs": [],
+ "documentclass": {
+  "name": "jcsa",
+  "options": [],
+  "line": 1
+ },
+ "unreached_tex": [],
+ "fonts": [],
+ "fonts_found": {},
+ "problems": [
+  {
+   "class": "missing_class",
+   "severity": "error",
+   "file": "main.tex",
+   "line": 1,
+   "message": "class jcsa.cls exists at template/jcsa.cls but TeX only searches the main file's directory and the TeX tree",
+   "name": "jcsa",
+   "found_at": "template/jcsa.cls",
+   "hint": "Copy template/jcsa.cls next to main.tex (keep the template file unchanged), or set TEXINPUTS=./template//: - copying is more portable.",
+   "source": "precheck"
+  },
+  {
+   "class": "missing_file",
+   "severity": "error",
+   "file": "main.tex",
+   "line": 15,
+   "message": "graphic figures/Psi_Delta.png matches figures/psi_delta.png only case-insensitively",
+   "hint": "Works on Windows/macOS, fails on Linux (case-sensitive): use the exact name figures/psi_delta.png in \\includegraphics (do not rename shared assets silently).",
+   "source": "precheck",
+   "name": "figures/Psi_Delta.png",
+   "actual": "figures/psi_delta.png"
+  }
+ ],
+ "other_mains": []
+}

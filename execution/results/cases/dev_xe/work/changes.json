@@ -1,0 +1,31 @@
+{
+ "changes": [
+  {
+   "file": "main.tex",
+   "line": 1,
+   "from": "pdflatex",
+   "to": "xelatex",
+   "reason": "ctexart + fontspec need XeLaTeX",
+   "fixes": "engine_mismatch",
+   "type": "engine"
+  },
+  {
+   "file": "main.tex",
+   "line": 4,
+   "from": "NoSuchSerif Pro",
+   "to": "TeX Gyre Termes",
+   "reason": "font required by the task; NoSuchSerif Pro not installed",
+   "fixes": "missing_font",
+   "type": "font"
+  },
+  {
+   "file": "main.tex",
+   "line": 16,
+   "from": "$120 nm$",
+   "to": "$120~\\mathrm{nm}$",
+   "reason": "unit upright; value unchanged",
+   "fixes": "unit_italic",
+   "type": "format"
+  }
+ ]
+}

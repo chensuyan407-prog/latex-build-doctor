@@ -1,0 +1,1 @@
+{"case_id": "dev_xe", "task": "这份中文报告无法编译。请修复使其可复现编译，正文字体须为 TeX Gyre Termes（模板要求），保持全部数值。", "output_contract": {"tex_source": "", "pdf": "", "build_commands": "", "changes": "", "needs_confirmation": ""}}

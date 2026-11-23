@@ -1,0 +1,414 @@
+{
+ "arm_version": "1.1",
+ "paper": {
+  "title": "写作13｜LaTeX 写作与编译 — latex-build-doctor Skill",
+  "challenge_id": "product-arena-07-865de7e4"
+ },
+ "entrypoint": "src/reproduce.py",
+ "environment": {
+  "dependencies": "requirements.txt",
+  "python_version": ">=3.8",
+  "gpu_required": false,
+  "extra_packages": [
+   "TeX Live (tested 2026: pdfTeX 1.40.29, XeTeX 0.999998, biber, bibtex, kpsewhich, fc-list, pdftoppm, pdffonts)"
+  ]
+ },
+ "execution": {
+  "log_path": "execution/run.log",
+  "exit_code": 0,
+  "ran_at": "2026-11-23T10:18:03.954288Z",
+  "wall_time_s": 125.43,
+  "ran_by": "agent",
+  "artifacts": [
+   {
+    "id": "metrics",
+    "path": "execution/results/metrics.json",
+    "type": "metric",
+    "format": "json",
+    "checksum_sha256": "4e1dd4d589432ba06e5cc54276ca1110f31954bac3f5ce1220227cab6710c278"
+   },
+   {
+    "id": "eval_rows",
+    "path": "execution/results/eval_rows.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "8b8aa50b82e771e45be9a9e97b22d141dfcd69ca75a03373eae749665b6e98c9"
+   },
+   {
+    "id": "metrics_holdout_at_freeze",
+    "path": "execution/results/metrics_holdout_at_freeze.json",
+    "type": "metric",
+    "format": "json",
+    "checksum_sha256": "365efd18a8e061c0574a2b4e7338470df71b121a9ec7f81052626e9df06e4ca0"
+   },
+   {
+    "id": "eval_rows_holdout_at_freeze",
+    "path": "execution/results/eval_rows_holdout_at_freeze.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "4c6a675775299d3f0ab17b1eb95d1e8619dce8401065fbf4fce11f7cfcd91ab6"
+   },
+   {
+    "id": "robustness",
+    "path": "execution/results/robustness.json",
+    "type": "metric",
+    "format": "json",
+    "checksum_sha256": "b04c2651875d5e342043aaaca256e2ba993754ca08cf10e9dac9601b0537710a"
+   },
+   {
+    "id": "commands",
+    "path": "execution/results/commands.json",
+    "type": "log",
+    "format": "json",
+    "checksum_sha256": "c408c3afe2d22453e8d6115394e6640aa56ecb0693d50b06aae88a2d7dea720f"
+   },
+   {
+    "id": "dev_bib_result",
+    "path": "execution/results/cases/dev_bib/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "8afb574b88efeec408977d144ee3af654fc74c08bc6864651d4eab83d3c5808c"
+   },
+   {
+    "id": "dev_bib_report",
+    "path": "execution/results/cases/dev_bib/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "cfdd098d5f4fc8baa862aeb78b0e11a277af46bcda88252b201ffef2d1ab6f74"
+   },
+   {
+    "id": "dev_bib_diff",
+    "path": "execution/results/cases/dev_bib/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "868421a66c97033569812f8e856dc0ea036ad56224754b2df8b507fc87b843b0"
+   },
+   {
+    "id": "dev_bib_preview",
+    "path": "execution/results/cases/dev_bib/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "1474e601236fb3f8480fd2f5bfcf7b6a0357fd8c5df703f413821e3eae72e63c"
+   },
+   {
+    "id": "dev_env_result",
+    "path": "execution/results/cases/dev_env/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "7f9befe050ca01c97701ea92baeb54617ba39f290184c97d3bc99a3515b51eba"
+   },
+   {
+    "id": "dev_env_report",
+    "path": "execution/results/cases/dev_env/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "61c40a9c38b7cae01d0c279b455edac68f4c0a85e24995cb0efb10fa89d59fe5"
+   },
+   {
+    "id": "dev_env_diff",
+    "path": "execution/results/cases/dev_env/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "86d2973f77079af8a46d7a0b6a3bad918e234d641b46713a2e549542b4276ed9"
+   },
+   {
+    "id": "dev_env_preview",
+    "path": "execution/results/cases/dev_env/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "7539ec207166c6e21f6c4949aa4793a755c83ba154b594cd86fe239ad15f2f5a"
+   },
+   {
+    "id": "dev_math_result",
+    "path": "execution/results/cases/dev_math/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "303a7aae2b62f2c16560ad904b8a8c0cb6e3c22b7f7fb7758f31f31e4a1e7aa4"
+   },
+   {
+    "id": "dev_math_report",
+    "path": "execution/results/cases/dev_math/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "6709d1d22bc24008587a40dc3a1bc6742408a58d44bb0abee6aad96cde46ec84"
+   },
+   {
+    "id": "dev_math_diff",
+    "path": "execution/results/cases/dev_math/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "6c237761b81d54e745a8bb9e42e4dc62d60309032657b69eb056fe097bd831ca"
+   },
+   {
+    "id": "dev_math_preview",
+    "path": "execution/results/cases/dev_math/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "3813cadd592f1a9f012fe69240033ac333851936b4edfcc5ec2812157b8feb49"
+   },
+   {
+    "id": "dev_multi_result",
+    "path": "execution/results/cases/dev_multi/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "8191949143b44007d68da9599a8fe56c6648096ef36a303aca4fb830790978a1"
+   },
+   {
+    "id": "dev_multi_report",
+    "path": "execution/results/cases/dev_multi/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "81b6845edc700e50d8814780d7b36a80ff86e613fc3f7e93f70b58821368ff23"
+   },
+   {
+    "id": "dev_multi_diff",
+    "path": "execution/results/cases/dev_multi/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "74d981060844b4c6e204289cefec947e6c0d6e63beb3e1f4efb5302324c75450"
+   },
+   {
+    "id": "dev_multi_preview",
+    "path": "execution/results/cases/dev_multi/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "7f6d44394e79934cc2433973acf7f8a3611901cafae23e79898ae68b5b9f9cf8"
+   },
+   {
+    "id": "dev_template_result",
+    "path": "execution/results/cases/dev_template/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "3a1f6f730d9969eb61529e438d2fdc6be0195632cac15d84f12229732996faeb"
+   },
+   {
+    "id": "dev_template_report",
+    "path": "execution/results/cases/dev_template/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "8618b181c000ece956090dcda838aea18bcc15d7c07fbee5f829adcb9ed8db04"
+   },
+   {
+    "id": "dev_template_diff",
+    "path": "execution/results/cases/dev_template/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "d9fcb3488bfefbd0cee7f3eeea38c1a5b22ba0ef3fb05fb892ed7f272c87bc2d"
+   },
+   {
+    "id": "dev_template_preview",
+    "path": "execution/results/cases/dev_template/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "e3559c8c9bfcbb7a6461d27de39e08157dee10aed0c2d87b22bb3f5d8acf3732"
+   },
+   {
+    "id": "dev_xe_result",
+    "path": "execution/results/cases/dev_xe/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "7c632ddc1949fe61fcabd7d3a0e3c77b688cac192f60b04f5782e68a257721dc"
+   },
+   {
+    "id": "dev_xe_report",
+    "path": "execution/results/cases/dev_xe/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "2e2663d8d21ebacd963506cef0c65befbbe960916354bdd7afb1f7f3a9825256"
+   },
+   {
+    "id": "dev_xe_diff",
+    "path": "execution/results/cases/dev_xe/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "5fab9e125f705c62b2644daab93d312429a2559a92a6e6cb1367ae0c730479bf"
+   },
+   {
+    "id": "dev_xe_preview",
+    "path": "execution/results/cases/dev_xe/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "0674af4253bd9dfc172443e6257e26d1113297bf8495a3383bc0ca6d7c3218ac"
+   },
+   {
+    "id": "ho_ieee_result",
+    "path": "execution/results/cases/ho_ieee/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "8673797bd0c6f1c949f68f2b775f57839f963a211825cc9141a9f1e683be7355"
+   },
+   {
+    "id": "ho_ieee_report",
+    "path": "execution/results/cases/ho_ieee/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "d2622ac2b28fa225b61630e183102c5b12cb8aaa0a57c58653a5fb8fe6bac313"
+   },
+   {
+    "id": "ho_ieee_diff",
+    "path": "execution/results/cases/ho_ieee/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "71159aacf35ab7b409ba952f7c06518d2ad97f6c70b4d844447d39a800912249"
+   },
+   {
+    "id": "ho_ieee_preview",
+    "path": "execution/results/cases/ho_ieee/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "f166b226b838abc698e2c138d9aef5aafc9304a75ca0ea2e8bc5f8e8c683bbbb"
+   },
+   {
+    "id": "ho_report_result",
+    "path": "execution/results/cases/ho_report/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "3ddc4f0109bd1d326e7f138797666e22061d97f564b2018d4d3a9c9957d5ddf3"
+   },
+   {
+    "id": "ho_report_report",
+    "path": "execution/results/cases/ho_report/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "f6d33f0ade45673b2fd56bff7faf1f3d1fa2b338f702448c207ba5c88be66d8f"
+   },
+   {
+    "id": "ho_report_diff",
+    "path": "execution/results/cases/ho_report/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "77496b3acf9de4cad109538636c4d6a311abcfa58f97f655a3731d8c369f0fb0"
+   },
+   {
+    "id": "ho_report_preview",
+    "path": "execution/results/cases/ho_report/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "cfc8f6e531bafc47508ad53e15f4353764dd9f2f5ae7c43ab9f12fb09678b66c"
+   },
+   {
+    "id": "ho_thesis_result",
+    "path": "execution/results/cases/ho_thesis/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "36320512065a5c377427c761253f0d75b5890abc48575cf4a6b06f5a053a673c"
+   },
+   {
+    "id": "ho_thesis_report",
+    "path": "execution/results/cases/ho_thesis/output/build_report.md",
+    "type": "data",
+    "format": "markdown",
+    "checksum_sha256": "59879b2a44128d74b41c2fcd0ea35de929209df1a39ab74e141ef016634588f6"
+   },
+   {
+    "id": "ho_thesis_diff",
+    "path": "execution/results/cases/ho_thesis/output/changes.diff",
+    "type": "data",
+    "format": "diff",
+    "checksum_sha256": "481e1f8aaf463ae88b74905dfcaf1d2fbed34e94f8f71b94aa884f69e8299aad"
+   },
+   {
+    "id": "ho_thesis_preview",
+    "path": "execution/results/cases/ho_thesis/output/preview/page-1.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "aa4f35a0dfd59da7d2f8135e8246ee4942b97c6cc17db93fd37f426c258507d8"
+   }
+  ]
+ },
+ "expected_outputs": [
+  {
+   "name": "root causes found, dev (6 cases, rules written on them)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "root-cause precision, dev",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "root causes found, held-out at code freeze",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "root-cause precision, held-out at code freeze",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "root-cause precision, held-out after post-freeze fixes",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "baseline first-error recall, held-out",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "gold fix -> expected status (all cases)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "byte-identical second clean build (all cases)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "audit clean after documented gold fix, held-out at freeze",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "mutation probes caught (unrecorded edit, silent number change, number not in materials, requirement removed)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "robustness checks passed",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  }
+ ],
+ "handoff": {
+  "status": "partial",
+  "next_suggestion": "Run the platform's three fixed cases with the DeepSeek harness (base vs Skill); add template rules and error patterns from those runs; test on MiKTeX and Linux TeX Live.",
+  "hypothesis": "An agent fixes LaTeX projects faster and more correctly when the compiler log is turned into located, explained root causes with follow-on errors grouped, pre-checked dependencies, and an edit audit plus reproducible-build check, instead of reading the first error message."
+ }
+}

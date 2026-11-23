@@ -1,0 +1,279 @@
+{
+ "case_id": "ho_ieee",
+ "status": "success",
+ "summary": "SUCCESS: conf.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:17:15Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/conf.tex",
+  "pdf": "conf.pdf",
+  "pdf_sha256": "f5d557cabfbcf9a7793fa2ae636a0659547d92ab45c251fcbfbf98b8008ae1b7",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "conf.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape conf.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape conf.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 1.12,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape conf.tex",
+    "exit": 0,
+    "seconds": 0.57,
+    "aux_sha256": "e87d34651cf02bf015e514cc46ba9403246fcd20202e65ba6796afe2be48b0e8",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape conf.tex",
+    "exit": 0,
+    "seconds": 0.55,
+    "aux_sha256": "e87d34651cf02bf015e514cc46ba9403246fcd20202e65ba6796afe2be48b0e8",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "f5d557cabfbcf9a7793fa2ae636a0659547d92ab45c251fcbfbf98b8008ae1b7",
+   "pdf_sha256_build2": "f5d557cabfbcf9a7793fa2ae636a0659547d92ab45c251fcbfbf98b8008ae1b7",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1",
+    "pdflatex pass 2"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 1
+ },
+ "requirements": [
+  {
+   "id": "IEEE01",
+   "desc": "\\maketitle",
+   "pattern": "\\\\maketitle",
+   "ok": true,
+   "severity": "error",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "IEEE02",
+   "desc": "abstract environment",
+   "pattern": "\\\\begin\\{abstract\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "IEEE03",
+   "desc": "IEEEkeywords environment",
+   "pattern": "\\\\begin\\{IEEEkeywords\\}",
+   "ok": false,
+   "severity": "warning",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "IEEE04",
+   "desc": "authors via \\IEEEauthorblockN (conference) or \\author",
+   "pattern": "\\\\author\\s*\\{",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "conf.tex",
+   "kind": "delete",
+   "old_lines": [
+    3,
+    3
+   ],
+   "new_lines": [
+    3,
+    2
+   ],
+   "old": "\\usepackage{subfigure}",
+   "new": "",
+   "reasons": [
+    "obsolete, conflicts with subcaption; no \\subfigure used"
+   ],
+   "fixes": [
+    "package_conflict"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "conf.tex",
+   "kind": "insert",
+   "old_lines": [
+    6,
+    5
+   ],
+   "new_lines": [
+    5,
+    5
+   ],
+   "old": "",
+   "new": "\\usepackage{algorithmic}",
+   "reasons": [
+    "\\STATE / algorithmic environment"
+   ],
+   "fixes": [
+    "undefined_env"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "conf.tex",
+   "kind": "replace",
+   "old_lines": [
+    13,
+    13
+   ],
+   "new_lines": [
+    13,
+    13
+   ],
+   "old": "We propose a sampler that is 3.2 times faster \\citep{ref1}.",
+   "new": "We propose a sampler that is 3.2 times faster \\cite{ref1}.",
+   "reasons": [
+    "IEEEtran uses numeric \\cite; natbib not used by the template"
+   ],
+   "fixes": [
+    "undefined_cs"
+   ],
+   "types": [
+    "citation"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "conf.tex",
+   "line": 3,
+   "from": "\\usepackage{subfigure}",
+   "to": "",
+   "reason": "obsolete, conflicts with subcaption; no \\subfigure used",
+   "fixes": "package_conflict",
+   "type": "package"
+  },
+  {
+   "file": "conf.tex",
+   "line": 5,
+   "from": "",
+   "to": "\\usepackage{algorithmic}",
+   "reason": "\\STATE / algorithmic environment",
+   "fixes": "undefined_env",
+   "type": "package"
+  },
+  {
+   "file": "conf.tex",
+   "line": 12,
+   "from": "\\citep{ref1}",
+   "to": "\\cite{ref1}",
+   "reason": "IEEEtran uses numeric \\cite; natbib not used by the template",
+   "fixes": "undefined_cs",
+   "type": "citation"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_ieee\\input",
+  "materials": [
+   "case.json",
+   "conf.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "IEEEtran",
+   "date": "2015/08/26",
+   "version": "V1.8b by Michael Shell"
+  },
+  "n_packages": 12,
+  "details": "environment.json"
+ },
+ "source": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_ieee\\input",
+  "materials": [
+   "case.json",
+   "conf.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "pdf": "conf.pdf"
+}

@@ -1,0 +1,59 @@
+{
+ "recorded_at": "2026-11-23T10:17:50Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "xelatex",
+  "version": "XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026)\r",
+  "banner": "This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.5.7)  23 NOV 2026 18:17"
+ },
+ "bibtool": null,
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": {
+  "name": "article",
+  "date": "2025/01/22",
+  "version": "v1.4n Standard LaTeX document class"
+ },
+ "packages": {
+  "expl3": {
+   "date": "2026-03-20",
+   "version": "L3 programming layer (loader)"
+  },
+  "xparse": {
+   "date": "2025-10-09",
+   "version": "L3 Experimental document command parser"
+  },
+  "fontspec": {
+   "date": "2025/09/29",
+   "version": "v2.9g Font selection for XeLaTeX and LuaLaTeX"
+  },
+  "fontspec-xetex": {
+   "date": "2025/09/29",
+   "version": "v2.9g Font selection for XeLaTeX and LuaLaTeX"
+  },
+  "fontenc": {
+   "date": "2025/07/18",
+   "version": "v2.1d Standard LaTeX package"
+  }
+ },
+ "project_files_used": [
+  "main.tex"
+ ],
+ "distribution_files_used": 23,
+ "distribution": "TeX Live 2026",
+ "pdf_fonts": [
+  {
+   "name": "QVIUWV+LMRoman10-Regular-Identity-H",
+   "type": "CID Type 0C Identity-H",
+   "embedded": "yes"
+  }
+ ],
+ "pdf_fonts_not_embedded": [],
+ "pdf_info": {
+  "Pages": "1",
+  "Page size": "595.28 x 841.89 pts (A4)",
+  "PDF version": "1.7",
+  "Producer": "xdvipdfmx (20260317)",
+  "Creator": "xelatex"
+ }
+}

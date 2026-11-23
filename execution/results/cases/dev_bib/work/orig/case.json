@@ -1,0 +1,1 @@
+{"id": "dev_bib", "instructions": "Make the bibliography of paper.tex build with biblatex/biber; every citation must resolve to the right entry. Do not invent bibliographic data.", "output_contract": ["compiled_pdf", "bibliography_fixes", "unresolved_citations", "status"]}

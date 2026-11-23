@@ -1,0 +1,17 @@
+\documentclass{article}
+\usepackage[backend=biber,style=numeric,sorting=none]{biblatex}
+\addbibresource{library}
+\usepackage{hyperref}
+
+\title{Citation Test}
+\author{B. Writer}
+
+\begin{document}
+\maketitle
+
+Graph networks were introduced by \textcite{scarselli2009} and extended in
+later work \parencite{kipf2017,velickovic2018}. A survey is given in
+\parencite{wu2021survey}.
+
+\printbibliography
+\end{document}

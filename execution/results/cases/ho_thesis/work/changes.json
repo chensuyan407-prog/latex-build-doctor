@@ -1,0 +1,41 @@
+{
+ "changes": [
+  {
+   "file": "thesis.tex",
+   "line": 12,
+   "from": "chapters/ch3",
+   "to": "chapters/ch03",
+   "reason": "chapter file is chapters/ch03.tex",
+   "fixes": "missing_file",
+   "type": "path"
+  },
+  {
+   "file": "thesis.tex",
+   "line": 3,
+   "from": "\\usepackage{tikz}",
+   "to": "\\usepackage[table]{xcolor}",
+   "reason": "xcolor with options before tikz",
+   "fixes": "load_order",
+   "type": "package"
+  },
+  {
+   "file": "thesis.tex",
+   "line": 5,
+   "from": "",
+   "to": "\\DeclareMathOperator*{\\argmin}{arg\\,min}",
+   "reason": "\\argmin undefined",
+   "fixes": "undefined_cs",
+   "type": "macro"
+  },
+  {
+   "file": "chapters/ch2.tex",
+   "line": 3,
+   "from": "\\label{sec:setting}",
+   "to": "\\label{sec:model}",
+   "reason": "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label",
+   "fixes": "duplicate_label + undefined_ref",
+   "type": "crossref",
+   "accept_keys": true
+  }
+ ]
+}

@@ -1,0 +1,23 @@
+--- a/model.tex
++++ b/model.tex
+@@ -2,2 +2,3 @@
+ \usepackage{amsmath}
++\usepackage{amssymb}
+ \begin{document}
+@@ -6,3 +7,3 @@
+ \begin{equation}
+-  L(\theta) &= \sum_{i=1}^{N} \ell(f_\theta(x_i), y_i) \label{eq:loss}
++  L(\theta) = \sum_{i=1}^{N} \ell(f_\theta(x_i), y_i) \label{eq:loss}
+ \end{equation}
+@@ -10,3 +11,3 @@
+ \begin{equation}
+-  R(\theta) = \lambda \left( \|\theta\|_2^2 \label{eq:reg}
++  R(\theta) = \lambda \left( \|\theta\|_2^2 \right) \label{eq:reg}
+ \end{equation}
+@@ -15,5 +16,4 @@
+   \hat{y} = W x + b
+-
+ \]
+-Equations~\eqref{eq:loss} and~\eqref{eq:reg} are minimised with step size $\eta = 0.01$ for $3 s$ per epoch.
++Equations~\eqref{eq:loss} and~\eqref{eq:reg} are minimised with step size $\eta = 0.01$ for $3~\mathrm{s}$ per epoch.
+ \end{document}

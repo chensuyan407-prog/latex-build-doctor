@@ -1,0 +1,77 @@
+[
+ {
+  "hunk": "H001",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   1,
+   1
+  ],
+  "new_lines": [
+   1,
+   1
+  ],
+  "old": "% !TEX program = pdflatex",
+  "new": "% !TEX program = xelatex",
+  "reasons": [
+   "ctexart + fontspec need XeLaTeX"
+  ],
+  "fixes": [
+   "engine_mismatch"
+  ],
+  "types": [
+   "engine"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   4,
+   4
+  ],
+  "new_lines": [
+   4,
+   4
+  ],
+  "old": "\\setmainfont{NoSuchSerif Pro}",
+  "new": "\\setmainfont{TeX Gyre Termes}",
+  "reasons": [
+   "font required by the task; NoSuchSerif Pro not installed"
+  ],
+  "fixes": [
+   "missing_font"
+  ],
+  "types": [
+   "font"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   16,
+   16
+  ],
+  "new_lines": [
+   16,
+   16
+  ],
+  "old": "在 25~℃ 下测得厚度为 $120 nm$，相对误差为 $0.5\\%$。",
+  "new": "在 25~℃ 下测得厚度为 $120~\\mathrm{nm}$，相对误差为 $0.5\\%$。",
+  "reasons": [
+   "unit upright; value unchanged"
+  ],
+  "fixes": [
+   "unit_italic"
+  ],
+  "types": [
+   "format"
+  ],
+  "documented": true
+ }
+]

@@ -1,0 +1,17 @@
+{
+ "recorded_at": "2026-11-23T10:17:42Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "pdflatex",
+  "version": null,
+  "banner": ""
+ },
+ "bibtool": null,
+ "kpsewhich": null,
+ "documentclass": null,
+ "packages": {},
+ "project_files_used": [],
+ "distribution_files_used": 0,
+ "distribution": "unknown"
+}

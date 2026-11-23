@@ -1,0 +1,1 @@
+{"case_id": "ho_report", "task": "Fix the report so it compiles with pdfLaTeX + BibTeX.", "output_contract": {"source": "", "pdf": "", "change_log": "", "status": ""}}

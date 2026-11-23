@@ -1,0 +1,29 @@
+{
+ "status": "failed",
+ "roots": [
+  "S001"
+ ],
+ "diagnostics": [
+  {
+   "class": "timeout",
+   "severity": "error",
+   "source": "log",
+   "file": "main.tex",
+   "line": null,
+   "message": "compiler did not finish within 8s (infinite loop / recursion or waiting for input)",
+   "hint": "Look at the last file/line in the log tail: a macro that calls itself, \\loop without exit, or a missing file prompt.",
+   "id": "S001"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

@@ -1,0 +1,77 @@
+[
+ {
+  "hunk": "H001",
+  "file": "conf.tex",
+  "kind": "delete",
+  "old_lines": [
+   3,
+   3
+  ],
+  "new_lines": [
+   3,
+   2
+  ],
+  "old": "\\usepackage{subfigure}",
+  "new": "",
+  "reasons": [
+   "obsolete, conflicts with subcaption; no \\subfigure used"
+  ],
+  "fixes": [
+   "package_conflict"
+  ],
+  "types": [
+   "package"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "conf.tex",
+  "kind": "insert",
+  "old_lines": [
+   6,
+   5
+  ],
+  "new_lines": [
+   5,
+   5
+  ],
+  "old": "",
+  "new": "\\usepackage{algorithmic}",
+  "reasons": [
+   "\\STATE / algorithmic environment"
+  ],
+  "fixes": [
+   "undefined_env"
+  ],
+  "types": [
+   "package"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "conf.tex",
+  "kind": "replace",
+  "old_lines": [
+   13,
+   13
+  ],
+  "new_lines": [
+   13,
+   13
+  ],
+  "old": "We propose a sampler that is 3.2 times faster \\citep{ref1}.",
+  "new": "We propose a sampler that is 3.2 times faster \\cite{ref1}.",
+  "reasons": [
+   "IEEEtran uses numeric \\cite; natbib not used by the template"
+  ],
+  "fixes": [
+   "undefined_cs"
+  ],
+  "types": [
+   "citation"
+  ],
+  "documented": true
+ }
+]

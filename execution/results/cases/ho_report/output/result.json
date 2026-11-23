@@ -1,0 +1,281 @@
+{
+ "case_id": "ho_report",
+ "status": "success",
+ "summary": "SUCCESS: main.tex with pdflatex, 3 engine pass(es) + bibtex; 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:17:23Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "de0f5ce7297ba6442591251c940dae3187f75586ed54fa19ee82030e41f0421b",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "main.tex",
+  "engine": "pdflatex",
+  "bibtool": "bibtex",
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+   "bibtex main",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex"
+  ],
+  "engine_passes": 3,
+  "converged": true,
+  "timeout": false,
+  "seconds": 1.84,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.5,
+    "aux_sha256": "c03a98566414e7c8d79987d4d0acd5a7f8204c59448cfd5734da6c12ce149980",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "bibtex",
+    "cmd": "bibtex main",
+    "exit": 0,
+    "seconds": 0.32,
+    "aux_sha256": "c03a98566414e7c8d79987d4d0acd5a7f8204c59448cfd5734da6c12ce149980",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.5,
+    "aux_sha256": "fbc97bb1db8fdae3f89c8e9da6cf5d12443d34ade51bcaee84efaea074391f44",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 3",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.52,
+    "aux_sha256": "fbc97bb1db8fdae3f89c8e9da6cf5d12443d34ade51bcaee84efaea074391f44",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "de0f5ce7297ba6442591251c940dae3187f75586ed54fa19ee82030e41f0421b",
+   "pdf_sha256_build2": "de0f5ce7297ba6442591251c940dae3187f75586ed54fa19ee82030e41f0421b",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1",
+    "bibtex",
+    "pdflatex pass 2",
+    "pdflatex pass 3"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    7,
+    7
+   ],
+   "new_lines": [
+    7,
+    7
+   ],
+   "old": "The yield was 87\\% with error ≤ 2\\% \\cite{chen2022}.",
+   "new": "The yield was 87\\% with error $\\leq 2\\%$ \\cite{chen2022}.",
+   "reasons": [
+    "U+2264 not available under pdfLaTeX; same symbol in math"
+   ],
+   "fixes": [
+    "unicode_char"
+   ],
+   "types": [
+    "encoding"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    9,
+    10
+   ],
+   "new_lines": [
+    9,
+    13
+   ],
+   "old": "\\includegraphics[width=0.5]{plot}\n\\caption{Yield over time.}",
+   "new": "\\begin{figure}[htbp]\n  \\centering\n  \\includegraphics[width=0.5\\linewidth]{plot}\n  \\caption{Yield over time.}\n\\end{figure}",
+   "reasons": [
+    "width needs a unit; 0.5 interpreted as half the line width",
+    "\\caption needs a float"
+   ],
+   "fixes": [
+    "number_unit",
+    "float"
+   ],
+   "types": [
+    "figure",
+    "figure"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "refs.bib",
+   "kind": "insert",
+   "old_lines": [
+    7,
+    6
+   ],
+   "new_lines": [
+    7,
+    7
+   ],
+   "old": "",
+   "new": "}",
+   "reasons": [
+    "close entry chen2022"
+   ],
+   "fixes": [
+    "bib_syntax"
+   ],
+   "types": [
+    "bibliography"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "main.tex",
+   "line": 7,
+   "from": "≤ 2\\%",
+   "to": "$\\leq 2\\%$",
+   "reason": "U+2264 not available under pdfLaTeX; same symbol in math",
+   "fixes": "unicode_char",
+   "type": "encoding"
+  },
+  {
+   "file": "main.tex",
+   "line": 9,
+   "from": "\\includegraphics[width=0.5]{plot}",
+   "to": "\\includegraphics[width=0.5\\linewidth]{plot}",
+   "reason": "width needs a unit; 0.5 interpreted as half the line width",
+   "fixes": "number_unit",
+   "type": "figure"
+  },
+  {
+   "file": "main.tex",
+   "line": 9,
+   "from": "",
+   "to": "\\begin{figure}[htbp]",
+   "reason": "\\caption needs a float",
+   "fixes": "float",
+   "type": "figure"
+  },
+  {
+   "file": "refs.bib",
+   "line": 7,
+   "from": "",
+   "to": "}",
+   "reason": "close entry chen2022",
+   "fixes": "bib_syntax",
+   "type": "bibliography"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_report\\input",
+  "materials": [
+   "case.json",
+   "main.tex",
+   "refs.bib"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [
+  {
+   "item": "figure width 0.5\\linewidth assumed for width=0.5",
+   "where": "main.tex:11"
+  }
+ ],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": "BibTeX 0.99e (TeX Live 2026)\r",
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 6,
+  "details": "environment.json"
+ },
+ "source": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_report\\input",
+  "materials": [
+   "case.json",
+   "main.tex",
+   "refs.bib"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "pdf": "main.pdf",
+ "change_log": "build_logs/"
+}

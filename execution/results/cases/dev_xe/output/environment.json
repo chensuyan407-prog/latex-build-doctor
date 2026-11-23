@@ -1,0 +1,128 @@
+{
+ "recorded_at": "2026-11-23T10:17:05Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "xelatex",
+  "version": "XeTeX 3.141592653-2.6-0.999998 (TeX Live 2026)\r",
+  "banner": "This is XeTeX, Version 3.141592653-2.6-0.999998 (TeX Live 2026) (preloaded format=xelatex 2026.5.7)  23 NOV 2026 18:17"
+ },
+ "bibtool": null,
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": {
+  "name": "article",
+  "date": "2025/01/22",
+  "version": "v1.4n Standard LaTeX document class"
+ },
+ "packages": {
+  "expl3": {
+   "date": "2026-03-20",
+   "version": "L3 programming layer (loader)"
+  },
+  "ctexhook": {
+   "date": "2022/07/14",
+   "version": "v2.5.10 Document and package hooks (CTEX)"
+  },
+  "ctexpatch": {
+   "date": "2022/07/14",
+   "version": "v2.5.10 Patching commands (CTEX)"
+  },
+  "fix-cm": {
+   "date": "2020/11/24",
+   "version": "v1.1t fixes to LaTeX"
+  },
+  "xeCJK": {
+   "date": "2022/08/05",
+   "version": "v3.9.1 Typesetting CJK scripts with XeLaTeX"
+  },
+  "xtemplate": {
+   "date": "2025-10-09",
+   "version": "L3 Experimental prototype document functions"
+  },
+  "xparse": {
+   "date": "2025-10-09",
+   "version": "L3 Experimental document command parser"
+  },
+  "fontspec": {
+   "date": "2025/09/29",
+   "version": "v2.9g Font selection for XeLaTeX and LuaLaTeX"
+  },
+  "fontspec-xetex": {
+   "date": "2025/09/29",
+   "version": "v2.9g Font selection for XeLaTeX and LuaLaTeX"
+  },
+  "fontenc": {
+   "date": "2025/07/18",
+   "version": "v2.1d Standard LaTeX package"
+  },
+  "zhnumber": {
+   "date": "2022/07/14",
+   "version": "v3.0 Typesetting numbers with Chinese glyphs"
+  },
+  "amsmath": {
+   "date": "2025/07/09",
+   "version": "v2.17z AMS math features"
+  },
+  "amstext": {
+   "date": "2024/11/17",
+   "version": "v2.01 AMS text"
+  },
+  "amsbsy": {
+   "date": "1999/11/29",
+   "version": "v1.2d Bold Symbols"
+  },
+  "amsopn": {
+   "date": "2022/04/08",
+   "version": "v2.04 operator names"
+  },
+  "booktabs": {
+   "date": "2020/01/12",
+   "version": "v1.61803398 Publication quality tables"
+  }
+ },
+ "project_files_used": [
+  "main.tex"
+ ],
+ "distribution_files_used": 96,
+ "distribution": "TeX Live 2026",
+ "pdf_fonts": [
+  {
+   "name": "QVIUWV+FandolSong-Regular-Identity-H",
+   "type": "CID Type 0C Identity-H",
+   "embedded": "yes"
+  },
+  {
+   "name": "IRQUGZ+TeXGyreTermes-Regular-Identity-H",
+   "type": "CID Type 0C Identity-H",
+   "embedded": "yes"
+  },
+  {
+   "name": "DTQSCH+TeXGyreTermes-Bold-Identity-H",
+   "type": "CID Type 0C Identity-H",
+   "embedded": "yes"
+  },
+  {
+   "name": "KONLXK+FandolSong-Bold-Identity-H",
+   "type": "CID Type 0C Identity-H",
+   "embedded": "yes"
+  },
+  {
+   "name": "VJKBIL+CMR10",
+   "type": "Type 1C Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "MIUVPK+CMMI10",
+   "type": "Type 1C Builtin",
+   "embedded": "yes"
+  }
+ ],
+ "pdf_fonts_not_embedded": [],
+ "pdf_info": {
+  "Pages": "1",
+  "Page size": "595.28 x 841.89 pts (A4)",
+  "PDF version": "1.7",
+  "Producer": "xdvipdfmx (20260317)",
+  "Creator": "xelatex"
+ }
+}

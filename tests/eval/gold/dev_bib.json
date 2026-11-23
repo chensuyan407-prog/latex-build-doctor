@@ -1,0 +1,24 @@
+{
+ "case": "dev_bib",
+ "roots": [
+  {"id": "g1", "class": "bib_missing_file", "file": "paper.tex", "line": 3, "detail": "\\addbibresource without .bib extension"},
+  {"id": "g2", "class": "bib_syntax", "file": "library.bib", "line": 11, "lines": [11, 12, 13, 14], "detail": "missing comma after title in kipf2017"},
+  {"id": "g3", "class": "bib_duplicate", "file": "library.bib", "line": 24, "detail": "scarselli2009 twice"},
+  {"id": "g4", "class": "undefined_cite", "file": "paper.tex", "line": 14, "detail": "wu2021survey not in library"}
+ ],
+ "fix": [
+  {"file": "paper.tex", "find": "\\addbibresource{library}", "replace": "\\addbibresource{library.bib}"},
+  {"file": "library.bib", "find": "Graph Convolutional Networks}\n", "replace": "Graph Convolutional Networks},\n"},
+  {"file": "library.bib", "find": "\n@article{scarselli2009,\n  author  = {Scarselli, F.},\n  title   = {The graph neural network model},\n  journal = {IEEE TNN},\n  year    = {2009}\n}\n", "replace": ""}
+ ],
+ "changes": {
+  "changes": [
+   {"file": "paper.tex", "line": 3, "from": "{library}", "to": "{library.bib}", "reason": "\\addbibresource needs the file extension", "fixes": "bib_missing_file", "type": "bibliography"},
+   {"file": "library.bib", "line": 13, "from": "Networks}", "to": "Networks},", "reason": "missing comma between title and booktitle", "fixes": "bib_syntax", "type": "bibliography"},
+   {"file": "library.bib", "line": 24, "from": "author  = {Scarselli, F.},", "to": "", "reason": "duplicate key scarselli2009; kept the complete first entry (same work: same title, year)", "fixes": "bib_duplicate", "type": "bibliography", "accept_numbers": true}
+  ],
+  "needs_confirmation": [{"item": "\\parencite{wu2021survey}: no entry in library.bib and no bibliographic data in the materials", "where": "paper.tex:14"}]
+ },
+ "expect_status": "partial",
+ "expect_remaining": ["undefined_cite:wu2021survey"]
+}

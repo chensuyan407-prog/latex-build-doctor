@@ -1,0 +1,23 @@
+{
+ "case": "dev_xe",
+ "roots": [
+  {"id": "g1", "class": "engine_mismatch", "file": "main.tex", "line": 3, "lines": [2, 3], "detail": "fontspec under pdfLaTeX (magic comment says pdflatex)"},
+  {"id": "g2", "class": "missing_font", "file": "main.tex", "line": 4, "detail": "NoSuchSerif Pro not installed"}
+ ],
+ "fix": [
+  {"file": "main.tex", "find": "% !TEX program = pdflatex", "replace": "% !TEX program = xelatex"},
+  {"file": "main.tex", "find": "\\setmainfont{NoSuchSerif Pro}", "replace": "\\setmainfont{TeX Gyre Termes}"},
+  {"file": "main.tex", "find": "$120 nm$", "replace": "$120~\\mathrm{nm}$"}
+ ],
+ "changes": {
+  "changes": [
+   {"file": "main.tex", "line": 1, "from": "pdflatex", "to": "xelatex", "reason": "ctexart + fontspec need XeLaTeX", "fixes": "engine_mismatch", "type": "engine"},
+   {"file": "main.tex", "line": 4, "from": "NoSuchSerif Pro", "to": "TeX Gyre Termes", "reason": "font required by the task; NoSuchSerif Pro not installed", "fixes": "missing_font", "type": "font"},
+   {"file": "main.tex", "line": 16, "from": "$120 nm$", "to": "$120~\\mathrm{nm}$", "reason": "unit upright; value unchanged", "fixes": "unit_italic", "type": "format"}
+  ]
+ },
+ "mutations": [
+  {"name": "silent value change in table", "expect": "number_changed", "fix": [{"file": "main.tex", "find": "2 & 120.3", "replace": "2 & 120.8"}]}
+ ],
+ "expect_status": "success"
+}

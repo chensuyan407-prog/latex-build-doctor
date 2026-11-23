@@ -1,0 +1,77 @@
+{
+ "status": "success",
+ "roots": [],
+ "diagnostics": [
+  {
+   "class": "package_warning",
+   "severity": "info",
+   "message": "Package caption Warning: Unknown document class (or package), standard defaults will be used.",
+   "file": "conf.tex",
+   "line": null,
+   "id": "W001",
+   "source": "log"
+  },
+  {
+   "class": "requirement_failed",
+   "severity": "warning",
+   "source": "static",
+   "file": "conf.tex",
+   "line": null,
+   "message": "requirement IEEE03 not met: IEEEkeywords environment",
+   "hint": "Origin template:IEEEtran; pattern \\\\begin\\{IEEEkeywords\\}",
+   "key": "IEEE03",
+   "id": "N001"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "IEEE01",
+   "desc": "\\maketitle",
+   "pattern": "\\\\maketitle",
+   "ok": true,
+   "severity": "error",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "IEEE02",
+   "desc": "abstract environment",
+   "pattern": "\\\\begin\\{abstract\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "IEEE03",
+   "desc": "IEEEkeywords environment",
+   "pattern": "\\\\begin\\{IEEEkeywords\\}",
+   "ok": false,
+   "severity": "warning",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "IEEE04",
+   "desc": "authors via \\IEEEauthorblockN (conference) or \\author",
+   "pattern": "\\\\author\\s*\\{",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:IEEEtran"
+  },
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

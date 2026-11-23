@@ -1,0 +1,29 @@
+--- a/main.tex
++++ b/main.tex
+@@ -3,4 +3,6 @@
+ \usepackage{amsmath}
++\usepackage{siunitx}
++\usepackage{booktabs}
++\usepackage{xcolor}
+ \usepackage{hyperref}
+-\usepackage{xcolor}
+ 
+--- a/sections/intro.tex
++++ b/sections/intro.tex
+@@ -2,4 +2,4 @@
+ \label{sec:intro}
+-Thin films of thickness \SI{5}{\nano\metre} were studied before~\cite{smith2021,lee2019}.
+-The \textbf{main contribution is a new estimator.
++Thin films of thickness \SI{5}{\nano\metre} were studied before~\cite{Smith2021,lee2019}.
++The \textbf{main contribution} is a new estimator.
+ We compare it with the baseline in Section~\ref{sec:results}.
+--- a/sections/results.tex
++++ b/sections/results.tex
+@@ -6,5 +6,5 @@
+   \centering
++  \caption{Errors of both methods.}
+   \label{tab:main}
+-  \caption{Errors of both methods.}
+-  \begin{tabular}{lcc}
++  \begin{tabular}{lccc}
+     \toprule

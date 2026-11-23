@@ -1,0 +1,225 @@
+{
+ "recorded_at": "2026-11-23T10:18:01Z",
+ "os": "Windows-11-10.0.26200-SP0",
+ "python": "3.13.14",
+ "engine": {
+  "name": "pdflatex",
+  "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  23 NOV 2026 18:18"
+ },
+ "bibtool": {
+  "name": "bibtex",
+  "version": "BibTeX 0.99e (TeX Live 2026)\r"
+ },
+ "kpsewhich": "kpathsea version 6.4.2\r",
+ "documentclass": {
+  "name": "article",
+  "date": "2025/01/22",
+  "version": "v1.4n Standard LaTeX document class"
+ },
+ "packages": {
+  "graphicx": {
+   "date": "2024/12/31",
+   "version": "v1.2e Enhanced LaTeX Graphics (DPC,SPQR)"
+  },
+  "keyval": {
+   "date": "2022/05/29",
+   "version": "v1.15 key=value parser (DPC)"
+  },
+  "graphics": {
+   "date": "2024/08/06",
+   "version": "v1.4g Standard LaTeX Graphics (DPC,SPQR)"
+  },
+  "trig": {
+   "date": "2023/12/02",
+   "version": "v1.11 sin cos tan (DPC)"
+  },
+  "amsmath": {
+   "date": "2025/07/09",
+   "version": "v2.17z AMS math features"
+  },
+  "amstext": {
+   "date": "2024/11/17",
+   "version": "v2.01 AMS text"
+  },
+  "amsbsy": {
+   "date": "1999/11/29",
+   "version": "v1.2d Bold Symbols"
+  },
+  "amsopn": {
+   "date": "2022/04/08",
+   "version": "v2.04 operator names"
+  },
+  "siunitx": {
+   "date": "2026-04-15",
+   "version": "v3.5.4 A comprehensive (SI) units package"
+  },
+  "translations": {
+   "date": "2022/02/05",
+   "version": "v1.12 internationalization of LaTeX2e packages (CN)"
+  },
+  "etoolbox": {
+   "date": "2025/10/02",
+   "version": "v2.5m e-TeX tools for LaTeX (JAW)"
+  },
+  "pdftexcmds": {
+   "date": "2020-06-27",
+   "version": "v0.33 Utility functions of pdfTeX for LuaTeX (HO)"
+  },
+  "infwarerr": {
+   "date": "2019/12/03",
+   "version": "v1.5 Providing info/warning/error messages (HO)"
+  },
+  "iftex": {
+   "date": "2024/12/12",
+   "version": "v1.0g TeX engine tests"
+  },
+  "ltxcmds": {
+   "date": "2023-12-04",
+   "version": "v1.26 LaTeX kernel commands for general use (HO)"
+  },
+  "array": {
+   "date": "2025/09/25",
+   "version": "v2.6n Tabular extension package (FMi)"
+  },
+  "booktabs": {
+   "date": "2020/01/12",
+   "version": "v1.61803398 Publication quality tables"
+  },
+  "xcolor": {
+   "date": "2024/09/29",
+   "version": "v3.02 LaTeX color extensions (UK)"
+  },
+  "hyperref": {
+   "date": "2026-04-24",
+   "version": "v7.01q Hypertext links for LaTeX"
+  },
+  "kvsetkeys": {
+   "date": "2022-10-05",
+   "version": "v1.19 Key value parser (HO)"
+  },
+  "kvdefinekeys": {
+   "date": "2019-12-19",
+   "version": "v1.6 Define keys (HO)"
+  },
+  "pdfescape": {
+   "date": "2019/12/09",
+   "version": "v1.15 Implements pdfTeX's escape features (HO)"
+  },
+  "hycolor": {
+   "date": "2020-01-27",
+   "version": "v1.10 Color options for hyperref/bookmark (HO)"
+  },
+  "nameref": {
+   "date": "2026-01-29",
+   "version": "v2.58 Cross-referencing by name of section"
+  },
+  "refcount": {
+   "date": "2019/12/15",
+   "version": "v3.6 Data extraction from label references (HO)"
+  },
+  "gettitlestring": {
+   "date": "2019/12/15",
+   "version": "v1.6 Cleanup title references (HO)"
+  },
+  "kvoptions": {
+   "date": "2022-06-15",
+   "version": "v3.15 Key value format for package options (HO)"
+  },
+  "stringenc": {
+   "date": "2019/11/29",
+   "version": "v1.12 Convert strings between diff. encodings (HO)"
+  },
+  "intcalc": {
+   "date": "2019/12/15",
+   "version": "v1.3 Expandable calculations with integers (HO)"
+  },
+  "url": {
+   "date": "2013/09/16",
+   "version": "ver 3.4  Verb mode for urls, etc."
+  },
+  "bitset": {
+   "date": "2019/12/09",
+   "version": "v1.3 Handle bit-vector datatype (HO)"
+  },
+  "bigintcalc": {
+   "date": "2019/12/15",
+   "version": "v1.5 Expandable calculations on big integers (HO)"
+  },
+  "rerunfilecheck": {
+   "date": "2025-06-21",
+   "version": "v1.11 Rerun checks for auxiliary files (HO)"
+  },
+  "uniquecounter": {
+   "date": "2019/12/15",
+   "version": "v1.4 Provide unlimited unique counter (HO)"
+  },
+  "epstopdf-base": {
+   "date": "2020-01-24",
+   "version": "v2.11 Base part for package epstopdf"
+  }
+ },
+ "project_files_used": [
+  "figs/curve.png",
+  "main.tex",
+  "sections/intro.tex",
+  "sections/results.tex"
+ ],
+ "distribution_files_used": 145,
+ "distribution": "TeX Live 2026",
+ "pdf_fonts": [
+  {
+   "name": "FQPQWY+CMR17",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "RAZLLK+CMR12",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "TVYURW+CMBX12",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "KJVLFW+CMR10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "UQAAAV+CMBX10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "UEHEIY+CMMI10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "JMDWSR+CMMI8",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "NTUNUC+CMSY10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  },
+  {
+   "name": "PPXTXP+CMTI10",
+   "type": "Type 1 Builtin",
+   "embedded": "yes"
+  }
+ ],
+ "pdf_fonts_not_embedded": [],
+ "pdf_info": {
+  "Pages": "2",
+  "Page size": "612 x 792 pts (letter)",
+  "PDF version": "1.7",
+  "Producer": "pdfTeX-1.40.29",
+  "Creator": "LaTeX with hyperref"
+ }
+}

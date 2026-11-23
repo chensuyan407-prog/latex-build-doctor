@@ -1,0 +1,126 @@
+{
+ "status": "partial",
+ "roots": [
+  "S001"
+ ],
+ "diagnostics": [
+  {
+   "class": "package_warning",
+   "severity": "info",
+   "message": "Package epstopdf Warning: Shell escape feature is not enabled.",
+   "file": "main.tex",
+   "line": null,
+   "id": "W001",
+   "source": "log"
+  },
+  {
+   "class": "undefined_ref",
+   "severity": "warning",
+   "message": "LaTeX Warning: Reference `tab:ablation' on page 1 undefined on input line 26.",
+   "file": "sections/results.tex",
+   "line": 26,
+   "key": "tab:ablation",
+   "id": "W002",
+   "source": "log",
+   "source_line": "As shown in Table~\\ref{tab:ablation}, both components matter."
+  },
+  {
+   "class": "rerun",
+   "severity": "info",
+   "message": "LaTeX Warning: There were undefined references.",
+   "file": "main.tex",
+   "line": null,
+   "id": "W003",
+   "source": "log"
+  },
+  {
+   "class": "float_spec",
+   "severity": "info",
+   "file": "sections/results.tex",
+   "line": 5,
+   "message": "float placement [h] only - LaTeX will change it to [ht]",
+   "source": "static",
+   "hint": "Use [htbp] (or [tbp]) unless the template says otherwise.",
+   "id": "N002",
+   "source_line": "\\begin{table}[h]"
+  },
+  {
+   "class": "subscript_italic",
+   "severity": "info",
+   "file": "sections/results.tex",
+   "line": 3,
+   "message": "descriptive subscript in italic: e_max",
+   "source": "static",
+   "hint": "Use e_{\\mathrm{max}} (or \\max/\\min operators).",
+   "id": "N003",
+   "source_line": "Table~\\ref{tab:main} lists the errors and Figure~\\ref{fig:curve} the curve; Eq.~\\eqref{eq:err} defines $e_{max}$."
+  },
+  {
+   "class": "undefined_ref",
+   "severity": "error",
+   "file": "sections/results.tex",
+   "line": 26,
+   "message": "\\ref{tab:ablation}: no \\label{tab:ablation} in the project",
+   "source": "static",
+   "hint": "closest existing labels: tab:main - fix the key, do not invent a target.",
+   "key": "tab:ablation",
+   "suggestions": [
+    "tab:main"
+   ],
+   "id": "S001",
+   "source_line": "As shown in Table~\\ref{tab:ablation}, both components matter."
+  },
+  {
+   "class": "bib_field",
+   "severity": "warning",
+   "file": "refs.bib",
+   "line": 9,
+   "message": "@inproceedings{lee2019} has no booktitle",
+   "hint": "Fill from the source material; if the source does not give it, list it under needs_confirmation (do not invent).",
+   "key": "lee2019",
+   "field": "booktitle",
+   "source": "static",
+   "id": "N004",
+   "source_line": "@inproceedings{lee2019,"
+  },
+  {
+   "class": "key_changed",
+   "severity": "info",
+   "file": "sections/intro.tex",
+   "line": 3,
+   "source": "audit",
+   "message": "\\citation keys changed: ['lee2019', 'smith2021'] -> ['Smith2021', 'lee2019']",
+   "accepted": true,
+   "hint": "Changing which work/label is referenced changes meaning; confirm against the source (accept_keys:true with reason).",
+   "id": "N005",
+   "source_line": "Thin films of thickness \\SI{5}{\\nano\\metre} were studied before~\\cite{Smith2021,lee2019}."
+  }
+ ],
+ "requirements": [
+  {
+   "id": "ART01",
+   "desc": "\\maketitle after \\title",
+   "pattern": "\\\\title.*\\\\maketitle",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:article"
+  },
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

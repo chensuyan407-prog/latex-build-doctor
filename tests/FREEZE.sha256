@@ -1,0 +1,10 @@
+15003442c78b230aae4ed20b31f4a7d84415a73de4d00bc737dace21edc147b6 *./SKILL.md
+772c249415edd4f7500a11dfeae0eb9f4268d247b4af3c914cac2c8b76093fe8 *./rules/packages.json
+e2711bb79e432910fa1b36dc4475d3bf75557f78803274c265a2dcc8fbb0908d *./rules/templates.json
+b475d5318cd4c993e2e43853703f1f9bca38ad9cd80348ae1994d884c163a787 *./scripts/lx_build.py
+e11c71943be350188fb65559863ba268a8137829055d251ae01746fdc4655796 *./scripts/lx_common.py
+bc94dc95ddb212d3abe9e9b2fbacde3be238dbb538338dad2be715dba2b28e7d *./scripts/lx_init.py
+143cd05749771f838ab2597ae608a4d7880b6fa272553aef3d356fb2dd1e1896 *./scripts/lx_log.py
+914b947327ca982d719176df3091fdd3f469da43f0aed0ef2f8ed937dc84d5d9 *./scripts/lx_static.py
+0231c463cd52aa1d5715dda44d290ebf77b137b5cd7fb52db2fc0c376053d838 *./scripts/lx_table.py
+# frozen 2026-11-23T05:38:00Z before writing holdout cases

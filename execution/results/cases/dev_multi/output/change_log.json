@@ -1,0 +1,139 @@
+[
+ {
+  "hunk": "H001",
+  "file": "main.tex",
+  "kind": "insert",
+  "old_lines": [
+   4,
+   3
+  ],
+  "new_lines": [
+   4,
+   6
+  ],
+  "old": "",
+  "new": "\\usepackage{siunitx}\n\\usepackage{booktabs}\n\\usepackage{xcolor}",
+  "reasons": [
+   "\\SI is undefined (siunitx not loaded)",
+   "\\toprule/\\midrule/\\bottomrule undefined",
+   "load hyperref last"
+  ],
+  "fixes": [
+   "undefined_cs \\SI",
+   "undefined_cs \\toprule",
+   "load_order"
+  ],
+  "types": [
+   "package",
+   "package",
+   "package"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "main.tex",
+  "kind": "delete",
+  "old_lines": [
+   5,
+   5
+  ],
+  "new_lines": [
+   8,
+   7
+  ],
+  "old": "\\usepackage{xcolor}",
+  "new": "",
+  "reasons": [
+   "load hyperref last"
+  ],
+  "fixes": [
+   "load_order"
+  ],
+  "types": [
+   "package"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "sections/intro.tex",
+  "kind": "replace",
+  "old_lines": [
+   3,
+   4
+  ],
+  "new_lines": [
+   3,
+   4
+  ],
+  "old": "Thin films of thickness \\SI{5}{\\nano\\metre} were studied before~\\cite{smith2021,lee2019}.\nThe \\textbf{main contribution is a new estimator.",
+  "new": "Thin films of thickness \\SI{5}{\\nano\\metre} were studied before~\\cite{Smith2021,lee2019}.\nThe \\textbf{main contribution} is a new estimator.",
+  "reasons": [
+   "close the \\textbf group (bold scope as in the sentence)",
+   "bib key is Smith2021 (case-sensitive); same work"
+  ],
+  "fixes": [
+   "brace",
+   "undefined_cite smith2021"
+  ],
+  "types": [
+   "fix",
+   "citation"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H004",
+  "file": "sections/results.tex",
+  "kind": "insert",
+  "old_lines": [
+   7,
+   6
+  ],
+  "new_lines": [
+   7,
+   7
+  ],
+  "old": "",
+  "new": "  \\caption{Errors of both methods.}",
+  "reasons": [
+   "label after caption so \\ref gives the table number"
+  ],
+  "fixes": [
+   "float_label"
+  ],
+  "types": [
+   "crossref"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H005",
+  "file": "sections/results.tex",
+  "kind": "replace",
+  "old_lines": [
+   8,
+   9
+  ],
+  "new_lines": [
+   9,
+   9
+  ],
+  "old": "  \\caption{Errors of both methods.}\n  \\begin{tabular}{lcc}",
+  "new": "  \\begin{tabular}{lccc}",
+  "reasons": [
+   "label after caption so \\ref gives the table number",
+   "4 columns in every row (Method, RMSE, MAE, Time) as in data.csv"
+  ],
+  "fixes": [
+   "float_label",
+   "alignment"
+  ],
+  "types": [
+   "crossref",
+   "table"
+  ],
+  "documented": true
+ }
+]

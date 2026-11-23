@@ -1,0 +1,58 @@
+{
+ "status": "success",
+ "roots": [],
+ "diagnostics": [
+  {
+   "class": "package_warning",
+   "severity": "info",
+   "message": "Package epstopdf Warning: Shell escape feature is not enabled.",
+   "file": "main.tex",
+   "line": null,
+   "id": "W001",
+   "source": "log"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "R1",
+   "desc": "journal name set via \\journalname",
+   "pattern": "\\\\journalname\\{Journal of Computational Surface Analysis\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  },
+  {
+   "id": "R2",
+   "desc": "keywords via \\keywords{}",
+   "pattern": "\\\\keywords\\{[^}]+\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  },
+  {
+   "id": "R3",
+   "desc": "template class jcsa used",
+   "pattern": "\\\\documentclass(\\[[^\\]]*\\])?\\{jcsa\\}",
+   "ok": true,
+   "severity": "error",
+   "origin": "changes.json"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

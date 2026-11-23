@@ -1,0 +1,23 @@
+{
+ "case": "ho_report", "set": "holdout",
+ "note": "gold written before running the tool on this case",
+ "roots": [
+  {"id": "g1", "class": "unicode_char", "file": "main.tex", "line": 7, "detail": "U+2264 under pdfLaTeX"},
+  {"id": "g2", "class": "number_unit", "file": "main.tex", "line": 9, "detail": "width=0.5 without unit"},
+  {"id": "g3", "class": "float", "file": "main.tex", "line": 10, "detail": "\\caption outside float"},
+  {"id": "g4", "class": "bib_syntax", "file": "refs.bib", "line": 1, "lines": [1, 6, 7, 8], "detail": "chen2022 not closed"}
+ ],
+ "fix": [
+  {"file": "main.tex", "find": "error ≤ 2\\%", "replace": "error $\\leq 2\\%$"},
+  {"file": "main.tex", "find": "\\includegraphics[width=0.5]{plot}\n\\caption{Yield over time.}", "replace": "\\begin{figure}[htbp]\n  \\centering\n  \\includegraphics[width=0.5\\linewidth]{plot}\n  \\caption{Yield over time.}\n\\end{figure}"},
+  {"file": "refs.bib", "find": "  pages   = {12--19}\n", "replace": "  pages   = {12--19}\n}\n"}
+ ],
+ "changes": {"changes": [
+  {"file": "main.tex", "line": 7, "from": "≤ 2\\%", "to": "$\\leq 2\\%$", "reason": "U+2264 not available under pdfLaTeX; same symbol in math", "fixes": "unicode_char", "type": "encoding"},
+  {"file": "main.tex", "line": 9, "from": "\\includegraphics[width=0.5]{plot}", "to": "\\includegraphics[width=0.5\\linewidth]{plot}", "reason": "width needs a unit; 0.5 interpreted as half the line width", "fixes": "number_unit", "type": "figure"},
+  {"file": "main.tex", "line": 9, "from": "", "to": "\\begin{figure}[htbp]", "reason": "\\caption needs a float", "fixes": "float", "type": "figure"},
+  {"file": "refs.bib", "line": 7, "from": "", "to": "}", "reason": "close entry chen2022", "fixes": "bib_syntax", "type": "bibliography"}
+ ],
+ "needs_confirmation": [{"item": "figure width 0.5\\linewidth assumed for width=0.5", "where": "main.tex:11"}]},
+ "expect_status": "success"
+}

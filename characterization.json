@@ -1,0 +1,115 @@
+{
+ "deviations_from_paper": [
+  {
+   "target": "root causes found, dev (6 cases, rules written on them)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "22 gold roots; baselines on the same log: first error 0.136, all log errors 0.545 (location only, one-to-one)",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.1
+  },
+  {
+   "target": "root-cause precision, dev",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "22 reported roots from 32 raw compiler errors",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.1
+  },
+  {
+   "target": "root causes found, held-out at code freeze",
+   "metric": "absolute_error",
+   "actual_value": 0.9091,
+   "reference_value": 1.0,
+   "score": 0.697,
+   "explanation": "11 gold roots in 3 cases written after the freeze; missed: g1:package_conflict@conf.tex:3",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.3
+  },
+  {
+   "target": "root-cause precision, held-out at code freeze",
+   "metric": "absolute_error",
+   "actual_value": 0.8462,
+   "reference_value": 1.0,
+   "score": 0.4872,
+   "explanation": "13 reported roots",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.3
+  },
+  {
+   "target": "root-cause precision, held-out after post-freeze fixes",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "no longer a clean held-out measure",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.1
+  },
+  {
+   "target": "baseline first-error recall, held-out",
+   "metric": "absolute_error",
+   "actual_value": 0.2727,
+   "reference_value": 1.0,
+   "score": 0.2727,
+   "explanation": "for comparison: what an agent sees when it stops at the first message",
+   "evidence_artifact": "metrics",
+   "tolerance": 1.0
+  },
+  {
+   "target": "gold fix -> expected status (all cases)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "dev 6/6, held-out 3/3",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  },
+  {
+   "target": "byte-identical second clean build (all cases)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "SOURCE_DATE_EPOCH fixed; PDF SHA-256 compared",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  },
+  {
+   "target": "audit clean after documented gold fix, held-out at freeze",
+   "metric": "absolute_error",
+   "actual_value": 0.3333,
+   "reference_value": 1.0,
+   "score": 0.0,
+   "explanation": "false flags at freeze fixed after it (after fix 3/3)",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.5
+  },
+  {
+   "target": "mutation probes caught (unrecorded edit, silent number change, number not in materials, requirement removed)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "6/6",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  },
+  {
+   "target": "robustness checks passed",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "no_main_file, two_mains_select, infinite_loop_timeout, missing_tool, zip_input, broken_changes_json, missing_glyph, missing_package, non_utf8_input, deterministic_rebuild, source_date_epoch_repro",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  }
+ ],
+ "notes": "Self-evaluation on author-written LaTeX projects with planted faults and author gold; the platform's three fixed cases and any model run are not part of it. Scores use max(0, 1 - deviation/tolerance) against the ideal value 1.0. The baseline row is a reference, not a target."
+}

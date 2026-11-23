@@ -1,0 +1,133 @@
+[
+ {
+  "hunk": "H001",
+  "file": "model.tex",
+  "kind": "insert",
+  "old_lines": [
+   3,
+   2
+  ],
+  "new_lines": [
+   3,
+   3
+  ],
+  "old": "",
+  "new": "\\usepackage{amssymb}",
+  "reasons": [
+   "\\mathbb undefined"
+  ],
+  "fixes": [
+   "undefined_cs \\mathbb"
+  ],
+  "types": [
+   "package"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "model.tex",
+  "kind": "replace",
+  "old_lines": [
+   7,
+   7
+  ],
+  "new_lines": [
+   8,
+   8
+  ],
+  "old": "  L(\\theta) &= \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+  "new": "  L(\\theta) = \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+  "reasons": [
+   "'&' is not allowed in a single-line equation"
+  ],
+  "fixes": [
+   "alignment"
+  ],
+  "types": [
+   "math"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H003",
+  "file": "model.tex",
+  "kind": "replace",
+  "old_lines": [
+   11,
+   11
+  ],
+  "new_lines": [
+   12,
+   12
+  ],
+  "old": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\label{eq:reg}",
+  "new": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\right) \\label{eq:reg}",
+  "reasons": [
+   "\\left( had no \\right; closed after the norm (needs confirmation)"
+  ],
+  "fixes": [
+   "brace"
+  ],
+  "types": [
+   "math"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H004",
+  "file": "model.tex",
+  "kind": "delete",
+  "old_lines": [
+   16,
+   16
+  ],
+  "new_lines": [
+   17,
+   16
+  ],
+  "old": "",
+  "new": "",
+  "reasons": [
+   "blank line inside display math",
+   "unit upright, value unchanged"
+  ],
+  "fixes": [
+   "math_mode",
+   "unit_italic"
+  ],
+  "types": [
+   "math",
+   "format"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H005",
+  "file": "model.tex",
+  "kind": "replace",
+  "old_lines": [
+   18,
+   18
+  ],
+  "new_lines": [
+   18,
+   18
+  ],
+  "old": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3 s$ per epoch.",
+  "new": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3~\\mathrm{s}$ per epoch.",
+  "reasons": [
+   "blank line inside display math",
+   "unit upright, value unchanged"
+  ],
+  "fixes": [
+   "math_mode",
+   "unit_italic"
+  ],
+  "types": [
+   "math",
+   "format"
+  ],
+  "documented": true
+ }
+]

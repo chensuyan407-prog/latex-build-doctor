@@ -1,0 +1,80 @@
+{
+ "status": "partial",
+ "roots": [
+  "S001"
+ ],
+ "diagnostics": [
+  {
+   "class": "package_warning",
+   "severity": "info",
+   "message": "Package biblatex Warning: The following entry could not be found in the database: wu2021survey Please verify the spelling and rerun LaTeX afterwards.",
+   "file": "paper.bbl",
+   "line": null,
+   "id": "W001",
+   "source": "log"
+  },
+  {
+   "class": "undefined_cite",
+   "severity": "warning",
+   "message": "LaTeX Warning: Citation 'wu2021survey' on page 1 undefined on input line 14.",
+   "file": "paper.tex",
+   "line": 14,
+   "key": "wu2021survey",
+   "id": "W002",
+   "source": "log",
+   "source_line": "\\parencite{wu2021survey}."
+  },
+  {
+   "class": "undefined_cite",
+   "severity": "error",
+   "file": "paper.tex",
+   "line": 14,
+   "message": "\\parencite{wu2021survey}: no entry with this key in the bibliography",
+   "hint": "The reference is missing from the .bib: add it only from the source material, else mark for human confirmation.",
+   "key": "wu2021survey",
+   "suggestions": [],
+   "source": "static",
+   "id": "S001",
+   "source_line": "\\parencite{wu2021survey}."
+  },
+  {
+   "class": "number_changed",
+   "severity": "info",
+   "file": "library.bib",
+   "line": 25,
+   "source": "audit",
+   "message": "numbers changed in this edit: removed ['2009'] added []",
+   "accepted": true,
+   "hint": "Values must match the source material. If intended (e.g. fixing a typo against the source), set accept_numbers:true and cite the source in reason.",
+   "id": "N001",
+   "source_line": null
+  }
+ ],
+ "requirements": [
+  {
+   "id": "ART01",
+   "desc": "\\maketitle after \\title",
+   "pattern": "\\\\title.*\\\\maketitle",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:article"
+  },
+  {
+   "id": "G01",
+   "desc": "\\title{...} is set",
+   "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  },
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

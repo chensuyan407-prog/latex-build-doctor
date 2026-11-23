@@ -1,0 +1,575 @@
+{
+ "case_id": "dev_math",
+ "status": "success",
+ "summary": "SUCCESS: model.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 5 edit hunk(s), 5 documented.",
+ "skill": "latex-build-doctor 0.1.0",
+ "built_at": "2026-11-23T10:16:26Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/model.tex",
+  "pdf": "model.pdf",
+  "pdf_sha256": "e24857c8f6b5c625119a2b81e7b7cc52aea75e6d1a1db1b7807744d96f349299",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "model.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape model.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape model.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 1.11,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape model.tex",
+    "exit": 0,
+    "seconds": 0.56,
+    "aux_sha256": "87714c310a8618c06e8111116b33578ef70d6feca62d289933ad3fbfbda70d2d",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape model.tex",
+    "exit": 0,
+    "seconds": 0.55,
+    "aux_sha256": "87714c310a8618c06e8111116b33578ef70d6feca62d289933ad3fbfbda70d2d",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": true,
+   "pdf_sha256_build1": "e24857c8f6b5c625119a2b81e7b7cc52aea75e6d1a1db1b7807744d96f349299",
+   "pdf_sha256_build2": "e24857c8f6b5c625119a2b81e7b7cc52aea75e6d1a1db1b7807744d96f349299",
+   "byte_identical": true,
+   "source_date_epoch": "1704067200",
+   "rounds_build2": [
+    "pdflatex pass 1",
+    "pdflatex pass 2"
+   ]
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "model.tex",
+   "kind": "insert",
+   "old_lines": [
+    3,
+    2
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "",
+   "new": "\\usepackage{amssymb}",
+   "reasons": [
+    "\\mathbb undefined"
+   ],
+   "fixes": [
+    "undefined_cs \\mathbb"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    7,
+    7
+   ],
+   "new_lines": [
+    8,
+    8
+   ],
+   "old": "  L(\\theta) &= \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+   "new": "  L(\\theta) = \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+   "reasons": [
+    "'&' is not allowed in a single-line equation"
+   ],
+   "fixes": [
+    "alignment"
+   ],
+   "types": [
+    "math"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    11,
+    11
+   ],
+   "new_lines": [
+    12,
+    12
+   ],
+   "old": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\label{eq:reg}",
+   "new": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\right) \\label{eq:reg}",
+   "reasons": [
+    "\\left( had no \\right; closed after the norm (needs confirmation)"
+   ],
+   "fixes": [
+    "brace"
+   ],
+   "types": [
+    "math"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H004",
+   "file": "model.tex",
+   "kind": "delete",
+   "old_lines": [
+    16,
+    16
+   ],
+   "new_lines": [
+    17,
+    16
+   ],
+   "old": "",
+   "new": "",
+   "reasons": [
+    "blank line inside display math",
+    "unit upright, value unchanged"
+   ],
+   "fixes": [
+    "math_mode",
+    "unit_italic"
+   ],
+   "types": [
+    "math",
+    "format"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H005",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    18,
+    18
+   ],
+   "new_lines": [
+    18,
+    18
+   ],
+   "old": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3 s$ per epoch.",
+   "new": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3~\\mathrm{s}$ per epoch.",
+   "reasons": [
+    "blank line inside display math",
+    "unit upright, value unchanged"
+   ],
+   "fixes": [
+    "math_mode",
+    "unit_italic"
+   ],
+   "types": [
+    "math",
+    "format"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "model.tex",
+   "line": 3,
+   "from": "",
+   "to": "\\usepackage{amssymb}",
+   "reason": "\\mathbb undefined",
+   "fixes": "undefined_cs \\mathbb",
+   "type": "package"
+  },
+  {
+   "file": "model.tex",
+   "line": 8,
+   "from": "L(\\theta) &= ",
+   "to": "L(\\theta) = ",
+   "reason": "'&' is not allowed in a single-line equation",
+   "fixes": "alignment",
+   "type": "math"
+  },
+  {
+   "file": "model.tex",
+   "line": 12,
+   "from": "\\|_2^2 \\label",
+   "to": "\\|_2^2 \\right) \\label",
+   "reason": "\\left( had no \\right; closed after the norm (needs confirmation)",
+   "fixes": "brace",
+   "type": "math"
+  },
+  {
+   "file": "model.tex",
+   "line": 17,
+   "from": "\n\n\\]",
+   "to": "\n\\]",
+   "reason": "blank line inside display math",
+   "fixes": "math_mode",
+   "type": "math"
+  },
+  {
+   "file": "model.tex",
+   "line": 18,
+   "from": "$3 s$",
+   "to": "$3~\\mathrm{s}$",
+   "reason": "unit upright, value unchanged",
+   "fixes": "unit_italic",
+   "type": "format"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_math\\input",
+  "materials": [
+   "case.json",
+   "model.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [
+  {
+   "item": "closing parenthesis of \\left( placed after \\|\\theta\\|_2^2 - author to confirm the intended scope",
+   "where": "model.tex:12"
+  }
+ ],
+ "uncertainty": [],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 6,
+  "details": "environment.json"
+ },
+ "fixed_tex": [
+  {
+   "hunk": "H001",
+   "file": "model.tex",
+   "kind": "insert",
+   "old_lines": [
+    3,
+    2
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "",
+   "new": "\\usepackage{amssymb}",
+   "reasons": [
+    "\\mathbb undefined"
+   ],
+   "fixes": [
+    "undefined_cs \\mathbb"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    7,
+    7
+   ],
+   "new_lines": [
+    8,
+    8
+   ],
+   "old": "  L(\\theta) &= \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+   "new": "  L(\\theta) = \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+   "reasons": [
+    "'&' is not allowed in a single-line equation"
+   ],
+   "fixes": [
+    "alignment"
+   ],
+   "types": [
+    "math"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    11,
+    11
+   ],
+   "new_lines": [
+    12,
+    12
+   ],
+   "old": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\label{eq:reg}",
+   "new": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\right) \\label{eq:reg}",
+   "reasons": [
+    "\\left( had no \\right; closed after the norm (needs confirmation)"
+   ],
+   "fixes": [
+    "brace"
+   ],
+   "types": [
+    "math"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H004",
+   "file": "model.tex",
+   "kind": "delete",
+   "old_lines": [
+    16,
+    16
+   ],
+   "new_lines": [
+    17,
+    16
+   ],
+   "old": "",
+   "new": "",
+   "reasons": [
+    "blank line inside display math",
+    "unit upright, value unchanged"
+   ],
+   "fixes": [
+    "math_mode",
+    "unit_italic"
+   ],
+   "types": [
+    "math",
+    "format"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H005",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    18,
+    18
+   ],
+   "new_lines": [
+    18,
+    18
+   ],
+   "old": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3 s$ per epoch.",
+   "new": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3~\\mathrm{s}$ per epoch.",
+   "reasons": [
+    "blank line inside display math",
+    "unit upright, value unchanged"
+   ],
+   "fixes": [
+    "math_mode",
+    "unit_italic"
+   ],
+   "types": [
+    "math",
+    "format"
+   ],
+   "documented": true
+  }
+ ],
+ "compile_log": "build_logs/",
+ "edits": [
+  {
+   "hunk": "H001",
+   "file": "model.tex",
+   "kind": "insert",
+   "old_lines": [
+    3,
+    2
+   ],
+   "new_lines": [
+    3,
+    3
+   ],
+   "old": "",
+   "new": "\\usepackage{amssymb}",
+   "reasons": [
+    "\\mathbb undefined"
+   ],
+   "fixes": [
+    "undefined_cs \\mathbb"
+   ],
+   "types": [
+    "package"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    7,
+    7
+   ],
+   "new_lines": [
+    8,
+    8
+   ],
+   "old": "  L(\\theta) &= \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+   "new": "  L(\\theta) = \\sum_{i=1}^{N} \\ell(f_\\theta(x_i), y_i) \\label{eq:loss}",
+   "reasons": [
+    "'&' is not allowed in a single-line equation"
+   ],
+   "fixes": [
+    "alignment"
+   ],
+   "types": [
+    "math"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H003",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    11,
+    11
+   ],
+   "new_lines": [
+    12,
+    12
+   ],
+   "old": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\label{eq:reg}",
+   "new": "  R(\\theta) = \\lambda \\left( \\|\\theta\\|_2^2 \\right) \\label{eq:reg}",
+   "reasons": [
+    "\\left( had no \\right; closed after the norm (needs confirmation)"
+   ],
+   "fixes": [
+    "brace"
+   ],
+   "types": [
+    "math"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H004",
+   "file": "model.tex",
+   "kind": "delete",
+   "old_lines": [
+    16,
+    16
+   ],
+   "new_lines": [
+    17,
+    16
+   ],
+   "old": "",
+   "new": "",
+   "reasons": [
+    "blank line inside display math",
+    "unit upright, value unchanged"
+   ],
+   "fixes": [
+    "math_mode",
+    "unit_italic"
+   ],
+   "types": [
+    "math",
+    "format"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H005",
+   "file": "model.tex",
+   "kind": "replace",
+   "old_lines": [
+    18,
+    18
+   ],
+   "new_lines": [
+    18,
+    18
+   ],
+   "old": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3 s$ per epoch.",
+   "new": "Equations~\\eqref{eq:loss} and~\\eqref{eq:reg} are minimised with step size $\\eta = 0.01$ for $3~\\mathrm{s}$ per epoch.",
+   "reasons": [
+    "blank line inside display math",
+    "unit upright, value unchanged"
+   ],
+   "fixes": [
+    "math_mode",
+    "unit_italic"
+   ],
+   "types": [
+    "math",
+    "format"
+   ],
+   "documented": true
+  }
+ ],
+ "open_questions": {
+  "value": null,
+  "note": "no automatic mapping for this field - set it in work/changes.json fields"
+ }
+}

@@ -1,0 +1,14 @@
+--- a/conf.tex
++++ b/conf.tex
+@@ -2,5 +2,5 @@
+ \usepackage{graphicx}
+-\usepackage{subfigure}
+ \usepackage{subcaption}
+ \usepackage{algorithm}
++\usepackage{algorithmic}
+ 
+@@ -12,3 +12,3 @@
+ \begin{abstract}
+-We propose a sampler that is 3.2 times faster \citep{ref1}.
++We propose a sampler that is 3.2 times faster \cite{ref1}.
+ \end{abstract}

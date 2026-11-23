@@ -1,0 +1,48 @@
+{
+ "skill_version": "0.1.0",
+ "case_id": "missing_package",
+ "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_package\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\missing_package\\input",
+ "contract_fields": [
+  "status",
+  "pdf"
+ ],
+ "materials": [
+  "case.json",
+  "main.tex"
+ ],
+ "mains": [
+  "main.tex"
+ ],
+ "main": "main.tex",
+ "created": "2026-11-23T10:17:50.701207+00:00",
+ "engine": "pdflatex",
+ "engine_reason": "no Unicode-engine package found",
+ "bibtool": null,
+ "bibtool_reason": "no \\bibliography / biblatex",
+ "order": [
+  "main.tex"
+ ],
+ "bibs": [],
+ "documentclass": {
+  "name": "article",
+  "options": [],
+  "line": 1
+ },
+ "unreached_tex": [],
+ "fonts": [],
+ "fonts_found": {},
+ "problems": [
+  {
+   "class": "missing_package",
+   "severity": "error",
+   "file": "main.tex",
+   "line": 2,
+   "message": "package nosuchpkgxyz.sty not found (not in the project, not in the TeX installation)",
+   "name": "nosuchpkgxyz",
+   "hint": "Package not installed: install it (tlmgr install), ship the .sty with the project, or remove it if unused (check which commands need it).",
+   "source": "precheck"
+  }
+ ],
+ "other_mains": []
+}

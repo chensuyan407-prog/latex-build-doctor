@@ -1,0 +1,44 @@
+{
+ "status": "failed",
+ "roots": [
+  "S001"
+ ],
+ "diagnostics": [
+  {
+   "class": "missing_package",
+   "severity": "error",
+   "file": "main.tex",
+   "line": 2,
+   "message": "package nosuchpkgxyz.sty not found (not in the project, not in the TeX installation)",
+   "name": "nosuchpkgxyz",
+   "hint": "Package not installed: install it (tlmgr install), ship the .sty with the project, or remove it if unused (check which commands need it).",
+   "source": "precheck",
+   "id": "S001",
+   "source_line": "\\usepackage{nosuchpkgxyz}"
+  },
+  {
+   "class": "missing_package",
+   "severity": "error",
+   "message": "LaTeX Error: File `nosuchpkgxyz.sty' not found. Type X to quit or <RETURN> to proceed, or enter new name. (Default extension: sty) Enter file name:",
+   "hint": "Package nosuchpkgxyz.sty is not installed or misspelled. Check the name; if it is a template-local package, copy it into the project; else install (tlmgr install <pkg>) or remove the \\usepackage and its commands.",
+   "name": "nosuchpkgxyz",
+   "file": "main.tex",
+   "line": null,
+   "context": null,
+   "id": "E001",
+   "source": "log",
+   "cascade_of": "S001"
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

@@ -1,0 +1,20 @@
+{
+ "case": "dev_env",
+ "roots": [
+  {"id": "g1", "class": "env_mismatch", "file": "report.tex", "line": 8, "lines": [5, 8], "detail": "itemize closed by \\end{enumerate}"},
+  {"id": "g2", "class": "structure", "file": "report.tex", "line": 10, "detail": "lonely \\item outside the list"},
+  {"id": "g3", "class": "env_mismatch", "file": "report.tex", "line": 12, "detail": "figure never closed"}
+ ],
+ "fix": [
+  {"file": "report.tex", "find": "  \\item Deposit the film at 300~K.\n\\end{enumerate}\n\n\\item Anneal the sample.\n", "replace": "  \\item Deposit the film at 300~K.\n  \\item Anneal the sample.\n\\end{itemize}\n"},
+  {"file": "report.tex", "find": "\\label{fig:setup}\n\n", "replace": "\\label{fig:setup}\n\\end{figure}\n\n"}
+ ],
+ "changes": {
+  "changes": [
+   {"file": "report.tex", "line": 8, "from": "\\end{enumerate}", "to": "\\end{itemize}", "reason": "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed", "fixes": "env_mismatch + lonely item", "type": "structure"},
+   {"file": "report.tex", "line": 14, "from": "", "to": "\\end{figure}", "reason": "figure environment never closed; closed after its caption/label", "fixes": "env_mismatch figure", "type": "structure"}
+  ],
+  "needs_confirmation": [{"item": "'Anneal the sample.' was outside the list; moved in as the 3rd step", "where": "report.tex:8"}]
+ },
+ "expect_status": "success"
+}

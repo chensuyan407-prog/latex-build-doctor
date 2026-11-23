@@ -1,0 +1,31 @@
+{
+ "changes": [
+  {
+   "file": "conf.tex",
+   "line": 3,
+   "from": "\\usepackage{subfigure}",
+   "to": "",
+   "reason": "obsolete, conflicts with subcaption; no \\subfigure used",
+   "fixes": "package_conflict",
+   "type": "package"
+  },
+  {
+   "file": "conf.tex",
+   "line": 5,
+   "from": "",
+   "to": "\\usepackage{algorithmic}",
+   "reason": "\\STATE / algorithmic environment",
+   "fixes": "undefined_env",
+   "type": "package"
+  },
+  {
+   "file": "conf.tex",
+   "line": 12,
+   "from": "\\citep{ref1}",
+   "to": "\\cite{ref1}",
+   "reason": "IEEEtran uses numeric \\cite; natbib not used by the template",
+   "fixes": "undefined_cs",
+   "type": "citation"
+  }
+ ]
+}
