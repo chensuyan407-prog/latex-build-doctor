@@ -17,10 +17,42 @@ import tarfile
 import zipfile
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lx_common import (SRC_EXT, VERSION, contract_fields, detect_bibtool, detect_engine, find_mains, font_lookup, iter_files, kpsewhich_many,
-                       load_json, parse_tex_file, read_text, rel, resolve_graphic, resolve_tex, summarize_case, which, write_json, AUX_EXT, TEX_EXT)
+from lx_common import (SRC_EXT, VERSION, contract_fields, detect_bibtool, detect_engine, find_mains, font_lookup, inspect_cls, iter_files, kpsewhich_many,
+                       load_json, parse_tex_file, read_text, rel, resolve_graphic, resolve_tex, summarize_case, which, write_json, AUX_EXT, GRAPHIC_EXT, TEX_EXT)
 
 TEXT_MATERIAL = (".md", ".txt", ".csv", ".tsv", ".json", ".yaml", ".yml", ".bib", ".tex", ".rst", ".xml", ".html", ".log")
+
+
+def resolve_ci(target, bases, root, exts=("",)):
+    """Case-insensitive fallback lookup (for Linux) returning relative path from root if found, else None."""
+    t = target.strip().strip('"').replace("\\", "/")
+    cands = [t + e for e in exts] if not os.path.splitext(t)[1] or exts == ("",) else [t]
+    for base in bases:
+        for c in cands:
+            parts = [p for p in os.path.normpath(os.path.join(os.path.relpath(base, root), c)).split(os.sep) if p and p != "."]
+            if any(p == ".." for p in parts):
+                continue
+            cur = root
+            real = []
+            ok = True
+            for part in parts:
+                try:
+                    names = os.listdir(cur)
+                except OSError:
+                    ok = False
+                    break
+                if part in names:
+                    real.append(part)
+                else:
+                    alt = [x for x in names if x.lower() == part.lower()]
+                    if not alt:
+                        ok = False
+                        break
+                    real.append(alt[0])
+                cur = os.path.join(cur, real[-1])
+            if ok and os.path.isfile(cur):
+                return "/".join(real)
+    return None
 
 
 def safe_extract(archive, dest):
@@ -102,9 +134,15 @@ def reach(src, main, files_info):
             return
         for inc in inf["includes"]:
             p = resolve_tex(inc["target"], main_dir, src) or resolve_tex(inc["target"], os.path.join(src, os.path.dirname(f)), src)
+            bad_case = case_mismatch(p, src) if p else resolve_ci(inc["target"], [main_dir, os.path.join(src, os.path.dirname(f)), src], src, TEX_EXT + ("",))
+            if bad_case:
+                problems.append({"class": "missing_file", "severity": "error", "file": f, "line": inc["line"],
+                                 "message": "\\%s{%s} matches %s only case-insensitively" % (inc["cmd"], inc["target"], bad_case),
+                                 "hint": "Works on Windows/macOS, fails on Linux: use the exact path/case %s." % bad_case, "source": "precheck", "name": inc["target"], "actual": bad_case})
             if not p:
-                problems.append({"class": "missing_file", "severity": "error", "file": f, "line": inc["line"], "message": "\\%s{%s}: file not found" % (inc["cmd"], inc["target"]),
-                                 "hint": "Path is resolved relative to the MAIN file directory; check spelling/case/extension.", "source": "precheck", "name": inc["target"]})
+                if not bad_case:
+                    problems.append({"class": "missing_file", "severity": "error", "file": f, "line": inc["line"], "message": "\\%s{%s}: file not found" % (inc["cmd"], inc["target"]),
+                                     "hint": "Path is resolved relative to the MAIN file directory; check spelling/case/extension.", "source": "precheck", "name": inc["target"]})
                 continue
             r = rel(p, src)
             if r.lower().endswith(TEX_EXT) or r.endswith((".tikz", ".pgf")):
@@ -159,16 +197,17 @@ def precheck(src, main, order, files_info, engine, bibtool):
             if b["style"]:
                 need.setdefault(b["style"] + ".bst", (f, b["line"], "bst"))
     in_main = {x.lower() for x in os.listdir(main_dir)} if os.path.isdir(main_dir) else set()
-    not_local = [n for n in need if n.lower() not in in_main]
+    not_local = [n for n in need if n.lower() not in in_main and not os.path.isfile(os.path.join(main_dir, n))]
     found, have_kpse = kpsewhich_many(not_local, cwd=main_dir)
     missing = []
     for n, (f, ln, kind) in need.items():
-        if n.lower() in in_main:
+        if n.lower() in in_main or os.path.isfile(os.path.join(main_dir, n)):
             continue
-        if n.lower() in local and n not in found:
-            where = local[n.lower()]
+        bname = os.path.basename(n)
+        if bname.lower() in local and n not in found:
+            where = local[bname.lower()]
             problems.append({"class": {"class": "missing_class", "package": "missing_package", "bst": "bib_missing_file"}[kind], "severity": "error", "file": f, "line": ln,
-                             "message": "%s %s exists at %s but TeX only searches the main file's directory and the TeX tree" % (kind, n, where), "name": os.path.splitext(n)[0], "found_at": where,
+                             "message": "%s %s exists at %s but TeX only searches the main file's directory and the TeX tree" % (kind, n, where), "name": os.path.splitext(bname)[0], "found_at": where,
                              "hint": "Copy %s next to %s (keep the template file unchanged), or set TEXINPUTS=./%s//: - copying is more portable." % (where, main, os.path.dirname(where)), "source": "precheck"})
             continue
         if not have_kpse:
@@ -205,8 +244,13 @@ def precheck(src, main, order, files_info, engine, bibtool):
             if hit:
                 bibs.append(hit)
             else:
-                problems.append({"class": "bib_missing_file", "severity": "error", "file": f, "line": b["line"], "message": "bibliography file %s not found" % t,
-                                 "hint": ("\\addbibresource needs the .bib extension; " if b["cmd"] == "addbibresource" and not t.endswith(".bib") else "") + "check the file name / path.", "source": "precheck", "name": t})
+                ci_bib = resolve_ci(t, [main_dir, src], src, (".bib", ""))
+                if ci_bib:
+                    problems.append({"class": "bib_missing_file", "severity": "error", "file": f, "line": b["line"], "message": "bibliography file %s matches %s only case-insensitively" % (t, ci_bib),
+                                     "hint": "Use exact case %s (Linux is case-sensitive)." % ci_bib, "source": "precheck", "name": t, "actual": ci_bib})
+                else:
+                    problems.append({"class": "bib_missing_file", "severity": "error", "file": f, "line": b["line"], "message": "bibliography file %s not found" % t,
+                                     "hint": ("\\addbibresource needs the .bib extension; " if b["cmd"] == "addbibresource" and not t.endswith(".bib") else "") + "check the file name / path.", "source": "precheck", "name": t})
     # graphics
     for f in order:
         inf = files_info.get(f, {})
@@ -217,7 +261,7 @@ def precheck(src, main, order, files_info, engine, bibtool):
             if "#" in g["target"] or "\\" in g["target"]:
                 continue
             gpath = resolve_graphic(g["target"], main_dir, src, gp)
-            bad_case = case_mismatch(gpath, src) if gpath else None
+            bad_case = case_mismatch(gpath, src) if gpath else resolve_ci(g["target"], [main_dir, src] + [os.path.join(main_dir, x) for x in gp], src, GRAPHIC_EXT + ("",))
             if bad_case:
                 problems.append({"class": "missing_file", "severity": "error", "file": f, "line": g["line"], "message": "graphic %s matches %s only case-insensitively" % (g["target"], bad_case),
                                  "hint": "Works on Windows/macOS, fails on Linux (case-sensitive): use the exact name %s in \\includegraphics (do not rename shared assets silently)." % bad_case,
@@ -278,7 +322,8 @@ def main():
         materials = []
         for p in iter_files(stage):
             r = rel(p, stage)
-            if p.lower().endswith(TEXT_MATERIAL):
+            pl = p.lower()
+            if pl.endswith(TEXT_MATERIAL) or (pl.endswith(".pdf") and os.path.splitext(os.path.basename(pl))[0] + ".tex" not in [x.lower() for x in os.listdir(os.path.dirname(p))]):
                 materials.append(r)
         copy_tree(stage, os.path.join(work, "orig"), skip_aux=False)
         copy_tree(stage, os.path.join(work, "src"), skip_aux=True)
@@ -288,7 +333,7 @@ def main():
                 os.remove(p)
         shutil.rmtree(stage, ignore_errors=True)
     else:
-        materials = [rel(p, os.path.join(work, "orig")) for p in iter_files(os.path.join(work, "orig")) if p.lower().endswith(TEXT_MATERIAL)]
+        materials = [rel(p, os.path.join(work, "orig")) for p in iter_files(os.path.join(work, "orig")) if p.lower().endswith(TEXT_MATERIAL + (".pdf",))]
     src = os.path.join(work, "src")
     files_info, mains, main, roots = project_scan(src, a.main)
     st = {"skill_version": VERSION, "case_id": cid, "case_file": os.path.abspath(a.case) if a.case else None, "input_dir": in_dir, "contract_fields": fields,
@@ -296,9 +341,18 @@ def main():
     print("latex-build-doctor %s init" % VERSION)
     print("case_id:", cid, "| contract fields:", fields or "(none found - result.json gets the standard fields)")
     print("input dir:", in_dir, "| %d files copied to work/src (edit there), snapshot in work/orig" % sum(1 for _ in iter_files(src)))
+    non_tex_mats = [m for m in materials if m not in ("case.json",) and not m.lower().endswith(TEX_EXT)]
+    if non_tex_mats:
+        print("materials (%d): %s" % (len(non_tex_mats), ", ".join(non_tex_mats[:20])))
+    local_cls = [p for p in iter_files(src) if p.lower().endswith(".cls")]
+    for cp in local_cls[:4]:
+        ci = inspect_cls(cp)
+        print("local template %s: base=%s options=%s cmds=%s checks=%s" % (rel(cp, src), ci["base_class"], ci["options"][:8], ci["commands"][:12], ci["checks"][:4]))
     task = os.path.join(in_dir, "task.md")
     if os.path.isfile(task):
         print("task file:", task, "(read it fully)")
+    if main and re.match(r"^(?:template|templates|examples?)/", main, re.I):
+        print("NOTE: detected main '%s' is inside a template/example folder. If writing a new manuscript, create work/src/main.tex and build with --main main.tex." % main)
     if not main:
         print("NO MAIN FILE: no .tex with \\documentclass + \\begin{document}.", "tex files:", sorted(files_info) or "none")
         print("If the task is to write a new document: create work/src/main.tex, then run lx_build.py --main main.tex")

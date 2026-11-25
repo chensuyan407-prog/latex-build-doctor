@@ -1,11 +1,11 @@
 {
- "recorded_at": "2026-11-23T10:18:03Z",
+ "recorded_at": "2026-11-25T05:30:17Z",
  "os": "Windows-11-10.0.26200-SP0",
  "python": "3.13.14",
  "engine": {
   "name": "pdflatex",
   "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
-  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  23 NOV 2026 18:18"
+  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  25 NOV 2026 13:30"
  },
  "bibtool": null,
  "kpsewhich": "kpathsea version 6.4.2\r",
@@ -22,7 +22,7 @@
  "distribution": "TeX Live 2026",
  "pdf_fonts": [
   {
-   "name": "ZGCQZL+CMR10",
+   "name": "GBXPQU+CMR10",
    "type": "Type 1 Builtin",
    "embedded": "yes"
   }

@@ -1,7 +1,7 @@
 {
  "case_id": "no_main",
  "status": "failed",
- "skill": "latex-build-doctor 0.1.0",
+ "skill": "latex-build-doctor 0.2.0",
  "error": "no main .tex (\\documentclass + \\begin{document}) in work/src",
  "uncertainty": [
   "nothing compiled"

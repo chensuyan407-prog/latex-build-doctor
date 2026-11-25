@@ -1,0 +1,181 @@
+{
+ "case_id": "v02_tools",
+ "status": "success",
+ "summary": "SUCCESS: main.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 2 edit hunk(s), 2 documented.",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:30:24Z",
+ "artifacts": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "d3b0d94a679fe621b4adeb8cb11166d17f3493b3cca623bdceafc1eb6a46e618",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "build": {
+  "main": "main.tex",
+  "engine": "pdflatex",
+  "bibtool": null,
+  "commands": [
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+   "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex"
+  ],
+  "engine_passes": 2,
+  "converged": true,
+  "timeout": false,
+  "seconds": 0.96,
+  "rounds": [
+   {
+    "step": "pdflatex pass 1",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.5,
+    "aux_sha256": "15cd69bdc41a631ea8c5f047737764534fbe05b1cef3e3e7b805e929eeaff7d7",
+    "timeout": false,
+    "stderr_tail": ""
+   },
+   {
+    "step": "pdflatex pass 2",
+    "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
+    "exit": 0,
+    "seconds": 0.46,
+    "aux_sha256": "15cd69bdc41a631ea8c5f047737764534fbe05b1cef3e3e7b805e929eeaff7d7",
+    "timeout": false,
+    "stderr_tail": ""
+   }
+  ],
+  "source_date_epoch": "1704067200",
+  "reproducibility": {
+   "checked": false
+  }
+ },
+ "diagnostics_summary": {
+  "errors_in_log": 0,
+  "root_causes": [],
+  "errors_total": 0,
+  "undefined_references": [],
+  "undefined_citations": [],
+  "overfull_boxes": [],
+  "missing_glyphs": [],
+  "warnings": 0
+ },
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "changes": [
+  {
+   "hunk": "H001",
+   "file": "main.tex",
+   "kind": "replace",
+   "old_lines": [
+    1,
+    4
+   ],
+   "new_lines": [
+    1,
+    5
+   ],
+   "old": "\\documentclass{article}\n\\begin{document}\nHello.\n\\end{document}",
+   "new": "\\documentclass{article}\r\n\\usepackage{booktabs,longtable}\r\n\\begin{document}\r\n\\input{tab}\r\n\\end{document}\r",
+   "reasons": [
+    "add data table"
+   ],
+   "fixes": [],
+   "types": [
+    "table"
+   ],
+   "documented": true
+  },
+  {
+   "hunk": "H002",
+   "file": "tab.tex",
+   "kind": "new_file",
+   "old_lines": [
+    1,
+    0
+   ],
+   "new_lines": [
+    1,
+    22
+   ],
+   "old": "",
+   "new": "\\begin{longtable}{lr}\n  \\caption{Results}\\label{tab:res} \\\\\n  \\toprule\n  Method & RMSE \\\\\n  \\midrule\n  \\endfirsthead\n  \\toprule\n  Method & RMSE \\\\\n  \\midrule\n  \\endhead\n  \\midrule\n  \\multicolumn{2}{r}{\\footnotesize\\emph{Continued on next page}} \\\\\n  \\endfoot\n  \\bottomrule\n  \\endlastfoot\n  Base & 0.42 \\\\\n  Ours & 0.28 \\\\\n\\end{longtable}\n% source map (lx_table.py): file data.csv\n% header <- line 1; columns Method, RMSE\n% row 1 <- data.csv line 2\n% row 2 <- data.csv line 3",
+   "reasons": [
+    "add data table"
+   ],
+   "fixes": [],
+   "types": [
+    "new_file"
+   ],
+   "documented": true
+  }
+ ],
+ "change_records": [
+  {
+   "file": "main.tex",
+   "line": 1,
+   "from": "\\documentclass{article}\n\\begin{document}\nHello.\n\\end{document}",
+   "to": "\\documentclass{article}\r\n\\usepackage{booktabs,longtable}\r\n\\begin{document}\r\n\\input{tab}\r\n\\end{document}\r",
+   "reason": "add data table",
+   "type": "table"
+  },
+  {
+   "file": "tab.tex",
+   "line": 1,
+   "from": "",
+   "to": "",
+   "reason": "add data table",
+   "type": "new_file"
+  }
+ ],
+ "sources": {
+  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\v02_tools\\input",
+  "materials": [
+   "case.json",
+   "data.csv",
+   "main.tex"
+  ],
+  "original_snapshot": "work/orig (unchanged input)",
+  "fact_guard": {
+   "numbers_changed_in_edits": [],
+   "keys_changed_in_edits": [],
+   "numbers_not_in_materials": []
+  }
+ },
+ "needs_confirmation": [],
+ "uncertainty": [
+  "byte-reproducibility not tested (build failed, errors remain or --no-repro)"
+ ],
+ "notes": [],
+ "environment": {
+  "distribution": "TeX Live 2026",
+  "engine_version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
+  "bibtool_version": null,
+  "documentclass": {
+   "name": "article",
+   "date": "2025/01/22",
+   "version": "v1.4n Standard LaTeX document class"
+  },
+  "n_packages": 2,
+  "details": "environment.json"
+ },
+ "pdf": "main.pdf"
+}

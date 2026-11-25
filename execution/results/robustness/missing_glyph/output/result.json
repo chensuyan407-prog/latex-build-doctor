@@ -2,8 +2,8 @@
  "case_id": "missing_glyph",
  "status": "partial",
  "summary": "PARTIAL: main.tex with xelatex, 1 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:50Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:30:05Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
@@ -39,7 +39,7 @@
     "step": "xelatex pass 1",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.05,
+    "seconds": 1.06,
     "aux_sha256": "fbabe80c887f95a1ede6847f22dd91b380bda9d17ae8bfaa72e1741b16aa41e9",
     "timeout": false,
     "stderr_tail": ""
@@ -97,7 +97,8 @@
  },
  "needs_confirmation": [],
  "uncertainty": [
-  "2 missing glyph(s) in the PDF (characters not in font)"
+  "2 missing glyph(s) in the PDF (characters not in font)",
+  "replacement character (U+FFFD) found in extracted PDF text"
  ],
  "notes": [],
  "environment": {

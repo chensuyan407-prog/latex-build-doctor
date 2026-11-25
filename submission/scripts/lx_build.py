@@ -21,7 +21,7 @@ import sys
 import time
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from lx_common import (AUX_EXT, TEX_EXT, VERSION, code_lines, detect_bibtool, detect_engine, iter_files, load_json, read_text, rel, run, sha256_file,
+from lx_common import (AUX_EXT, TEX_EXT, VERSION, code_lines, detect_bibtool, detect_engine, extract_pdf_text, iter_files, load_json, read_text, rel, run, sha256_file,
                        tex_env, tool_version, which, write_json, write_text, load_rules)
 from lx_init import project_scan, reach, precheck
 from lx_log import ROOT_RANK, parse_biber_blg, parse_bibtex_blg, parse_tex_log
@@ -77,6 +77,15 @@ def compile_once(bdir, main_rel, engine, bibtool, passes, timeout, shell_escape,
         p = os.path.join(main_dir, job + ".log")
         return read_log(p)
 
+    def toc_hash():
+        h = []
+        for ext in (".toc", ".lof", ".lot"):
+            p = os.path.join(main_dir, job + ext)
+            if os.path.isfile(p) and os.path.getsize(p) > 0:
+                h.append(sha256_file(p))
+        return tuple(h)
+
+    toc0 = toc_hash()
     code, out = go(cmd, "%s pass 1" % engine)
     log = logtext()
     pdf_name = job + (".dvi" if dvi_engine else ".pdf")
@@ -86,10 +95,14 @@ def compile_once(bdir, main_rel, engine, bibtool, passes, timeout, shell_escape,
     if not fatal_first or bibtool:
         aux = os.path.join(main_dir, job + ".aux")
         auxt = read_text(aux)[0] if os.path.isfile(aux) else ""
-        need_bibtex = bibtool == "bibtex" and ("\\bibdata" in auxt or any("\\bibdata" in read_text(p)[0] for p in iter_files(main_dir) if p.endswith(".aux")))
+        sub_bib_aux = [p for p in iter_files(main_dir) if p.endswith(".aux") and p != aux and "\\bibdata" in read_text(p)[0]]
+        need_bibtex = bibtool == "bibtex" and ("\\bibdata" in auxt or bool(sub_bib_aux))
         need_biber = bibtool == "biber" and os.path.isfile(os.path.join(main_dir, job + ".bcf"))
         if need_bibtex and which("bibtex"):
-            go(["bibtex", job], "bibtex")
+            if "\\bibdata" in auxt:
+                go(["bibtex", job], "bibtex")
+            for sp in sub_bib_aux:
+                go(["bibtex", os.path.relpath(sp, main_dir)[:-4]], "bibtex (%s)" % os.path.basename(sp))
             bib_ran = "bibtex"
         elif need_biber and which("biber"):
             go(["biber", job], "biber")
@@ -102,7 +115,7 @@ def compile_once(bdir, main_rel, engine, bibtool, passes, timeout, shell_escape,
             go(["makeindex", job + ".nlo", "-s", "nomencl.ist", "-o", job + ".nls"], "makeindex nomencl")
         if os.path.isfile(os.path.join(main_dir, job + ".glo")) and which("makeglossaries"):
             go(["makeglossaries", job], "makeglossaries")
-        need_more = bool(bib_ran) or bool(RERUN.search(log)) or os.path.isfile(idx)
+        need_more = bool(bib_ran) or bool(RERUN.search(log)) or os.path.isfile(idx) or (toc_hash() != toc0)
         biber_again = False
         while n_eng < passes and (need_more or biber_again):
             if time.time() - t_start > budget_s:
@@ -270,7 +283,8 @@ def source_numbers(orig_root, materials):
         p = os.path.join(orig_root, m)
         if os.path.isfile(p):
             try:
-                nums.update(_canon(x) for x in numbers(read_text(p)[0]))
+                txt = extract_pdf_text(p) if p.lower().endswith(".pdf") else read_text(p)[0]
+                nums.update(_canon(x) for x in numbers(txt))
             except OSError:
                 pass
     return nums
@@ -300,10 +314,13 @@ def new_numbers(src_root, files, srcnums):
                 continue
             if not in_body:
                 continue
-            t = re.sub(r"\[[^\]]*\]", " ", line)
-            t = re.sub(r"\\(?:begin|end|label|ref|eqref|cref|Cref|cite\w*|includegraphics|input|include|vspace|hspace|setlength|addlinespace|multicolumn|multirow|cmidrule|cline|hline|rule|resizebox|scalebox|makebox|parbox|columnwidth|linewidth|textwidth|url|href|bibliography\w*|cellcolor|rowcolor|color|textcolor|arraystretch|setcounter|addtocounter|tabcolsep|fontsize|selectfont|SI\w*|qty\w*)\b\*?(\{[^}]*\})?", " ", t)
+            t = re.sub(r"https?://\S+|\b10\.\d{4,9}/[^\s}]+", " ", line)
+            t = re.sub(r"\[[^\]]*\]", " ", t)
+            t = re.sub(r"\\(?:cmidrule|cline)\s*(?:\([^)]*\))?\s*\{[^}]*\}", " ", t)
+            t = re.sub(r"\\(?:multicolumn|multirow|fontsize|setcounter|addtocounter|renewcommand|providecommand)\b\*?\s*(?:\{[^}]*\}\s*){1,3}", " ", t)
+            t = re.sub(r"\\(?:begin|end|label|ref|eqref|cref|Cref|cite\w*|parencite\w*|textcite\w*|autocite\w*|includegraphics|input|include|vspace|hspace|setlength|addlinespace|rule|resizebox|scalebox|makebox|parbox|columnwidth|linewidth|textwidth|url|href|bibliography\w*|cellcolor|rowcolor|color|textcolor|arraystretch|tabcolsep|selectfont|SI\w*|qty\w*)\b\*?(\{[^}]*\})?", " ", t)
             t = re.sub(r"\d+(?:\.\d+)?\s*(?:pt|em|ex|cm|mm|in|bp|sp|\\(?:linewidth|textwidth|columnwidth|textheight|baselineskip))", " ", t)
-            t = re.sub(r"\{[lcrpXS|@{}\d.\s*mb]*\}", " ", t) if "tabular" in line else t
+            t = re.sub(r"\{[lcrpXS|@{}\d.\s*mb<>!]+\}", " ", t) if ("tabular" in line or "\\begin{" in line) else t
             for x in numbers(t):
                 c = _canon(x)
                 if c not in srcnums and len(x.strip("-−")) > 1 and not re.fullmatch(r"(19|20)\d\d", x):
@@ -393,14 +410,14 @@ def environment(engine, bibtool, info, fls, src_root, main_dir, pdf):
     return env
 
 
-def previews(pdf, outdir, max_pages=4):
+def previews(pdf, outdir, max_pages=8):
     if not pdf or not which("pdftoppm"):
         return []
     os.makedirs(outdir, exist_ok=True)
     for p in os.listdir(outdir):
         if p.startswith("page-"):
             os.remove(os.path.join(outdir, p))
-    run(["pdftoppm", "-png", "-r", "60", "-f", "1", "-l", str(max_pages), pdf, os.path.join(outdir, "page")], timeout=120)
+    run(["pdftoppm", "-png", "-r", "100", "-f", "1", "-l", str(max_pages), pdf, os.path.join(outdir, "page")], timeout=120)
     return sorted(p for p in os.listdir(outdir) if p.endswith(".png"))
 
 
@@ -432,7 +449,12 @@ def main():
     if not isinstance(changes, dict):
         changes = {}
     bad_changes = changes == {} and os.path.isfile(os.path.join(work, "changes.json"))
-    files_info, mains, main_rel, roots = project_scan(src, a.main or changes.get("main") or st.get("main"))
+    hint_main = a.main or changes.get("main") or st.get("main")
+    if not a.main and not changes.get("main") and hint_main and re.match(r"^(?:template|templates|examples?)/", hint_main, re.I):
+        root_mains = [m for m in os.listdir(src) if m.lower().endswith(TEX_EXT) and os.path.isfile(os.path.join(src, m))]
+        if root_mains:
+            hint_main = None  # prefer newly created root-level main file over template sample
+    files_info, mains, main_rel, roots = project_scan(src, hint_main)
     t0 = time.time()
     diags = []
     if bad_changes:
@@ -463,6 +485,11 @@ def main():
     static, ctx = scan_project(src, order, main_rel, engine)
     defined = ctx["newcommands"]
     logd, info = parse_tex_log(R["log"], proj_files_main, loaded, defined)
+    if R["pdf"] and not any(d["class"] == "missing_font" for d in logd):
+        for d in pre:
+            if d["class"] == "missing_font":
+                d["severity"] = "info"
+                d["message"] += " (fc-list did not index it, but compiler loaded fonts cleanly)"
     for d in logd:
         if d.get("file"):
             p = os.path.normpath(os.path.join(main_dir_rel, d["file"])).replace(os.sep, "/")
@@ -609,17 +636,25 @@ def main():
     has_fol = {d.get("cascade_of") for d in D if d.get("cascade_of")}
     roots_.sort(key=lambda d: (0 if d["source"] in ("precheck", "log") or d["id"] in has_fol else 1, ROOT_RANK.get(d["class"], 5), d.get("file") or "", d.get("line") or 0))
     log_err = [d for d in logd if d["severity"] == "error"]
+    bib_err = [d for d in bibd if d["severity"] == "error"]
+    pre_case_err = [d for d in pre if d.get("actual")]
+    float_err = [d for d in static if d["class"] == "float_label" and d["severity"] == "error"]
     undef_ref = sorted({d["key"] for d in logd if d["class"] == "undefined_ref"})
+    if info.get("fatal"):
+        undef_ref = sorted(set(undef_ref) | {d["key"] for d in static if d["class"] == "undefined_ref" and d.get("key")})
     undef_cite = sorted({d["key"] for d in logd + bibd if d["class"] == "undefined_cite"})
+    if bib_err or info.get("fatal") or not R["bib_ran"]:
+        undef_cite = sorted(set(undef_cite) | {d["key"] for d in citef if d.get("key")})
     overfull = [d for d in logd if d["class"] == "overfull_box"]
     glyphs = [d for d in logd if d["class"] == "missing_glyph"]
     req_fail = [r for r in reqs if r["ok"] is False and r["severity"] == "error"]
     # reproducibility
     repro = {"checked": False}
+    use_shell_escape = a.shell_escape or changes.get("shell_escape", False)
     if R["pdf"] and not a.no_repro and not R["timeout"] and not log_err:
         b2 = os.path.join(work, "build_repro")
         copy_src(src, b2)
-        R2 = compile_once(b2, main_rel, engine, bibtool, a.passes, a.timeout, a.shell_escape, str(epoch), a.budget)
+        R2 = compile_once(b2, main_rel, engine, bibtool, a.passes, a.timeout, use_shell_escape, str(epoch), a.budget)
         h1 = sha256_file(R["pdf"])
         h2 = sha256_file(R2["pdf"]) if R2["pdf"] else None
         repro = {"checked": True, "pdf_sha256_build1": h1, "pdf_sha256_build2": h2, "byte_identical": h1 == h2, "source_date_epoch": str(epoch),
@@ -628,7 +663,7 @@ def main():
     status = "success"
     if not R["pdf"]:
         status = "failed"
-    elif log_err or undef_ref or undef_cite or not R["converged"] or req_fail or R["timeout"] or glyphs:
+    elif log_err or bib_err or pre_case_err or float_err or undef_ref or undef_cite or not R["converged"] or req_fail or R["timeout"] or glyphs:
         status = "partial"
     # ---------------- outputs
     os.makedirs(out, exist_ok=True)
@@ -675,6 +710,12 @@ def main():
         unc.append("byte-reproducibility not tested (build failed, errors remain or --no-repro)")
     if glyphs:
         unc.append("%d missing glyph(s) in the PDF (characters not in font)" % len(glyphs))
+    if env.get("pdf_fonts_not_embedded"):
+        unc.append("non-embedded PDF fonts: " + ", ".join(env["pdf_fonts_not_embedded"][:10]))
+    if pdf_out:
+        ptxt = extract_pdf_text(pdf_out)
+        if "\ufffd" in ptxt:
+            unc.append("replacement character (U+FFFD) found in extracted PDF text")
     if any(r["ok"] is None for r in reqs):
         unc.append("some requirements could not be checked automatically")
     und = [d for d in audit if d["class"] == "undocumented_change"]
@@ -707,10 +748,14 @@ def main():
     }
     fields = st.get("contract_fields") or []
     overrides = changes.get("fields") or {}
+    unmapped_fields = []
     for f in fields:
         if f in res and f not in overrides:
             continue
-        res[f] = map_field(f, res, overrides)
+        mapped = map_field(f, res, overrides)
+        if isinstance(mapped, dict) and mapped.get("note", "").startswith("no automatic mapping"):
+            unmapped_fields.append(f)
+        res[f] = mapped
     for f, v in overrides.items():
         if f not in fields:
             res[f] = v.get("value") if isinstance(v, dict) and "value" in v else v
@@ -718,7 +763,7 @@ def main():
     write_report(out, res, D, roots_, reqs, change_log, newnums)
     rc = 0 if status == "success" else (1 if R["pdf"] else 2)
     if not a.quiet:
-        print_console(res, D, roots_, reqs, audit, newnums, a.max_show, time.time() - t0)
+        print_console(res, D, roots_, reqs, audit, newnums, a.max_show, time.time() - t0, unmapped_fields)
     return rc
 
 
@@ -761,20 +806,31 @@ def map_field(f, res, overrides):
             return _get(res, v["from"])
         return v
     k = f.lower()
+    if k in ("source", "fixed_source", "tex_source", "fixed_tex", "fixed_project", "deliverable_tex", "output_tex", "latex_source", "main_tex"):
+        return res["artifacts"]
+    if k in ("unresolved_citations", "undefined_citations", "missing_citations"):
+        return res["diagnostics_summary"]["undefined_citations"]
+    if k in ("unresolved_references", "undefined_references", "missing_references"):
+        return res["diagnostics_summary"]["undefined_references"]
+    if k in ("open_questions", "open_items", "questions", "manual_confirmations"):
+        return res["needs_confirmation"]
     table = [
         (("status", "state", "outcome"), lambda: res["status"]),
         (("pdf",), lambda: res["artifacts"]["pdf"]),
         (("log",), lambda: res["artifacts"]["logs"]),
         (("diff", "patch"), lambda: res["artifacts"]["diff"]),
-        (("change", "modif", "edit", "revision", "fix"), lambda: res["changes"]),
-        (("diagnos", "error", "issue", "problem", "warning"), lambda: res["diagnostics_summary"]),
+        (("unresolved_cit", "undefined_cit", "missing_cit"), lambda: res["diagnostics_summary"]["undefined_citations"]),
+        (("unresolved_ref", "undefined_ref", "missing_ref"), lambda: res["diagnostics_summary"]["undefined_references"]),
+        (("open_question", "open_item", "confirm", "manual", "human", "review", "todo"), lambda: res["needs_confirmation"]),
+        (("change", "modif", "edit", "revision", "bib_fix", "bibliography_fix", "fixes"), lambda: res["changes"]),
+        (("diagnos", "error", "issue", "problem", "warning", "remaining"), lambda: res["diagnostics_summary"]),
         (("command", "compile", "build", "reproduc", "recipe", "step"), lambda: res["build"]),
         (("environment", "version", "distribution", "package", "dependenc", "font"), lambda: res["environment"]),
-        (("confirm", "manual", "human", "review", "todo"), lambda: res["needs_confirmation"]),
         (("uncertain", "limit", "gap", "risk", "caveat"), lambda: res["uncertainty"]),
-        (("source", "evidence", "provenance", "fact", "trace", "citation", "reference"), lambda: res["sources"]),
+        (("source_map", "provenance", "evidence", "fact", "trace", "material"), lambda: res["sources"]),
         (("requirement", "template", "checklist", "compliance"), lambda: res["requirements"]),
-        (("tex", "latex", "artifact", "deliverable", "output", "file", "project", "manuscript", "document", "main", "result"), lambda: res["artifacts"]),
+        (("tex", "latex", "artifact", "deliverable", "output", "file", "project", "manuscript", "document", "main", "result", "fixed", "source"), lambda: res["artifacts"]),
+        (("citation", "reference"), lambda: res["sources"]),
         (("summary", "report", "description", "note", "explanation"), lambda: res["summary"]),
         (("case",), lambda: res["case_id"]),
     ]
@@ -863,7 +919,7 @@ def _md(s):
     return str(s).replace("|", "\\|").replace("\n", " ")
 
 
-def print_console(res, D, roots_, reqs, audit, newnums, max_show, secs):
+def print_console(res, D, roots_, reqs, audit, newnums, max_show, secs, unmapped_fields=()):
     b = res["build"]
     print("status: %s  (%.1f s)" % (res["status"], secs))
     print(res["summary"])
@@ -894,6 +950,8 @@ def print_console(res, D, roots_, reqs, audit, newnums, max_show, secs):
             print("  requirement %s %s: %s" % (r["id"], "FAILED" if r["ok"] is False else "unchecked", r["desc"]))
     if newnums:
         print("  fact guard: %d number(s) in the body not found in any input material, e.g. %s" % (len(newnums), ", ".join("%s@%s:%s" % (x["number"], x["file"], x["line"]) for x in newnums[:6])))
+    if unmapped_fields:
+        print("  WARN unmapped output_contract field(s) in result.json (%s) - populate them via work/changes.json -> fields" % ", ".join(unmapped_fields))
     print("outputs: result.json, build_report.md, diagnostics.json, src/, PDF, preview/, BUILD.md, changes.diff, change_log.json")
 
 

@@ -3,11 +3,12 @@ import difflib
 import os
 import re
 
-from lx_common import code_lines, find_commands, load_rules, read_text, rel, split_csv
+from lx_common import code_lines, find_commands, find_multi_arg_commands, load_rules, read_text, rel, split_csv
 
 REF_CMDS = ["ref", "eqref", "pageref", "autoref", "cref", "Cref", "vref", "nameref", "labelcref", "cpageref", "Cpageref", "subref", "crefrange", "Crefrange"]
 CITE_CMDS = ["cite", "citep", "citet", "citealp", "citealt", "citeauthor", "citeyear", "citeyearpar", "parencite", "textcite", "autocite", "footcite",
              "supercite", "smartcite", "nocite", "Cite", "Citep", "Citet", "Parencite", "Textcite", "Autocite", "fullcite", "citenum", "citeonline", "upcite"]
+PLURAL_CITE_CMDS = ["cites", "parencites", "textcites", "autocites", "footcites", "supercites", "fullcites", "Cites", "Parencites", "Textcites", "Autocites"]
 REQUIRED_BIB = {
     "article": ["author", "title", "journal|journaltitle", "year|date"],
     "book": ["author|editor", "title", "publisher", "year|date"],
@@ -58,6 +59,10 @@ def scan_project(src_root, files, main_rel, engine):
             for k in split_csv(a):
                 refs.append((k, f, ln, c))
         for c, _, a, ln, _ in find_commands(code, CITE_CMDS):
+            for k in split_csv(a):
+                if k != "*":
+                    cites.append((k, f, ln, c))
+        for c, a, ln in find_multi_arg_commands(code, PLURAL_CITE_CMDS):
             for k in split_csv(a):
                 if k != "*":
                     cites.append((k, f, ln, c))
@@ -218,6 +223,32 @@ def _grp(s, i):
     return None, i + 1
 
 
+def _find_matching_end(code, env, start):
+    pat = re.compile(r"\\(begin|end)\s*\{" + re.escape(env) + r"\}")
+    depth = 1
+    for m in pat.finditer(code, start):
+        depth += 1 if m.group(1) == "begin" else -1
+        if depth == 0:
+            return m.start()
+    return -1
+
+
+_INNER_ALIGN_ENVS = re.compile(
+    r"\\begin\{(pmatrix|bmatrix|vmatrix|Bmatrix|Vmatrix|matrix|smallmatrix|cases|dcases|rcases|aligned|gathered|split|array|tabular\*?|tabularx)\}.*?\\end\{\1\}",
+    re.S,
+)
+
+
+def _blank_inner_envs(body):
+    # Preserve newlines so line-number computation remains exact while ignoring inner & and \\.
+    prev = None
+    cur = body
+    while cur != prev:
+        prev = cur
+        cur = _INNER_ALIGN_ENVS.sub(lambda m: re.sub(r"[^\n]", " ", m.group(0)), cur)
+    return cur
+
+
 def table_checks(f, lines, add):
     code = "\n".join(lines)
     for m in re.finditer(r"\\begin\{(tabular\*?|tabularx|longtable|tabulary|xltabular|array)\}", code):
@@ -237,10 +268,10 @@ def table_checks(f, lines, add):
         if spec is None:
             continue
         ncol = column_count(spec)
-        end = code.find("\\end{%s}" % env, j)
+        end = _find_matching_end(code, env, j)
         if end < 0 or not ncol:
             continue
-        body = code[j:end]
+        body = _blank_inner_envs(code[j:end])
         l0 = code.count("\n", 0, j) + 1
         body = re.sub(r"\\\\(\[[^\]]*\])?", "\\\\\\\\", body)
         pos = 0
@@ -321,13 +352,14 @@ def package_checks(pkgs, engine, cls_name):
     for k, p in enumerate(pkgs):
         first.setdefault(p["name"], (k, p))
     for c in rules["conflicts"]:
+        sev = c.get("severity", "warning")
         if c["a"] == c["b"]:
             if names.count(c["a"]) > 1:
                 p = [x for x in pkgs if x["name"] == c["a"]][1]
-                F.append({"class": "package_conflict", "severity": "warning", "file": p["file"], "line": p["line"], "message": "%s loaded more than once" % c["a"], "hint": c["why"], "source": "static"})
+                F.append({"class": "package_conflict", "severity": sev, "file": p["file"], "line": p["line"], "message": "%s loaded more than once" % c["a"], "hint": c["why"], "source": "static"})
         elif c["a"] in first and c["b"] in first:
             p = first[c["a"]][1]
-            F.append({"class": "package_conflict", "severity": "warning", "file": p["file"], "line": p["line"], "message": "%s together with %s" % (c["a"], c["b"]), "hint": c["why"], "source": "static"})
+            F.append({"class": "package_conflict", "severity": sev, "file": p["file"], "line": p["line"], "message": "%s together with %s" % (c["a"], c["b"]), "hint": c["why"], "source": "static"})
     for lo in rules["load_order"]:
         if lo["pkg"] not in first:
             continue
@@ -362,7 +394,9 @@ def package_checks(pkgs, engine, cls_name):
 
 
 def parse_bib(path, relpath):
-    text, enc = read_text(path)
+    raw, enc = read_text(path)
+    # Blank comment-only lines (preserving line numbers) so commented @entries are ignored.
+    text = "\n".join("" if re.match(r"^\s*%", ln) else ln for ln in raw.split("\n"))
     entries, F = {}, []
     for m in re.finditer(r"@(\w+)\s*([{(])", text):
         typ = m.group(1).lower()
@@ -455,6 +489,9 @@ def bib_fields(s):
                 j = i + 1
                 d = 0
                 while j < n and not (s[j] == '"' and d == 0):
+                    if s[j] == "\\":
+                        j += 2
+                        continue
                     d += (s[j] == "{") - (s[j] == "}")
                     j += 1
                 if j >= n:

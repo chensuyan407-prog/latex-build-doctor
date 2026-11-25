@@ -131,6 +131,54 @@ def main():
     r0, r1, res, D = init_build(d, inp)
     rp = res["build"]["reproducibility"]
     check("source_date_epoch_repro", rp.get("checked") and rp.get("byte_identical"), json.dumps(rp)[:200])
+
+    # 12 v0.2 regression: URL %, double-opt cite, nested matrix in tabular, bib \" & %, <argument> cs, map_field
+    c12 = json.dumps({
+        "case_id": "v02_reg",
+        "output_contract": {
+            "fixed_source": "path", "tex_source": "path", "source": "path",
+            "unresolved_citations": "list", "open_questions": "list", "compile_status": "str"
+        }
+    })
+    bib12 = '% @article{commented_out, title = {Ignored}}\n@article{schr2020,\n  author = {Doe, J.},\n  title = {Schr\\"odinger Cat},\n  journal = {J. Phys.},\n  year = {2020}\n}\n'
+    tex12 = (
+        "\\documentclass{article}\n\\usepackage{url,amsmath,natbib}\n\\begin{document}\n"
+        "See \\url{https://example.com/a%20b} and \\cite[see][p.~2]{schr2020,missing2021}.\n"
+        "\\begin{tabular}{ll} A & $\\begin{pmatrix}1 & 2 \\\\ 3 & 4\\end{pmatrix}$ \\\\ \\end{tabular}\n"
+        "\\begin{figure}\\caption{Value \\SI{5}{nm}}\\end{figure}\n"
+        "\\bibliographystyle{plain}\n\\bibliography{refs}\n\\end{document}\n"
+    )
+    d, inp = case("v02_regression", {"case.json": c12, "main.tex": tex12, "refs.bib": bib12})
+    r0, r1, res, D = init_build(d, inp, build_extra=["--no-repro"])
+    classes = {x["class"] for x in D}
+    si_roots = [x for x in D if x.get("cs") == "\\SI"]
+    mf_ok = (
+        isinstance(res.get("fixed_source"), dict) and res["fixed_source"].get("main_tex") == "src/main.tex"
+        and isinstance(res.get("tex_source"), dict) and res["tex_source"].get("main_tex") == "src/main.tex"
+        and isinstance(res.get("source"), dict) and res["source"].get("main_tex") == "src/main.tex"
+        and "missing2021" in (res.get("unresolved_citations") or [])
+        and isinstance(res.get("open_questions"), list)
+        and res.get("compile_status") in ("partial", "failed", "success")
+    )
+    check(
+        "v02_parser_and_contract",
+        ("brace" not in classes) and ("table_columns" not in classes) and ("bib_syntax" not in classes)
+        and any(x.get("key") == "missing2021" for x in D) and bool(si_roots) and mf_ok,
+        "classes=%s si_cs=%s mf_ok=%s" % (sorted(classes), [x.get("cs") for x in si_roots], mf_ok),
+    )
+
+    # 13 lx_record --auto & lx_table --width longtable
+    d, inp = case("v02_tools", {"case.json": CASE % "v02_tools", "main.tex": DOC % "Hello.", "data.csv": "Method,RMSE\nBase,0.42\nOurs,0.28\n"})
+    py([os.path.join(S, "lx_init.py"), "--case", os.path.join(inp, "case.json"), "--work", os.path.join(d, "work"), "--out", os.path.join(d, "output")])
+    rt = py([os.path.join(S, "lx_table.py"), os.path.join(inp, "data.csv"), "--width", "longtable", "--caption", "Results", "--label", "tab:res", "--out", os.path.join(d, "work", "src", "tab.tex")])
+    open(os.path.join(d, "work", "src", "main.tex"), "w", encoding="utf-8").write("\\documentclass{article}\n\\usepackage{booktabs,longtable}\n\\begin{document}\n\\input{tab}\n\\end{document}\n")
+    rr = py([os.path.join(S, "lx_record.py"), "--work", os.path.join(d, "work"), "--auto", "--reason", "add data table", "--type", "table"])
+    r1 = py([os.path.join(S, "lx_build.py"), "--work", os.path.join(d, "work"), "--out", os.path.join(d, "output"), "--quiet", "--no-repro"])
+    res_t = json.load(open(os.path.join(d, "output", "result.json"), encoding="utf-8"))
+    dg_t = json.load(open(os.path.join(d, "output", "diagnostics.json"), encoding="utf-8"))["diagnostics"]
+    aud_warns = [x for x in dg_t if x.get("source") == "audit" and x.get("severity") != "info"]
+    check("v02_record_and_longtable", rt.returncode == 0 and rr.returncode == 0 and r1.returncode == 0 and res_t["status"] == "success" and not aud_warns,
+          "status=%s aud=%s" % (res_t["status"], aud_warns))
     json.dump({"checks": checks, "passed": sum(c["passed"] for c in checks), "total": len(checks)}, open(os.path.join(ROOT, "execution", "results", "robustness.json"), "w", encoding="utf-8"), indent=1)
     json.dump(CMDS, open(os.path.join(ROOT, "execution", "results", "commands_robustness.json"), "w", encoding="utf-8"), indent=1)
     for sub in os.listdir(OUT):

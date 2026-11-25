@@ -1,5 +1,5 @@
 {
- "skill_version": "0.1.0",
+ "skill_version": "0.2.0",
  "case_id": "ho_thesis",
  "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_thesis\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_thesis\\input",
@@ -20,7 +20,7 @@
   "thesis.tex"
  ],
  "main": "thesis.tex",
- "created": "2026-11-23T10:17:23.186564+00:00",
+ "created": "2026-11-25T05:29:38.392702+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

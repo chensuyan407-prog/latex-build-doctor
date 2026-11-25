@@ -19,7 +19,7 @@ Equivalent: `cd src/. && latexmk -r ../latexmkrc main.tex` (or `sh build.sh`).
 - bib tool: none
 - document class: {"name": "article", "date": "2025/01/22", "version": "v1.4n Standard LaTeX document class"}
 - project files read by TeX: main.tex
-- PDF fonts: ZGCQZL+CMR10(emb)
+- PDF fonts: GBXPQU+CMR10(emb)
 
 | package | date | version |
 |---|---|---|

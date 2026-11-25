@@ -15,6 +15,14 @@
  ],
  "requirements": [
   {
+   "id": "CTEX01",
+   "desc": "\\maketitle after \\title",
+   "pattern": "\\\\title.*\\\\maketitle",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:ctexart"
+  },
+  {
    "id": "G01",
    "desc": "\\title{...} is set",
    "pattern": "\\\\title\\s*(\\[[^\\]]*\\])?\\s*\\{\\s*[^}\\s]",

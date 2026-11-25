@@ -2,8 +2,8 @@
  "case_id": "dev_env",
  "status": "success",
  "summary": "SUCCESS: report.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 2 edit hunk(s), 2 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:16:21Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:28:38Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/report.tex",
@@ -34,13 +34,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 1.0,
+  "seconds": 0.97,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape report.tex",
     "exit": 0,
-    "seconds": 0.5,
+    "seconds": 0.49,
     "aux_sha256": "e1003f4b3636871cb3bac720d05db568ea58f156db172ddca18aa261b583756a",
     "timeout": false,
     "stderr_tail": ""
@@ -49,7 +49,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape report.tex",
     "exit": 0,
-    "seconds": 0.5,
+    "seconds": 0.48,
     "aux_sha256": "e1003f4b3636871cb3bac720d05db568ea58f156db172ddca18aa261b583756a",
     "timeout": false,
     "stderr_tail": ""
@@ -193,56 +193,23 @@
   "n_packages": 5,
   "details": "environment.json"
  },
- "fixed_source": [
-  {
-   "hunk": "H001",
-   "file": "report.tex",
-   "kind": "replace",
-   "old_lines": [
-    8,
-    10
-   ],
-   "new_lines": [
-    8,
-    9
-   ],
-   "old": "\\end{enumerate}\n\n\\item Anneal the sample.",
-   "new": "  \\item Anneal the sample.\n\\end{itemize}",
-   "reasons": [
-    "list opened as itemize; the stray third \\item moved into the list (text unchanged) - order of steps to be confirmed"
-   ],
-   "fixes": [
-    "env_mismatch + lonely item"
-   ],
-   "types": [
-    "structure"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H002",
-   "file": "report.tex",
-   "kind": "insert",
-   "old_lines": [
-    16,
-    15
-   ],
-   "new_lines": [
-    15,
-    15
-   ],
-   "old": "",
-   "new": "\\end{figure}",
-   "reasons": [
-    "figure environment never closed; closed after its caption/label"
-   ],
-   "fixes": [
-    "env_mismatch figure"
-   ],
-   "types": [
-    "structure"
-   ],
-   "documented": true
-  }
- ]
+ "fixed_source": {
+  "source_dir": "src/",
+  "main_tex": "src/report.tex",
+  "pdf": "report.pdf",
+  "pdf_sha256": "1652172a40447efe359c3ce6a64c08c422b8ce097ea6eac41df3fcacb5735916",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ }
 }

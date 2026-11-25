@@ -2,8 +2,8 @@
  "case_id": "ho_ieee",
  "status": "success",
  "summary": "SUCCESS: conf.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:15Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:29:30Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/conf.tex",
@@ -34,13 +34,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 1.12,
+  "seconds": 1.11,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape conf.tex",
     "exit": 0,
-    "seconds": 0.57,
+    "seconds": 0.56,
     "aux_sha256": "e87d34651cf02bf015e514cc46ba9403246fcd20202e65ba6796afe2be48b0e8",
     "timeout": false,
     "stderr_tail": ""
@@ -263,17 +263,23 @@
   "details": "environment.json"
  },
  "source": {
-  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_ieee\\input",
-  "materials": [
-   "case.json",
-   "conf.tex"
+  "source_dir": "src/",
+  "main_tex": "src/conf.tex",
+  "pdf": "conf.pdf",
+  "pdf_sha256": "f5d557cabfbcf9a7793fa2ae636a0659547d92ab45c251fcbfbf98b8008ae1b7",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
   ],
-  "original_snapshot": "work/orig (unchanged input)",
-  "fact_guard": {
-   "numbers_changed_in_edits": [],
-   "keys_changed_in_edits": [],
-   "numbers_not_in_materials": []
-  }
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
  },
  "pdf": "conf.pdf"
 }

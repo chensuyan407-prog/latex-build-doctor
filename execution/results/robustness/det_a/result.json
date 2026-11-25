@@ -2,13 +2,13 @@
  "case_id": "dev_multi",
  "status": "partial",
  "summary": "PARTIAL: main.tex with pdflatex, 3 engine pass(es) + bibtex; 0 error(s) in log (1 root cause(s) overall), 1 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 5 edit hunk(s), 5 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:58Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:30:12Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
   "pdf": "main.pdf",
-  "pdf_sha256": "c3f4209cf8124f54f205d234e971868fca798c8f3a8df6d8acae05f59571cf44",
+  "pdf_sha256": "614a47bdb0eed5a86864f6b1c3b8b9143877684cf81e2031b70920d7d1726304",
   "pdf_pages": 2,
   "previews": [
    "preview/page-1.png",
@@ -37,13 +37,13 @@
   "engine_passes": 3,
   "converged": true,
   "timeout": false,
-  "seconds": 2.5,
+  "seconds": 2.42,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.71,
+    "seconds": 0.73,
     "aux_sha256": "c37e6761cd571723c359f4fd7f462ebc3955ea2f4b2110afd6595b5ff65a3902",
     "timeout": false,
     "stderr_tail": ""
@@ -52,7 +52,7 @@
     "step": "bibtex",
     "cmd": "bibtex main",
     "exit": 0,
-    "seconds": 0.32,
+    "seconds": 0.31,
     "aux_sha256": "c37e6761cd571723c359f4fd7f462ebc3955ea2f4b2110afd6595b5ff65a3902",
     "timeout": false,
     "stderr_tail": ""
@@ -61,7 +61,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.73,
+    "seconds": 0.69,
     "aux_sha256": "cb24f04597d2b38c9e56465636723a3ecc28f09bb3007e8e81244edfd970dd4d",
     "timeout": false,
     "stderr_tail": ""
@@ -70,7 +70,7 @@
     "step": "pdflatex pass 3",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.74,
+    "seconds": 0.69,
     "aux_sha256": "cb24f04597d2b38c9e56465636723a3ecc28f09bb3007e8e81244edfd970dd4d",
     "timeout": false,
     "stderr_tail": ""
@@ -387,145 +387,26 @@
   "n_packages": 35,
   "details": "environment.json"
  },
- "fixed_source": [
-  {
-   "hunk": "H001",
-   "file": "main.tex",
-   "kind": "insert",
-   "old_lines": [
-    4,
-    3
-   ],
-   "new_lines": [
-    4,
-    6
-   ],
-   "old": "",
-   "new": "\\usepackage{siunitx}\n\\usepackage{booktabs}\n\\usepackage{xcolor}",
-   "reasons": [
-    "\\SI is undefined (siunitx not loaded)",
-    "\\toprule/\\midrule/\\bottomrule undefined",
-    "load hyperref last"
-   ],
-   "fixes": [
-    "undefined_cs \\SI",
-    "undefined_cs \\toprule",
-    "load_order"
-   ],
-   "types": [
-    "package",
-    "package",
-    "package"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H002",
-   "file": "main.tex",
-   "kind": "delete",
-   "old_lines": [
-    5,
-    5
-   ],
-   "new_lines": [
-    8,
-    7
-   ],
-   "old": "\\usepackage{xcolor}",
-   "new": "",
-   "reasons": [
-    "load hyperref last"
-   ],
-   "fixes": [
-    "load_order"
-   ],
-   "types": [
-    "package"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H003",
-   "file": "sections/intro.tex",
-   "kind": "replace",
-   "old_lines": [
-    3,
-    4
-   ],
-   "new_lines": [
-    3,
-    4
-   ],
-   "old": "Thin films of thickness \\SI{5}{\\nano\\metre} were studied before~\\cite{smith2021,lee2019}.\nThe \\textbf{main contribution is a new estimator.",
-   "new": "Thin films of thickness \\SI{5}{\\nano\\metre} were studied before~\\cite{Smith2021,lee2019}.\nThe \\textbf{main contribution} is a new estimator.",
-   "reasons": [
-    "close the \\textbf group (bold scope as in the sentence)",
-    "bib key is Smith2021 (case-sensitive); same work"
-   ],
-   "fixes": [
-    "brace",
-    "undefined_cite smith2021"
-   ],
-   "types": [
-    "fix",
-    "citation"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H004",
-   "file": "sections/results.tex",
-   "kind": "insert",
-   "old_lines": [
-    7,
-    6
-   ],
-   "new_lines": [
-    7,
-    7
-   ],
-   "old": "",
-   "new": "  \\caption{Errors of both methods.}",
-   "reasons": [
-    "label after caption so \\ref gives the table number"
-   ],
-   "fixes": [
-    "float_label"
-   ],
-   "types": [
-    "crossref"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H005",
-   "file": "sections/results.tex",
-   "kind": "replace",
-   "old_lines": [
-    8,
-    9
-   ],
-   "new_lines": [
-    9,
-    9
-   ],
-   "old": "  \\caption{Errors of both methods.}\n  \\begin{tabular}{lcc}",
-   "new": "  \\begin{tabular}{lccc}",
-   "reasons": [
-    "label after caption so \\ref gives the table number",
-    "4 columns in every row (Method, RMSE, MAE, Time) as in data.csv"
-   ],
-   "fixes": [
-    "float_label",
-    "alignment"
-   ],
-   "types": [
-    "crossref",
-    "table"
-   ],
-   "documented": true
-  }
- ],
+ "fixed_source": {
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "614a47bdb0eed5a86864f6b1c3b8b9143877684cf81e2031b70920d7d1726304",
+  "pdf_pages": 2,
+  "previews": [
+   "preview/page-1.png",
+   "preview/page-2.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
  "compile_status": "partial",
  "change_log": "build_logs/",
  "remaining_issues": {

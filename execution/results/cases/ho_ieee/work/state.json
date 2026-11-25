@@ -1,5 +1,5 @@
 {
- "skill_version": "0.1.0",
+ "skill_version": "0.2.0",
  "case_id": "ho_ieee",
  "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_ieee\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\ho_ieee\\input",
@@ -16,7 +16,7 @@
   "conf.tex"
  ],
  "main": "conf.tex",
- "created": "2026-11-23T10:17:09.721732+00:00",
+ "created": "2026-11-25T05:29:25.123287+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

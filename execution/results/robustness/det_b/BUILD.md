@@ -22,7 +22,7 @@ Equivalent: `cd src/. && latexmk -r ../latexmkrc main.tex` (or `sh build.sh`).
 - bib tool: BibTeX 0.99e (TeX Live 2026)
 - document class: {"name": "article", "date": "2025/01/22", "version": "v1.4n Standard LaTeX document class"}
 - project files read by TeX: figs/curve.png, main.tex, sections/intro.tex, sections/results.tex
-- PDF fonts: FQPQWY+CMR17(emb), RAZLLK+CMR12(emb), TVYURW+CMBX12(emb), KJVLFW+CMR10(emb), UQAAAV+CMBX10(emb), UEHEIY+CMMI10(emb), JMDWSR+CMMI8(emb), NTUNUC+CMSY10(emb), PPXTXP+CMTI10(emb)
+- PDF fonts: FQPQWY+CMR17(emb), CHUPJE+CMR12(emb), TVYURW+CMBX12(emb), KJVLFW+CMR10(emb), UQAAAV+CMBX10(emb), UEHEIY+CMMI10(emb), JMDWSR+CMMI8(emb), NTUNUC+CMSY10(emb), PPXTXP+CMTI10(emb)
 
 | package | date | version |
 |---|---|---|

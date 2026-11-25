@@ -2,8 +2,8 @@
  "case_id": "ho_thesis",
  "status": "success",
  "summary": "SUCCESS: thesis.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 4 edit hunk(s), 4 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:30Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:29:45Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/thesis.tex",
@@ -37,13 +37,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 1.63,
+  "seconds": 1.59,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
     "exit": 0,
-    "seconds": 0.82,
+    "seconds": 0.78,
     "aux_sha256": "7dfcd637ee31af9537a64022cc0675fc62b924393daa28a309f5526131e4bdc9",
     "timeout": false,
     "stderr_tail": ""
@@ -52,7 +52,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
     "exit": 0,
-    "seconds": 0.81,
+    "seconds": 0.8,
     "aux_sha256": "7dfcd637ee31af9537a64022cc0675fc62b924393daa28a309f5526131e4bdc9",
     "timeout": false,
     "stderr_tail": ""
@@ -82,6 +82,14 @@
   "warnings": 0
  },
  "requirements": [
+  {
+   "id": "REP01",
+   "desc": "at least one \\chapter or \\section",
+   "pattern": "\\\\(?:chapter|section)\\s*(\\[[^\\]]*\\])?\\s*\\{",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:report"
+  },
   {
    "id": "G02",
    "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
@@ -272,110 +280,27 @@
   "n_packages": 42,
   "details": "environment.json"
  },
- "fixed_project": [
-  {
-   "hunk": "H001",
-   "file": "chapters/ch2.tex",
-   "kind": "replace",
-   "old_lines": [
-    3,
-    3
-   ],
-   "new_lines": [
-    3,
-    3
-   ],
-   "old": "\\label{sec:setting}",
-   "new": "\\label{sec:model}",
-   "reasons": [
-    "section 'Model' is the target of \\cref{sec:model}; removes the duplicate label"
-   ],
-   "fixes": [
-    "duplicate_label + undefined_ref"
-   ],
-   "types": [
-    "crossref"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H002",
-   "file": "thesis.tex",
-   "kind": "insert",
-   "old_lines": [
-    3,
-    2
-   ],
-   "new_lines": [
-    3,
-    3
-   ],
-   "old": "",
-   "new": "\\usepackage[table]{xcolor}",
-   "reasons": [
-    "xcolor with options before tikz"
-   ],
-   "fixes": [
-    "load_order"
-   ],
-   "types": [
-    "package"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H003",
-   "file": "thesis.tex",
-   "kind": "replace",
-   "old_lines": [
-    4,
-    4
-   ],
-   "new_lines": [
-    5,
-    5
-   ],
-   "old": "\\usepackage[table]{xcolor}",
-   "new": "\\DeclareMathOperator*{\\argmin}{arg\\,min}",
-   "reasons": [
-    "\\argmin undefined"
-   ],
-   "fixes": [
-    "undefined_cs"
-   ],
-   "types": [
-    "macro"
-   ],
-   "documented": true
-  },
-  {
-   "hunk": "H004",
-   "file": "thesis.tex",
-   "kind": "replace",
-   "old_lines": [
-    12,
-    12
-   ],
-   "new_lines": [
-    13,
-    13
-   ],
-   "old": "\\include{chapters/ch3}",
-   "new": "\\include{chapters/ch03}",
-   "reasons": [
-    "chapter file is chapters/ch03.tex"
-   ],
-   "fixes": [
-    "missing_file"
-   ],
-   "types": [
-    "path"
-   ],
-   "documented": true
-  }
- ],
- "open_items": {
-  "value": null,
-  "note": "no automatic mapping for this field - set it in work/changes.json fields"
- }
+ "fixed_project": {
+  "source_dir": "src/",
+  "main_tex": "src/thesis.tex",
+  "pdf": "thesis.pdf",
+  "pdf_sha256": "f5f35e8b529b42d20f5e74176de3f5af4c82365d8b6217e72c6f6144e654bf8b",
+  "pdf_pages": 4,
+  "previews": [
+   "preview/page-1.png",
+   "preview/page-2.png",
+   "preview/page-3.png",
+   "preview/page-4.png"
+  ],
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
+ },
+ "open_items": []
 }

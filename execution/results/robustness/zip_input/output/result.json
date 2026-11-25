@@ -2,8 +2,8 @@
  "case_id": "zip_input",
  "status": "success",
  "summary": "SUCCESS: project_extracted/paper/main.tex with pdflatex, 1 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:44Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:29:59Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/project_extracted/paper/main.tex",
@@ -33,13 +33,13 @@
   "engine_passes": 1,
   "converged": true,
   "timeout": false,
-  "seconds": 0.48,
+  "seconds": 0.46,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.48,
+    "seconds": 0.46,
     "aux_sha256": "fbabe80c887f95a1ede6847f22dd91b380bda9d17ae8bfaa72e1741b16aa41e9",
     "timeout": false,
     "stderr_tail": ""

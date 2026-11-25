@@ -61,7 +61,7 @@ def main():
     ap.add_argument("--align")
     ap.add_argument("--cols", help="comma-separated subset/order of input column names")
     ap.add_argument("--header", help="comma-separated header text to print (same count as columns)")
-    ap.add_argument("--width", choices=["natural", "tabularx"], default="natural")
+    ap.add_argument("--width", choices=["natural", "tabularx", "longtable"], default="natural")
     ap.add_argument("--float", default="table", choices=["table", "table*", "none"])
     ap.add_argument("--placement", default="tbp")
     ap.add_argument("--siunitx", action="store_true", help="S columns for numeric data (needs siunitx)")
@@ -94,37 +94,52 @@ def main():
         print("ERROR --header has %d names for %d columns" % (len(hdr), ncol))
         return 2
     L = []
-    if a.float != "none":
-        L += ["\\begin{%s}[%s]" % (a.float, a.placement), "  \\centering"]
-        if a.size:
-            L.append("  \\%s" % a.size)
+    if a.width == "longtable":
+        L.append("\\begin{longtable}{%s}" % align)
         if a.caption:
-            L.append("  \\caption{%s}" % a.caption)
-        if a.label:
-            L.append("  \\label{%s}" % a.label)
-    env = "tabularx" if a.width == "tabularx" else "tabular"
-    L.append("  \\begin{%s}%s{%s}" % (env, "{\\linewidth}" if env == "tabularx" else "", align))
-    L.append("    \\toprule")
-    L.append("    " + " & ".join(("{%s}" % esc(h, a.keep_math)) if a.siunitx and numeric[k] else esc(h, a.keep_math) for k, h in enumerate(hdr)) + " \\\\")
-    L.append("    \\midrule")
-    for r in body:
-        L.append("    " + " & ".join(esc(r[i], a.keep_math) if i < len(r) else "" for i in idx) + " \\\\")
-    L.append("    \\bottomrule")
-    L.append("  \\end{%s}" % env)
-    if a.note:
-        L.append("  \\par\\smallskip{\\footnotesize %s\\par}" % a.note)
-    if a.float != "none":
-        L.append("\\end{%s}" % a.float)
+            cap_line = "  \\caption{%s}" % a.caption + ("\\label{%s}" % a.label if a.label else "") + " \\\\"
+            L.append(cap_line)
+        hdr_row = "  " + " & ".join(("{%s}" % esc(h, a.keep_math)) if a.siunitx and numeric[k] else esc(h, a.keep_math) for k, h in enumerate(hdr)) + " \\\\"
+        L += ["  \\toprule", hdr_row, "  \\midrule", "  \\endfirsthead",
+              "  \\toprule", hdr_row, "  \\midrule", "  \\endhead",
+              "  \\midrule", "  \\multicolumn{%d}{r}{\\footnotesize\\emph{Continued on next page}} \\\\" % ncol, "  \\endfoot",
+              "  \\bottomrule", "  \\endlastfoot"]
+        for r in body:
+            L.append("  " + " & ".join(esc(r[i], a.keep_math) if i < len(r) else "" for i in idx) + " \\\\")
+        L.append("\\end{longtable}")
+    else:
+        if a.float != "none":
+            L += ["\\begin{%s}[%s]" % (a.float, a.placement), "  \\centering"]
+            if a.size:
+                L.append("  \\%s" % a.size)
+            if a.caption:
+                L.append("  \\caption{%s}" % a.caption)
+            if a.label:
+                L.append("  \\label{%s}" % a.label)
+        env = "tabularx" if a.width == "tabularx" else "tabular"
+        L.append("  \\begin{%s}%s{%s}" % (env, "{\\linewidth}" if env == "tabularx" else "", align))
+        L.append("    \\toprule")
+        L.append("    " + " & ".join(("{%s}" % esc(h, a.keep_math)) if a.siunitx and numeric[k] else esc(h, a.keep_math) for k, h in enumerate(hdr)) + " \\\\")
+        L.append("    \\midrule")
+        for r in body:
+            L.append("    " + " & ".join(esc(r[i], a.keep_math) if i < len(r) else "" for i in idx) + " \\\\")
+        L.append("    \\bottomrule")
+        L.append("  \\end{%s}" % env)
+        if a.note:
+            L.append("  \\par\\smallskip{\\footnotesize %s\\par}" % a.note)
+        if a.float != "none":
+            L.append("\\end{%s}" % a.float)
     L.append("%% source map (lx_table.py): file %s" % os.path.basename(a.table))
     L.append("%% header <- line %d; columns %s" % (src[0], ", ".join(head[i] for i in idx)))
     for k, r in enumerate(body):
         L.append("%% row %d <- %s line %d" % (k + 1, os.path.basename(a.table), bsrc[k]))
     out = "\n".join(L) + "\n"
     if a.out:
+        os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
         with open(a.out, "w", encoding="utf-8", newline="\n") as fh:
             fh.write(out)
     print(out)
-    need = ["booktabs"] + (["tabularx"] if env == "tabularx" else []) + (["siunitx"] if a.siunitx else [])
+    need = ["booktabs"] + (["tabularx"] if a.width == "tabularx" else []) + (["longtable"] if a.width == "longtable" else []) + (["siunitx"] if a.siunitx else [])
     print("%% needs: \\usepackage{%s}" % ",".join(need))
     if bad:
         print("%% WARNING rows with a different number of cells than the header (line, cells): %s - check the source" % bad)

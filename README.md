@@ -1,4 +1,4 @@
-# latex-build-doctor 0.1.0 — submission bundle for 写作13｜LaTeX 写作与编译
+# latex-build-doctor 0.2.0 — submission bundle for 写作13｜LaTeX 写作与编译
 
 Skill for the LaTeX **compile → diagnose → fix → verify** loop. Scripts pre-check a project (classes, packages, .bst,
 .bib, graphics with exact letter case, fonts, tools), build it with the right engine and number of passes, and turn the

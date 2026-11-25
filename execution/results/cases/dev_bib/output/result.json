@@ -2,13 +2,13 @@
  "case_id": "dev_bib",
  "status": "partial",
  "summary": "PARTIAL: paper.tex with pdflatex, 3 engine pass(es) + biber; 0 error(s) in log (1 root cause(s) overall), 0 undefined ref(s), 1 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:16:16Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:28:33Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/paper.tex",
   "pdf": "paper.pdf",
-  "pdf_sha256": "54edf3c61fe07bef8455f5219af7b1d238ceea7c86c8b9ac3260b55355ae2eb0",
+  "pdf_sha256": "ac8e08d3f6baf06e34dfcc36368b88eaed474ce125dbec0582eea3efe906a2a7",
   "pdf_pages": 1,
   "previews": [
    "preview/page-1.png"
@@ -36,7 +36,7 @@
   "engine_passes": 3,
   "converged": true,
   "timeout": false,
-  "seconds": 3.96,
+  "seconds": 4.05,
   "rounds": [
    {
     "step": "pdflatex pass 1",
@@ -51,7 +51,7 @@
     "step": "biber",
     "cmd": "biber paper",
     "exit": 0,
-    "seconds": 1.44,
+    "seconds": 1.5,
     "aux_sha256": "c05b50f73fe33c643eae0344cd5a5f398cfb3296587f0d345a016056933891d9",
     "timeout": false,
     "stderr_tail": ""
@@ -60,7 +60,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape paper.tex",
     "exit": 0,
-    "seconds": 0.84,
+    "seconds": 0.86,
     "aux_sha256": "2e70a90e646ff9dd5caf60db938a1554a4ee2a4c27b7cf03a5e6e757abf7ae6b",
     "timeout": false,
     "stderr_tail": ""
@@ -69,7 +69,7 @@
     "step": "pdflatex pass 3",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape paper.tex",
     "exit": 0,
-    "seconds": 0.83,
+    "seconds": 0.84,
     "aux_sha256": "2e70a90e646ff9dd5caf60db938a1554a4ee2a4c27b7cf03a5e6e757abf7ae6b",
     "timeout": false,
     "stderr_tail": ""
@@ -78,8 +78,8 @@
   "source_date_epoch": "1704067200",
   "reproducibility": {
    "checked": true,
-   "pdf_sha256_build1": "54edf3c61fe07bef8455f5219af7b1d238ceea7c86c8b9ac3260b55355ae2eb0",
-   "pdf_sha256_build2": "54edf3c61fe07bef8455f5219af7b1d238ceea7c86c8b9ac3260b55355ae2eb0",
+   "pdf_sha256_build1": "ac8e08d3f6baf06e34dfcc36368b88eaed474ce125dbec0582eea3efe906a2a7",
+   "pdf_sha256_build2": "ac8e08d3f6baf06e34dfcc36368b88eaed474ce125dbec0582eea3efe906a2a7",
    "byte_identical": true,
    "source_date_epoch": "1704067200",
    "rounds_build2": [
@@ -366,27 +366,7 @@
    "documented": true
   }
  ],
- "unresolved_citations": {
-  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_bib\\input",
-  "materials": [
-   "case.json",
-   "library.bib",
-   "paper.tex"
-  ],
-  "original_snapshot": "work/orig (unchanged input)",
-  "fact_guard": {
-   "numbers_changed_in_edits": [
-    {
-     "id": "N001",
-     "class": "number_changed",
-     "file": "library.bib",
-     "line": 25,
-     "message": "numbers changed in this edit: removed ['2009'] added []",
-     "hint": "Values must match the source material. If intended (e.g. fixing a typo against the source), set accept_numbers:true and cite the source in reason."
-    }
-   ],
-   "keys_changed_in_edits": [],
-   "numbers_not_in_materials": []
-  }
- }
+ "unresolved_citations": [
+  "wu2021survey"
+ ]
 }

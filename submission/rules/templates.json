@@ -40,6 +40,12 @@
     "desc": "keyword environment",
     "pattern": "\\\\begin\\{keyword\\}",
     "severity": "warning"
+   },
+   {
+    "id": "ELS05",
+    "desc": "author set (\\author)",
+    "pattern": "\\\\author\\s*(\\[[^\\]]*\\])?\\s*\\{",
+    "severity": "warning"
    }
   ]
  },
@@ -162,6 +168,89 @@
     "pattern": "\\\\title.*\\\\maketitle",
     "severity": "warning",
     "only_if": "\\\\maketitle"
+   }
+  ]
+ },
+ "ctexart": {
+  "required": [
+   {
+    "id": "CTEX01",
+    "desc": "\\maketitle after \\title",
+    "pattern": "\\\\title.*\\\\maketitle",
+    "severity": "warning",
+    "only_if": "\\\\maketitle"
+   }
+  ]
+ },
+ "ctexbook": {
+  "required": [
+   {
+    "id": "CTEXB01",
+    "desc": "at least one \\chapter",
+    "pattern": "\\\\chapter\\s*(\\[[^\\]]*\\])?\\s*\\{",
+    "severity": "warning"
+   }
+  ]
+ },
+ "report": {
+  "required": [
+   {
+    "id": "REP01",
+    "desc": "at least one \\chapter or \\section",
+    "pattern": "\\\\(?:chapter|section)\\s*(\\[[^\\]]*\\])?\\s*\\{",
+    "severity": "warning"
+   }
+  ]
+ },
+ "book": {
+  "required": [
+   {
+    "id": "BK01",
+    "desc": "at least one \\chapter",
+    "pattern": "\\\\chapter\\s*(\\[[^\\]]*\\])?\\s*\\{",
+    "severity": "warning"
+   }
+  ]
+ },
+ "beamer": {
+  "required": [
+   {
+    "id": "BM01",
+    "desc": "at least one frame environment",
+    "pattern": "\\\\begin\\{frame\\}",
+    "severity": "warning"
+   }
+  ]
+ },
+ "sn-jnl": {
+  "required": [
+   {
+    "id": "SN01",
+    "desc": "\\maketitle",
+    "pattern": "\\\\maketitle",
+    "severity": "warning"
+   },
+   {
+    "id": "SN02",
+    "desc": "abstract command or environment",
+    "pattern": "\\\\(?:begin\\{abstract\\}|abstract\\s*\\{)",
+    "severity": "warning"
+   }
+  ]
+ },
+ "achemso": {
+  "required": [
+   {
+    "id": "ACS01",
+    "desc": "abstract environment",
+    "pattern": "\\\\begin\\{abstract\\}",
+    "severity": "warning"
+   },
+   {
+    "id": "ACS02",
+    "desc": "author set",
+    "pattern": "\\\\author\\s*(\\[[^\\]]*\\])?\\s*\\{",
+    "severity": "warning"
    }
   ]
  }

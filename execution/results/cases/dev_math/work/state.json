@@ -1,5 +1,5 @@
 {
- "skill_version": "0.1.0",
+ "skill_version": "0.2.0",
  "case_id": "dev_math",
  "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_math\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_math\\input",
@@ -17,7 +17,7 @@
   "model.tex"
  ],
  "main": "model.tex",
- "created": "2026-11-23T10:16:21.117806+00:00",
+ "created": "2026-11-25T05:28:38.241413+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

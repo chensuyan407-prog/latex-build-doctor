@@ -1,20 +1,21 @@
-# latex-build-doctor 0.1.0 — reference
+# latex-build-doctor 0.2.0 — reference
 
-Skill for the LaTeX compile → diagnose → fix → verify loop. Entry: `SKILL.md`. Python 3.8+ standard library only;
-needs a TeX distribution (tested: TeX Live 2026 on Windows 11 — pdfTeX 1.40.29, XeTeX 0.999998, biber, BibTeX).
+Skill for the LaTeX compile → diagnose → fix → verify loop and template/table authoring. Entry: `SKILL.md`. Python 3.8+ standard library only;
+needs a TeX distribution (tested: TeX Live 2026 on Windows 11 and Linux-style case-sensitive checks — pdfTeX 1.40.29, XeTeX 0.999998, biber, BibTeX).
 
 ## Files
 
 | file | role |
 |---|---|
-| `scripts/lx_init.py` | copy input → `work/src` + `work/orig`, unpack archives (path-traversal safe), main/engine/bib-tool detection, precheck (kpsewhich, fc-list, file resolution incl. letter case and files only in subfolders) |
-| `scripts/lx_build.py` | clean build in `work/build` (engine passes, bibtex/biber, makeindex, until no rerun request), log/blg parsing, static checks, root-cause grouping, diff + change audit, fact guard, requirements, second clean build for byte-reproducibility, all outputs |
-| `scripts/lx_log.py` | TeX log parser (file stack, `-file-line-error`, warnings with continuation lines), ≈60 error patterns → classes + hints, cascade grouping; BibTeX/biber .blg parsers |
-| `scripts/lx_static.py` | brace/environment/display-math balance with opening line, labels/refs, cite keys vs .bib (case, near misses), .bib syntax (missing comma, unclosed entry, duplicate keys, required fields), tabular column count, label-before-caption, `\resizebox` tables, units/subscripts in italic, package conflicts/order/engine |
-| `scripts/lx_table.py` | CSV/TSV/Markdown table → booktabs LaTeX, values verbatim, source map comments |
-| `scripts/lx_common.py` | encoding detection, comment/verbatim stripping, argument parsing, tool calls |
-| `rules/packages.json` | command → package (260), environment → package (88), conflicts, load-order and engine rules |
-| `rules/templates.json` | required items for elsarticle, IEEEtran, llncs, acmart, revtex4-1/4-2, article, generic |
+| `scripts/lx_init.py` | copy input → `work/src` + `work/orig`, unpack archives (path-traversal safe), main/engine/bib-tool detection, inspect local `.cls` templates & materials, precheck (`kpsewhich`, `fc-list` + TeX font fallback, file resolution incl. Linux case-insensitive fallback and files in subfolders) |
+| `scripts/lx_build.py` | clean build in `work/build` (engine passes incl. `.toc`/`.lof`/`.lot` & sub-aux bibtex, bibtex/biber, makeindex, until converged), log/blg parsing, static checks, root-cause grouping, diff + change audit, PDF-aware fact guard, requirements, second clean build for byte-reproducibility, 100 dpi previews + `pdftotext` check, contract field mapping |
+| `scripts/lx_record.py` | inspect undocumented diff hunks and append properly JSON-escaped records, `needs_confirmation`, or `fields` overrides to `work/changes.json` |
+| `scripts/lx_log.py` | TeX log parser (file stack, `-file-line-error`, `<argument>`/`<recently read>` CS extraction, warnings with continuation lines), ≈65 error patterns → classes + hints, cascade grouping; BibTeX/biber `.blg` parsers |
+| `scripts/lx_static.py` | brace/environment/display-math balance with opening line, labels/refs, cite keys (incl. multi-opt & plural biblatex cmds) vs `.bib`, `.bib` syntax (comments & escaped quotes), nested-math-safe tabular column count, label-before-caption, `\resizebox` tables, units/subscripts in italic, package conflicts/order/engine |
+| `scripts/lx_table.py` | CSV/TSV/Markdown table → `booktabs` (`natural`, `tabularx`, or `longtable`) LaTeX, values verbatim, source map comments |
+| `scripts/lx_common.py` | encoding detection, URL-safe comment/verbatim stripping, multi-opt argument parsing, `.cls` inspection, PDF text extraction, tool calls |
+| `rules/packages.json` | command → package (260), environment → package (88), breaking conflicts, load-order and engine rules |
+| `rules/templates.json` | required items for `elsarticle`, `IEEEtran`, `llncs`, `acmart`, `revtex4-1/4-2`, `ctexart`, `ctexbook`, `sn-jnl`, `achemso`, `article`, `report`, `book`, `beamer` |
 
 ## Method
 

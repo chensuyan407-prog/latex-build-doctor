@@ -1,23 +1,23 @@
-# reproduce.py run at 2026-11-23T10:18:03.952652Z
+# reproduce.py run at 2026-11-25T05:30:24.059101Z
 $ python tests/run_eval.py --set all
 == dev_bib
-{"case": "dev_bib", "set": "dev", "gold_roots": 4, "reported_roots": 4, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 0, "status_before": "partial", "baseline_first_error_recall": 0.0, "baseline_all_log_errors_recall": 0.0, "baseline_all_log_errors_precision": null, "build_seconds_before": 7.66, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "partial", "expect_status": "partial", "status_ok": true, "remaining_after_fix": ["undefined_cite:wu2021survey"], "expected_remaining": ["undefined_cite:wu2021surve
+{"case": "dev_bib", "set": "dev", "gold_roots": 4, "reported_roots": 4, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 0, "status_before": "partial", "baseline_first_error_recall": 0.0, "baseline_all_log_errors_recall": 0.0, "baseline_all_log_errors_precision": null, "build_seconds_before": 7.62, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "partial", "expect_status": "partial", "status_ok": true, "remaining_after_fix": ["undefined_cite:wu2021survey"], "expected_remaining": ["undefined_cite:wu2021surve
 == dev_env
-{"case": "dev_env", "set": "dev", "gold_roots": 3, "reported_roots": 3, "root_hits": 3, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 7, "status_before": "failed", "baseline_first_error_recall": 0.3333333333333333, "baseline_all_log_errors_recall": 0.6666666666666666, "baseline_all_log_errors_precision": 0.2857142857142857, "build_seconds_before": 1.2, "init_exit": 0, "build_exit_before": 2, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_
+{"case": "dev_env", "set": "dev", "gold_roots": 3, "reported_roots": 3, "root_hits": 3, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 7, "status_before": "failed", "baseline_first_error_recall": 0.3333333333333333, "baseline_all_log_errors_recall": 0.6666666666666666, "baseline_all_log_errors_precision": 0.2857142857142857, "build_seconds_before": 1.14, "init_exit": 0, "build_exit_before": 2, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining
 == dev_math
-{"case": "dev_math", "set": "dev", "gold_roots": 4, "reported_roots": 4, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "1/1", "log_errors_raw": 9, "status_before": "partial", "baseline_first_error_recall": 0.25, "baseline_all_log_errors_recall": 1.0, "baseline_all_log_errors_precision": 1.0, "build_seconds_before": 2.02, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix": [], "
+{"case": "dev_math", "set": "dev", "gold_roots": 4, "reported_roots": 4, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "1/1", "log_errors_raw": 9, "status_before": "partial", "baseline_first_error_recall": 0.25, "baseline_all_log_errors_recall": 1.0, "baseline_all_log_errors_precision": 1.0, "build_seconds_before": 1.9, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix": [], "e
 == dev_multi
-{"case": "dev_multi", "set": "dev", "gold_roots": 7, "reported_roots": 7, "root_hits": 7, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "2/2", "log_errors_raw": 10, "status_before": "partial", "baseline_first_error_recall": 0.14285714285714285, "baseline_all_log_errors_recall": 0.7142857142857143, "baseline_all_log_errors_precision": 0.6, "build_seconds_before": 3.47, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "partial", "expect_status": "partial", "status_ok": true, "remaining_after_fix": ["undefined_ref:tab:ablation"], "expected_remainin
+{"case": "dev_multi", "set": "dev", "gold_roots": 7, "reported_roots": 7, "root_hits": 7, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "2/2", "log_errors_raw": 10, "status_before": "partial", "baseline_first_error_recall": 0.14285714285714285, "baseline_all_log_errors_recall": 0.7142857142857143, "baseline_all_log_errors_precision": 0.6, "build_seconds_before": 3.1, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "partial", "expect_status": "partial", "status_ok": true, "remaining_after_fix": ["undefined_ref:tab:ablation"], "expected_remaining
 == dev_template
-{"case": "dev_template", "set": "dev", "gold_roots": 2, "reported_roots": 2, "root_hits": 2, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 3, "status_before": "failed", "baseline_first_error_recall": 0.0, "baseline_all_log_errors_recall": 0.5, "baseline_all_log_errors_precision": 0.6666666666666666, "build_seconds_before": 1.2, "init_exit": 0, "build_exit_before": 2, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_a
+{"case": "dev_template", "set": "dev", "gold_roots": 2, "reported_roots": 2, "root_hits": 2, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 3, "status_before": "failed", "baseline_first_error_recall": 0.0, "baseline_all_log_errors_recall": 0.5, "baseline_all_log_errors_precision": 0.6666666666666666, "build_seconds_before": 1.13, "init_exit": 0, "build_exit_before": 2, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_
 == dev_xe
-{"case": "dev_xe", "set": "dev", "gold_roots": 2, "reported_roots": 2, "root_hits": 2, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 3, "status_before": "failed", "baseline_first_error_recall": 0.0, "baseline_all_log_errors_recall": 0.0, "baseline_all_log_errors_precision": 0.0, "build_seconds_before": 1.77, "init_exit": 0, "build_exit_before": 2, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix": [], "engi
+{"case": "dev_xe", "set": "dev", "gold_roots": 2, "reported_roots": 2, "root_hits": 2, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 3, "status_before": "failed", "baseline_first_error_recall": 0.0, "baseline_all_log_errors_recall": 0.0, "baseline_all_log_errors_precision": 0.0, "build_seconds_before": 1.9, "init_exit": 0, "build_exit_before": 2, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix": [], "engin
 == ho_ieee
-{"case": "ho_ieee", "set": "holdout", "gold_roots": 3, "reported_roots": 2, "root_hits": 2, "root_recall": 0.6666666666666666, "root_precision": 1.0, "missed": ["g1:package_conflict@conf.tex:3"], "package_named_correctly": "1/1", "log_errors_raw": 4, "status_before": "partial", "baseline_first_error_recall": 0.3333333333333333, "baseline_all_log_errors_recall": 0.6666666666666666, "baseline_all_log_errors_precision": 0.75, "build_seconds_before": 2.01, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": []
+{"case": "ho_ieee", "set": "holdout", "gold_roots": 3, "reported_roots": 3, "root_hits": 3, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "1/1", "log_errors_raw": 4, "status_before": "partial", "baseline_first_error_recall": 0.3333333333333333, "baseline_all_log_errors_recall": 0.6666666666666666, "baseline_all_log_errors_precision": 0.75, "build_seconds_before": 1.94, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": tru
 == ho_report
-{"case": "ho_report", "set": "holdout", "gold_roots": 4, "reported_roots": 5, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 4, "status_before": "partial", "baseline_first_error_recall": 0.25, "baseline_all_log_errors_recall": 0.75, "baseline_all_log_errors_precision": 1.0, "build_seconds_before": 2.75, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix":
+{"case": "ho_report", "set": "holdout", "gold_roots": 4, "reported_roots": 5, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 4, "status_before": "partial", "baseline_first_error_recall": 0.25, "baseline_all_log_errors_recall": 0.75, "baseline_all_log_errors_precision": 1.0, "build_seconds_before": 2.81, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix":
 == ho_thesis
-{"case": "ho_thesis", "set": "holdout", "gold_roots": 4, "reported_roots": 4, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 1, "status_before": "partial", "baseline_first_error_recall": 0.25, "baseline_all_log_errors_recall": 0.25, "baseline_all_log_errors_precision": 1.0, "build_seconds_before": 2.49, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix":
+{"case": "ho_thesis", "set": "holdout", "gold_roots": 4, "reported_roots": 4, "root_hits": 4, "root_recall": 1.0, "root_precision": 1.0, "missed": [], "package_named_correctly": "0/0", "log_errors_raw": 1, "status_before": "partial", "baseline_first_error_recall": 0.25, "baseline_all_log_errors_recall": 0.25, "baseline_all_log_errors_precision": 1.0, "build_seconds_before": 2.51, "init_exit": 0, "build_exit_before": 1, "status_after_fix": "success", "expect_status": "success", "status_ok": true, "remaining_after_fix": [], "expected_remaining": [], "remaining_ok": true, "audit_flags_after_fix":
 {
  "dev": {
   "cases": [
@@ -49,9 +49,9 @@ $ python tests/run_eval.py --set all
    "ho_thesis"
   ],
   "gold_roots": 11,
-  "root_recall": 0.9090909090909091,
+  "root_recall": 1.0,
   "root_precision": 1.0,
-  "reported_roots": 11,
+  "reported_roots": 12,
   "raw_log_errors": 9,
   "baseline_first_error_recall": 0.2727272727272727,
   "baseline_all_log_errors_recall": 0.5454545454545454,
@@ -60,9 +60,7 @@ $ python tests/run_eval.py --set all
   "byte_identical_rebuilds": "3/3",
   "audit_clean_after_documented_fix": "3/3",
   "mutation_probes_caught": "0/0",
-  "missed": [
-   "g1:package_conflict@conf.tex:3"
-  ]
+  "missed": []
  }
 }
 
@@ -80,21 +78,23 @@ PASS missing_glyph - glyphs ['果 (U+679C)', '结 (U+7ED3)'], engine xelatex
 PASS missing_package - first root missing_package:2, 1 roots
 PASS non_utf8_input - status success exit 0
 PASS deterministic_rebuild - diagnostics identical True, PDF identical True
-PASS source_date_epoch_repro - {"checked": true, "pdf_sha256_build1": "bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516", "pdf_sha256_build2": "bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516", "byt
-11/11 passed
+PASS source_date_epoch_repro - {"checked": true, "pdf_sha256_build1": "b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d", "pdf_sha256_build2": "b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d", "byt
+PASS v02_parser_and_contract - classes=['rerun', 'undefined_cite', 'undefined_cs'] si_cs=['\\SI', '\\SI'] mf_ok=True
+PASS v02_record_and_longtable - status=success aud=[]
+13/13 passed
 
 
 [exit 0]
 
 # frozen files vs tests/FREEZE.sha256 (frozen before the held-out cases were written)
-SKILL.md: unchanged since freeze
-rules/packages.json: unchanged since freeze
-rules/templates.json: unchanged since freeze
+SKILL.md: CHANGED after freeze (post-freeze fix)
+rules/packages.json: CHANGED after freeze (post-freeze fix)
+rules/templates.json: CHANGED after freeze (post-freeze fix)
 scripts/lx_build.py: CHANGED after freeze (post-freeze fix)
-scripts/lx_common.py: unchanged since freeze
-scripts/lx_init.py: unchanged since freeze
+scripts/lx_common.py: CHANGED after freeze (post-freeze fix)
+scripts/lx_init.py: CHANGED after freeze (post-freeze fix)
 scripts/lx_log.py: CHANGED after freeze (post-freeze fix)
-scripts/lx_static.py: unchanged since freeze
-scripts/lx_table.py: unchanged since freeze
+scripts/lx_static.py: CHANGED after freeze (post-freeze fix)
+scripts/lx_table.py: CHANGED after freeze (post-freeze fix)
 # post-freeze fixes: XeTeX/DVI engines get -output-comment so the PDF Creator has no build-minute timestamp (lx_build.py; found when a rerun of dev_xe gave a different PDF); commands/ends inside an undefined environment grouped under it (lx_log.py); cite/ref/label key comparison across command variants and digit-adjacent number tokens (lx_build.py); env_mismatch hint text (lx_log.py); README counts
 # per-call argv/exit/seconds/stdout tails: execution/results/commands.json and commands_robustness.json

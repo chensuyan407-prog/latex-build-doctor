@@ -106,7 +106,7 @@
    "actual_value": 1.0,
    "reference_value": 1.0,
    "score": 1.0,
-   "explanation": "no_main_file, two_mains_select, infinite_loop_timeout, missing_tool, zip_input, broken_changes_json, missing_glyph, missing_package, non_utf8_input, deterministic_rebuild, source_date_epoch_repro",
+   "explanation": "no_main_file, two_mains_select, infinite_loop_timeout, missing_tool, zip_input, broken_changes_json, missing_glyph, missing_package, non_utf8_input, deterministic_rebuild, source_date_epoch_repro, v02_parser_and_contract, v02_record_and_longtable",
    "evidence_artifact": "metrics",
    "tolerance": 0.0
   }

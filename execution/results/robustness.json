@@ -53,9 +53,19 @@
   {
    "check": "source_date_epoch_repro",
    "passed": true,
-   "detail": "{\"checked\": true, \"pdf_sha256_build1\": \"bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516\", \"pdf_sha256_build2\": \"bfebd0bb6c2d6d48bebf649e86e8e0e629e672de08b90389399d06de13b7d516\", \"byt"
+   "detail": "{\"checked\": true, \"pdf_sha256_build1\": \"b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d\", \"pdf_sha256_build2\": \"b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d\", \"byt"
+  },
+  {
+   "check": "v02_parser_and_contract",
+   "passed": true,
+   "detail": "classes=['rerun', 'undefined_cite', 'undefined_cs'] si_cs=['\\\\SI', '\\\\SI'] mf_ok=True"
+  },
+  {
+   "check": "v02_record_and_longtable",
+   "passed": true,
+   "detail": "status=success aud=[]"
   }
  ],
- "passed": 11,
- "total": 11
+ "passed": 13,
+ "total": 13
 }

@@ -10,6 +10,7 @@ SUCCESS: thesis.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root 
 
 | id | ok | requirement | origin |
 |---|---|---|---|
+| REP01 | True | at least one \chapter or \section | template:report |
 | G02 | True | no unresolved placeholders (TODO/XXX/??/<insert>) | template:* |
 
 ## Changes (diff vs original input)

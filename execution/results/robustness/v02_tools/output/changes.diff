@@ -1,0 +1,39 @@
+--- a/main.tex
++++ b/main.tex
+@@ -1,5 +1,6 @@
+-\documentclass{article}
+-\begin{document}
+-Hello.
+-\end{document}
++\documentclass{article}
++\usepackage{booktabs,longtable}
++\begin{document}
++\input{tab}
++\end{document}
+ 
+--- a/tab.tex
++++ b/tab.tex
+@@ -1 +1,23 @@
++\begin{longtable}{lr}
++  \caption{Results}\label{tab:res} \\
++  \toprule
++  Method & RMSE \\
++  \midrule
++  \endfirsthead
++  \toprule
++  Method & RMSE \\
++  \midrule
++  \endhead
++  \midrule
++  \multicolumn{2}{r}{\footnotesize\emph{Continued on next page}} \\
++  \endfoot
++  \bottomrule
++  \endlastfoot
++  Base & 0.42 \\
++  Ours & 0.28 \\
++\end{longtable}
++% source map (lx_table.py): file data.csv
++% header <- line 1; columns Method, RMSE
++% row 1 <- data.csv line 2
++% row 2 <- data.csv line 3
+ 

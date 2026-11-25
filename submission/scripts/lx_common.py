@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import sys
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 HERE = os.path.dirname(os.path.abspath(__file__))
 RULES = os.path.join(os.path.dirname(HERE), "rules")
 TEX_EXT = (".tex", ".ltx", ".latex")
@@ -81,11 +81,26 @@ def rel(p, root):
 
 
 _COMMENT = re.compile(r"(?<!\\)((?:\\\\)*)%.*")
+_URL_PROTO = re.compile(r"\\(?:url|path|nolinkurl|href)\s*\{")
 
 
 def strip_comment(line):
-    """Remove a LaTeX comment from one line (keeps \\%)."""
-    return _COMMENT.sub(r"\1", line)
+    """Remove a LaTeX comment from one line (keeps \\% and % inside \\url/\\path/\\href)."""
+    if "%" not in line:
+        return line
+    # Mask % inside \url{...}, \path{...}, \nolinkurl{...}, \href{...} so URL percent-encoding is not treated as a comment.
+    spans = []
+    for m in _URL_PROTO.finditer(line):
+        _, end = read_group(line, m.end() - 1)
+        if end > m.end() - 1:
+            spans.append((m.end() - 1, end))
+    if not spans:
+        return _COMMENT.sub(r"\1", line)
+    for m in _COMMENT.finditer(line):
+        pos = m.start() + len(m.group(1))
+        if not any(a <= pos < b for a, b in spans):
+            return line[:pos]
+    return line
 
 
 VERB_ENVS = ("verbatim", "verbatim*", "lstlisting", "minted", "Verbatim", "comment", "filecontents", "filecontents*")
@@ -151,18 +166,46 @@ def skip_ws(s, i):
 
 
 def find_commands(text, names):
-    """Yield (name, opt, arg, line_no, start) for \\name[opt]{arg} on comment-free text (multi-line args ok)."""
+    """Yield (name, opt, arg, line_no, start) for \\name[opt]...[opt2]{arg} on comment-free text (multi-line args ok)."""
     pat = re.compile(r"\\(" + "|".join(re.escape(n) for n in names) + r")(?![A-Za-z@])\*?")
     for m in pat.finditer(text):
         i = skip_ws(text, m.end())
         opt = None
-        if i < len(text) and text[i] == "[":
-            opt, i2 = read_group(text, i, "[", "]")
-            if opt is None:
-                continue
+        while i < len(text) and text[i] == "[":
+            o, i2 = read_group(text, i, "[", "]")
+            if o is None:
+                break
+            opt = o if opt is None else (opt + "][" + o)
             i = skip_ws(text, i2)
         arg, i3 = read_group(text, i)
         yield m.group(1), opt, arg, text.count("\n", 0, m.start()) + 1, m.start()
+
+
+def find_multi_arg_commands(text, names):
+    """Yield (name, arg, line_no) for commands like \\cites{a}{b} or \\parencites[opt]{a}{b}."""
+    pat = re.compile(r"\\(" + "|".join(re.escape(n) for n in names) + r")(?![A-Za-z@])\*?")
+    for m in pat.finditer(text):
+        ln = text.count("\n", 0, m.start()) + 1
+        i = skip_ws(text, m.end())
+        found_any = False
+        while i < len(text):
+            while i < len(text) and text[i] in "([":
+                open_c, close_c = text[i], (")" if text[i] == "(" else "]")
+                _, i2 = read_group(text, i, open_c, close_c)
+                if i2 == i:
+                    break
+                i = skip_ws(text, i2)
+            if i < len(text) and text[i] == "{":
+                arg, i3 = read_group(text, i)
+                if arg is None:
+                    break
+                found_any = True
+                yield m.group(1), arg, ln
+                i = skip_ws(text, i3)
+            else:
+                break
+        if not found_any:
+            continue
 
 
 def split_csv(arg):
@@ -353,22 +396,34 @@ def kpsewhich_many(names, cwd=None):
 
 
 def font_lookup(fonts):
-    """Map font name -> True/False/None (None = cannot check) via fc-list."""
+    """Map font name -> True/False/None (None = cannot check) via fc-list and kpsewhich fallback."""
     res = {}
     if not fonts:
         return res, None
     fc = which("fc-list")
-    if not fc:
-        return {f: None for f in fonts}, None
-    code, out, err = run([fc, ":", "family", "fullname", "file", "postscriptname"], timeout=60)
-    blob = out.lower()
+    blob = ""
+    if fc:
+        code, out, err = run([fc, ":", "family", "fullname", "file", "postscriptname"], timeout=60)
+        blob = out.lower()
     for f in fonts:
         name = f.lower()
         base = re.sub(r"\.(otf|ttf|ttc)$", "", name)
-        res[f] = (name in blob) or (base in blob) or (base.replace(" ", "") in blob.replace(" ", ""))
-        if not res[f] and re.search(r"\.(otf|ttf|ttc)$", name):
-            k, _ = kpsewhich_many([f])
-            res[f] = bool(k)
+        hit = bool(blob) and ((name in blob) or (base in blob) or (base.replace(" ", "") in blob.replace(" ", "")))
+        if not hit:
+            # Minimal Linux TeX Live containers often do not index texmf-dist/fonts in fontconfig; check kpsewhich too.
+            slug = re.sub(r"[^a-z0-9]", "", base)
+            cands = [f] if re.search(r"\.(otf|ttf|ttc)$", name) else [
+                f + ".otf", f + ".ttf",
+                slug + ".otf", slug + "-regular.otf", slug + "-Regular.otf",
+                base.replace(" ", "") + ".otf", base.replace(" ", "") + "-Regular.otf",
+                base.replace(" ", "") + ".ttf", base.replace(" ", "") + "-Regular.ttf",
+            ]
+            k, _ = kpsewhich_many(cands)
+            hit = bool(k)
+        if not hit and not fc:
+            res[f] = None
+        else:
+            res[f] = hit
     return res, fc
 
 
@@ -399,6 +454,8 @@ def summarize_case(case):
 
 def contract_fields(contract):
     if isinstance(contract, dict):
+        if "schema" in contract and isinstance(contract["schema"], dict):
+            return contract_fields(contract["schema"])
         if "fields" in contract and isinstance(contract["fields"], (list, dict)):
             return contract_fields(contract["fields"])
         if "properties" in contract and isinstance(contract["properties"], dict):
@@ -420,3 +477,32 @@ def contract_fields(contract):
     if isinstance(contract, str):
         return re.findall(r"[A-Za-z_][A-Za-z0-9_]*", contract)
     return []
+
+
+def inspect_cls(path):
+    """Extract declared options, commands, required checks, and ClassError/Warning hints from a local .cls/.sty."""
+    text, _ = read_text(path)
+    base_class = None
+    m = re.search(r"\\LoadClass(?:\[[^\]]*\])?\{([^}]+)\}", text)
+    if m:
+        base_class = m.group(1).strip()
+    options = sorted(set(re.findall(r"\\DeclareOption\*?\{([^}]+)\}", text)))[:25]
+    cmds = sorted(set(re.findall(r"\\(?:newcommand|renewcommand|providecommand|def)\s*\\([A-Za-z][A-Za-z0-9]*)", text)))
+    cmds = [c for c in cmds if not c.startswith("@")][:35]
+    errs = [re.sub(r"\s+", " ", x).strip()[:120] for x in re.findall(r"\\Class(?:Error|Warning(?:NoLine)?)\{[^}]*\}\{([^}]*)\}", text)][:10]
+    pkgs = sorted(set(p for g in re.findall(r"\\RequirePackage(?:\[[^\]]*\])?\{([^}]+)\}", text) for p in split_csv(g)))[:25]
+    return {"base_class": base_class, "options": options, "commands": cmds, "requires": pkgs, "checks": errs}
+
+
+def extract_pdf_text(path):
+    """Best-effort text extraction from an input material PDF using pdftotext or PyMuPDF (if installed)."""
+    if which("pdftotext"):
+        code, out, _ = run(["pdftotext", "-enc", "UTF-8", path, "-"], timeout=30)
+        if code == 0 and out.strip():
+            return out
+    try:
+        import fitz  # optional
+        with fitz.open(path) as doc:
+            return "\n".join(page.get_text("text") for page in doc)
+    except Exception:
+        return ""

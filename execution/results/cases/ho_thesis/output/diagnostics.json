@@ -26,6 +26,14 @@
  ],
  "requirements": [
   {
+   "id": "REP01",
+   "desc": "at least one \\chapter or \\section",
+   "pattern": "\\\\(?:chapter|section)\\s*(\\[[^\\]]*\\])?\\s*\\{",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:report"
+  },
+  {
    "id": "G02",
    "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
    "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",

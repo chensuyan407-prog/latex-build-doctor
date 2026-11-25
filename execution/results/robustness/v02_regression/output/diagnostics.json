@@ -1,0 +1,92 @@
+{
+ "status": "partial",
+ "roots": [
+  "E002",
+  "S001"
+ ],
+ "diagnostics": [
+  {
+   "class": "undefined_cite",
+   "severity": "warning",
+   "message": "Package natbib Warning: Citation `missing2021' on page 1 undefined on input line 4.",
+   "file": "main.tex",
+   "line": 4,
+   "key": "missing2021",
+   "id": "W001",
+   "source": "log",
+   "source_line": "See \\url{https://example.com/a%20b} and \\cite[see][p.~2]{schr2020,missing2021}."
+  },
+  {
+   "class": "undefined_cs",
+   "severity": "error",
+   "message": "Undefined control sequence. <argument> \\string \\@writefile {\\csname ext@\\@captype \\endcsname }{\\protect \\contentsline {\\@captype }{\\protect \\numberline {\\csname the\\@captype \\endcsname }{\\ignorespaces Value \\SI {5}{nm}}}{\\thepage }{}\\protected@file@percent }",
+   "cs": "\\SI",
+   "needs_package": "siunitx",
+   "hint": "Undefined command \\SI: \\SI is provided by package siunitx, which is not loaded: add \\usepackage{siunitx} to the preamble (check the template allows it).",
+   "file": "main.tex",
+   "line": 6,
+   "context": "\\begin{figure}\\caption{Value \\SI{5}{nm}} <HERE> \\end{figure}",
+   "id": "E002",
+   "source": "log",
+   "source_line": "\\begin{figure}\\caption{Value \\SI{5}{nm}}\\end{figure}"
+  },
+  {
+   "class": "undefined_cs",
+   "severity": "error",
+   "message": "Undefined control sequence. <argument> \\csname fnum@\\@captype \\endcsname : \\ignorespaces Value \\SI {5}{nm}",
+   "cs": "\\SI",
+   "needs_package": "siunitx",
+   "hint": "Undefined command \\SI: \\SI is provided by package siunitx, which is not loaded: add \\usepackage{siunitx} to the preamble (check the template allows it).",
+   "file": "main.tex",
+   "line": 6,
+   "context": "\\begin{figure}\\caption{Value \\SI{5}{nm}} <HERE> \\end{figure}",
+   "id": "E003",
+   "cascade_of": "E002",
+   "source": "log",
+   "source_line": "\\begin{figure}\\caption{Value \\SI{5}{nm}}\\end{figure}"
+  },
+  {
+   "class": "rerun",
+   "severity": "info",
+   "message": "Package natbib Warning: There were undefined citations.",
+   "file": "main.tex",
+   "line": null,
+   "id": "W004",
+   "source": "log"
+  },
+  {
+   "class": "undefined_cite",
+   "severity": "warning",
+   "message": "Warning--I didn't find a database entry for \"missing2021\"",
+   "key": "missing2021",
+   "file": null,
+   "line": null,
+   "source": "bibtex",
+   "id": "N001"
+  },
+  {
+   "class": "undefined_cite",
+   "severity": "error",
+   "file": "main.tex",
+   "line": 4,
+   "message": "\\cite{missing2021}: no entry with this key in the bibliography",
+   "hint": "The reference is missing from the .bib: add it only from the source material, else mark for human confirmation.",
+   "key": "missing2021",
+   "suggestions": [],
+   "source": "static",
+   "id": "S001",
+   "source_line": "See \\url{https://example.com/a%20b} and \\cite[see][p.~2]{schr2020,missing2021}."
+  }
+ ],
+ "requirements": [
+  {
+   "id": "G02",
+   "desc": "no unresolved placeholders (TODO/XXX/??/<insert>)",
+   "pattern": "(TODO|FIXME|XXX|\\?\\?\\?|<insert|\\[citation needed\\])",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:*"
+  }
+ ],
+ "new_numbers_not_in_materials": []
+}

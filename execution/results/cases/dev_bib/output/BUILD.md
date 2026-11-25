@@ -22,7 +22,7 @@ Equivalent: `cd src/. && latexmk -r ../latexmkrc paper.tex` (or `sh build.sh`).
 - bib tool: biber version: 2.21
 - document class: {"name": "article", "date": "2025/01/22", "version": "v1.4n Standard LaTeX document class"}
 - project files read by TeX: paper.tex
-- PDF fonts: MFQGJR+CMR17(emb), ZALXIT+CMR12(emb), AJEXIO+CMR10(emb), KTQSAD+CMBX10(emb), OTQOSA+CMBX12(emb), JBQLDP+CMTI10(emb)
+- PDF fonts: MFQGJR+CMR17(emb), VIYELL+CMR12(emb), AJEXIO+CMR10(emb), KTQSAD+CMBX10(emb), OTQOSA+CMBX12(emb), JBQLDP+CMTI10(emb)
 
 | package | date | version |
 |---|---|---|

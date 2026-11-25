@@ -2,8 +2,8 @@
  "case_id": "missing_package",
  "status": "failed",
  "summary": "FAILED: main.tex with pdflatex, 1 engine pass(es); 1 error(s) in log (1 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:52Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:30:06Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",

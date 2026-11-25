@@ -2,8 +2,8 @@
  "case_id": "dev_xe",
  "status": "success",
  "summary": "SUCCESS: main.tex with xelatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
- "skill": "latex-build-doctor 0.1.0",
- "built_at": "2026-11-23T10:17:05Z",
+ "skill": "latex-build-doctor 0.2.0",
+ "built_at": "2026-11-25T05:29:21Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
@@ -34,13 +34,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 2.67,
+  "seconds": 2.55,
   "rounds": [
    {
     "step": "xelatex pass 1",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.39,
+    "seconds": 1.32,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""
@@ -49,7 +49,7 @@
     "step": "xelatex pass 2",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.28,
+    "seconds": 1.23,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""
@@ -79,6 +79,14 @@
   "warnings": 0
  },
  "requirements": [
+  {
+   "id": "CTEX01",
+   "desc": "\\maketitle after \\title",
+   "pattern": "\\\\title.*\\\\maketitle",
+   "ok": true,
+   "severity": "warning",
+   "origin": "template:ctexart"
+  },
   {
    "id": "G01",
    "desc": "\\title{...} is set",
@@ -231,17 +239,23 @@
   "details": "environment.json"
  },
  "tex_source": {
-  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\tests\\cases\\dev_xe\\input",
-  "materials": [
-   "case.json",
-   "main.tex"
+  "source_dir": "src/",
+  "main_tex": "src/main.tex",
+  "pdf": "main.pdf",
+  "pdf_sha256": "3d319a22d5f84faacde9254e7c1d3c910dd25f8fae15b925d05a7265bfe098fd",
+  "pdf_pages": 1,
+  "previews": [
+   "preview/page-1.png"
   ],
-  "original_snapshot": "work/orig (unchanged input)",
-  "fact_guard": {
-   "numbers_changed_in_edits": [],
-   "keys_changed_in_edits": [],
-   "numbers_not_in_materials": []
-  }
+  "diff": "changes.diff",
+  "change_log": "change_log.json",
+  "diagnostics": "diagnostics.json",
+  "build_report": "build_report.md",
+  "build_instructions": "BUILD.md",
+  "build_script": "build.sh",
+  "latexmkrc": "latexmkrc",
+  "environment": "environment.json",
+  "logs": "build_logs/"
  },
  "pdf": "main.pdf",
  "build_commands": {
@@ -255,13 +269,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 2.67,
+  "seconds": 2.55,
   "rounds": [
    {
     "step": "xelatex pass 1",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.39,
+    "seconds": 1.32,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""
@@ -270,7 +284,7 @@
     "step": "xelatex pass 2",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.28,
+    "seconds": 1.23,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""

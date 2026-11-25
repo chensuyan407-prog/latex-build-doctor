@@ -10,6 +10,7 @@ SUCCESS: main.tex with xelatex, 2 engine pass(es); 0 error(s) in log (0 root cau
 
 | id | ok | requirement | origin |
 |---|---|---|---|
+| CTEX01 | True | \maketitle after \title | template:ctexart |
 | G01 | True | \title{...} is set | template:* |
 | G02 | True | no unresolved placeholders (TODO/XXX/??/<insert>) | template:* |
 

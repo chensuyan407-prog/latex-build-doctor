@@ -37,6 +37,8 @@ ERROR_CLASSES = [
     ("math_mode", r"Display math should end with \$\$", "Display math opened with $$ is not closed properly; use \\[...\\]."),
     ("math_mode", r"LaTeX Error: Command \\\\?[A-Za-z]+ invalid in math mode", "Text-mode command used inside math."),
     ("math_mode", r"Please use \\mathaccent for accents in math mode", "Text accent used in math; use \\hat, \\tilde, ... ."),
+    ("math_mode", r"Double (superscript|subscript)", "Repeated ^ or _ on the same base (e.g. a^b^c or x_i_j): group with braces {a^b}^c or x_{i,j}."),
+    ("structure", r"Missing \\endcsname inserted", "A fragile command or unescaped _ appeared inside a label, key, or filename argument."),
     ("brace", r"Missing \} inserted", "A group is not closed (missing '}') or math/alignment ended inside a group."),
     ("brace", r"Missing \{ inserted", "A '{' is expected here (often a subscript/superscript or \\frac argument missing braces, or a '}' too many)."),
     ("brace", r"Too many \}'s", "Unbalanced '}' - one closing brace too many."),
@@ -52,7 +54,7 @@ ERROR_CLASSES = [
     ("alignment", r"Illegal pream-token|LaTeX Error: Illegal character in array arg|Unknown column type", "Invalid column specifier in the tabular preamble (e.g. S needs siunitx, X needs tabularx, wrong p{...})."),
     ("alignment", r"LaTeX Error: There's no line here to end", "\\\\ (or \\newline) at a place with no line, e.g. after a blank line or at the start of a paragraph/list item."),
     ("alignment", r"Only one # is allowed per tab", "Bad column spec / macro parameter inside alignment."),
-    ("number_unit", r"Illegal unit of measure|Missing number, treated as zero", "A length/number is malformed (e.g. width=0.5 without \\linewidth, or an empty optional argument)."),
+    ("number_unit", r"Illegal unit of measure|Missing number, treated as zero|Dimension too large", "A length/number is malformed or out of bounds (e.g. width=0.5 without \\linewidth, or an empty optional argument)."),
     ("option_clash", r"LaTeX Error: Option clash for package ([^ .]+)", "Package {0} is loaded twice with different options (possibly by the class or another package): load it once with all options before the other package, or pass options via \\PassOptionsToPackage before \\documentclass."),
     ("already_defined", r"LaTeX Error: Command \\([^ ]+) already defined|Command \\([^ ]+) already defined", "\\{0} is defined twice - two packages conflict or \\newcommand should be \\renewcommand / \\providecommand."),
     ("bad_option", r"LaTeX Error: Unknown option `([^']+)' for (?:package|class) `([^']+)'", "Option '{0}' is not valid for {1}."),
@@ -72,6 +74,8 @@ ERROR_CLASSES = [
     ("shell_escape", r"Package (?:minted|svg|pythontex|gnuplottex|epstopdf) Error: .*(?:shell.escape|-shell-escape|write18)", "This package needs -shell-escape (security risk; only if the source is trusted). Rerun build with --shell-escape or pre-render the content."),
     ("capacity", r"TeX capacity exceeded, sorry \[([^\]]+)\]", "TeX capacity exceeded ({0}): usually infinite recursion (a macro calling itself, \\renewcommand loop, missing } in a macro), not a real memory limit."),
     ("bib_engine", r"Package biblatex Error: '([^']+)' not found|biblatex Error: Incompatible", "biblatex and biber versions or backend do not match: run biber (not bibtex) or set backend=bibtex."),
+    ("bib_engine", r"Package natbib Error: Bibliography not compatible with author-year citations", "natbib author-year mode needs a compatible style (e.g. plainnat/unsrtnat/abbrvnat) or \\usepackage[numbers]{natbib}."),
+    ("generic_error", r"Package (?:pgf|tikz|pgfplots) Error: (.*)", "TikZ/PGF error: {0}"),
     ("generic_error", r"LaTeX Error: (.*)", "{0}"),
     ("generic_error", r"Package (\S+) Error: (.*)", "{0}: {1}"),
     ("generic_error", r"Class (\S+) Error: (.*)", "{0}: {1}"),
@@ -152,8 +156,15 @@ def _norm(f, project_files):
     return g if "/" not in g or not os.path.isabs(g) else None
 
 
-def _cs_from_context(before):
-    m = re.search(r"(\\[A-Za-z@]+\*?|\\.)\s*$", before)
+def _cs_from_context(before, block=None):
+    # TeX breaks the offending control sequence at the end of <argument>/<recently read>/l.N right before an indented continuation line.
+    if block:
+        for b in block[1:]:
+            if re.match(r"^\s*<(?:argument|recently read|to be read again|inserted text|template|write|macro)>\s", b):
+                m = re.search(r"(\\[A-Za-z@]+\*?|\\.)\s*$", b)
+                if m:
+                    return m.group(1).rstrip("*")
+    m = re.search(r"(\\[A-Za-z@]+\*?|\\.)\s*$", before or "")
     return m.group(1).rstrip("*") if m else None
 
 
@@ -244,7 +255,7 @@ def parse_tex_log(text, project_files, loaded_pkgs=(), defined_cmds=()):
                     fs.feed(x)
                 i = max(j, i + 1)
                 continue
-            d = classify_error(full, msg, ctx_before, ctx_after, loaded_pkgs, defined_cmds)
+            d = classify_error(full, msg, ctx_before, ctx_after, loaded_pkgs, defined_cmds, block=block)
             if raised_in:
                 d["raised_in"] = raised_in
             d.update({"file": efile, "line": eline, "context": ((ctx_before or "") + " <HERE> " + (ctx_after or "")).strip() if ctx_before is not None else None})
@@ -319,7 +330,7 @@ def fmt(t, g, **kw):
     return t.replace("<", "{").replace(">", "}") if "\begin<" in t else t
 
 
-def classify_error(full, msg, before, after, loaded, defined):
+def classify_error(full, msg, before, after, loaded, defined, block=None):
     for cls, rx, hint in ERROR_CLASSES:
         m = rx.search(full) or rx.search(msg)
         if not m:
@@ -327,7 +338,7 @@ def classify_error(full, msg, before, after, loaded, defined):
         g = [x or "" for x in m.groups()]
         d = {"class": cls, "severity": "error", "message": full[:500]}
         if cls == "undefined_cs":
-            cs = _cs_from_context(before or "")
+            cs = _cs_from_context(before or "", block=block)
             why, pkg = explain_cs(cs, defined, loaded) if cs else ("see the context line; the last command before the line break is undefined.", None)
             d["cs"] = cs
             if pkg:

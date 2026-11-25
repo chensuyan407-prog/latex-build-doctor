@@ -1,0 +1,25 @@
+{
+ "_doc": "Record every source edit: file, line (in the NEW file), from, to, reason, fixes (diagnostic id or task item), type. requirements = template/task items to verify by regex; needs_confirmation = items a human must decide; fields = contract overrides.",
+ "changes": [
+  {
+   "file": "main.tex",
+   "line": 1,
+   "from": "\\documentclass{article}\n\\begin{document}\nHello.\n\\end{document}",
+   "to": "\\documentclass{article}\r\n\\usepackage{booktabs,longtable}\r\n\\begin{document}\r\n\\input{tab}\r\n\\end{document}\r",
+   "reason": "add data table",
+   "type": "table"
+  },
+  {
+   "file": "tab.tex",
+   "line": 1,
+   "from": "",
+   "to": "",
+   "reason": "add data table",
+   "type": "new_file"
+  }
+ ],
+ "requirements": [],
+ "needs_confirmation": [],
+ "notes": [],
+ "fields": {}
+}

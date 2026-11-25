@@ -22,3 +22,4 @@ PARTIAL: main.tex with xelatex, 1 engine pass(es); 0 error(s) in log (0 root cau
 ## Uncertainty / limits
 
 - 2 missing glyph(s) in the PDF (characters not in font)
+- replacement character (U+FFFD) found in extracted PDF text

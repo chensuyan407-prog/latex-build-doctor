@@ -1,0 +1,44 @@
+{
+ "skill_version": "0.2.0",
+ "case_id": "v02_reg",
+ "case_file": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\v02_regression\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\texbuild\\execution\\results\\robustness\\v02_regression\\input",
+ "contract_fields": [
+  "fixed_source",
+  "tex_source",
+  "source",
+  "unresolved_citations",
+  "open_questions",
+  "compile_status"
+ ],
+ "materials": [
+  "case.json",
+  "main.tex",
+  "refs.bib"
+ ],
+ "mains": [
+  "main.tex"
+ ],
+ "main": "main.tex",
+ "created": "2026-11-25T05:30:18.476640+00:00",
+ "engine": "pdflatex",
+ "engine_reason": "no Unicode-engine package found",
+ "bibtool": "bibtex",
+ "bibtool_reason": "\\bibliography{...}",
+ "order": [
+  "main.tex"
+ ],
+ "bibs": [
+  "refs.bib"
+ ],
+ "documentclass": {
+  "name": "article",
+  "options": [],
+  "line": 1
+ },
+ "unreached_tex": [],
+ "fonts": [],
+ "fonts_found": {},
+ "problems": [],
+ "other_mains": []
+}

@@ -1,0 +1,48 @@
+[
+ {
+  "hunk": "H001",
+  "file": "main.tex",
+  "kind": "replace",
+  "old_lines": [
+   1,
+   4
+  ],
+  "new_lines": [
+   1,
+   5
+  ],
+  "old": "\\documentclass{article}\n\\begin{document}\nHello.\n\\end{document}",
+  "new": "\\documentclass{article}\r\n\\usepackage{booktabs,longtable}\r\n\\begin{document}\r\n\\input{tab}\r\n\\end{document}\r",
+  "reasons": [
+   "add data table"
+  ],
+  "fixes": [],
+  "types": [
+   "table"
+  ],
+  "documented": true
+ },
+ {
+  "hunk": "H002",
+  "file": "tab.tex",
+  "kind": "new_file",
+  "old_lines": [
+   1,
+   0
+  ],
+  "new_lines": [
+   1,
+   22
+  ],
+  "old": "",
+  "new": "\\begin{longtable}{lr}\n  \\caption{Results}\\label{tab:res} \\\\\n  \\toprule\n  Method & RMSE \\\\\n  \\midrule\n  \\endfirsthead\n  \\toprule\n  Method & RMSE \\\\\n  \\midrule\n  \\endhead\n  \\midrule\n  \\multicolumn{2}{r}{\\footnotesize\\emph{Continued on next page}} \\\\\n  \\endfoot\n  \\bottomrule\n  \\endlastfoot\n  Base & 0.42 \\\\\n  Ours & 0.28 \\\\\n\\end{longtable}\n% source map (lx_table.py): file data.csv\n% header <- line 1; columns Method, RMSE\n% row 1 <- data.csv line 2\n% row 2 <- data.csv line 3",
+  "reasons": [
+   "add data table"
+  ],
+  "fixes": [],
+  "types": [
+   "new_file"
+  ],
+  "documented": true
+ }
+]
