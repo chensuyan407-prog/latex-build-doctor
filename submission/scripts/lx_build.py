@@ -461,11 +461,14 @@ def main():
         diags.append({"class": "changes_json_invalid", "severity": "warning", "file": "work/changes.json", "line": None, "source": "audit",
                       "message": "work/changes.json is not valid JSON - change records ignored", "hint": "Fix the JSON (escape backslashes as \\\\)."})
     if not main_rel:
-        res = {"case_id": st.get("case_id"), "status": "failed", "skill": "latex-build-doctor " + VERSION, "error": "no main .tex (\\documentclass + \\begin{document}) in work/src",
-               "uncertainty": ["nothing compiled"]}
-        for f in st.get("contract_fields") or []:
-            res.setdefault(f, None)
-        write_json(os.path.join(out, "result.json"), res)
+        res_path = os.path.join(out, "result.json")
+        existing = load_json(res_path, None)
+        if not (isinstance(existing, dict) and existing.get("status") in ("success", "partial")):
+            res = {"case_id": st.get("case_id"), "status": "failed", "skill": "latex-build-doctor " + VERSION, "error": "no main .tex (\\documentclass + \\begin{document}) in work/src",
+                   "uncertainty": ["nothing compiled"]}
+            for f in st.get("contract_fields") or []:
+                res.setdefault(f, None)
+            write_json(res_path, res)
         print("FAILED: no main file in work/src. Create one or pass --main.")
         return 2
     order, pre = reach(src, main_rel, files_info)
@@ -747,18 +750,30 @@ def main():
                         "documentclass": env.get("documentclass"), "n_packages": len(env.get("packages", {})), "details": "environment.json"},
     }
     fields = st.get("contract_fields") or []
-    overrides = changes.get("fields") or {}
+    props = st.get("contract_properties") or {}
+    overrides = changes.get("fields")
+    if not isinstance(overrides, dict):
+        overrides = {}
+    PROTECTED_FIELDS = {"case_id", "status", "skill", "artifacts", "build", "diagnostics_summary", "sources", "environment"}
     unmapped_fields = []
     for f in fields:
         if f in res and f not in overrides:
             continue
-        mapped = map_field(f, res, overrides)
+        mapped = map_field(f, res, overrides, props.get(f))
         if isinstance(mapped, dict) and mapped.get("note", "").startswith("no automatic mapping"):
             unmapped_fields.append(f)
+            if props.get(f, {}).get("type") in ("string", "integer", "number", "boolean", "array"):
+                mapped = None
         res[f] = mapped
     for f, v in overrides.items():
-        if f not in fields:
+        if f not in fields and f not in PROTECTED_FIELDS:
             res[f] = v.get("value") if isinstance(v, dict) and "value" in v else v
+    from lx_common import validate_contract
+    contract_errs = validate_contract(res, st)
+    if contract_errs:
+        res.setdefault("uncertainty", []).extend(["contract: " + e for e in contract_errs])
+        if res["status"] == "success":
+            res["status"] = "partial"
     write_json(os.path.join(out, "result.json"), res)
     write_report(out, res, D, roots_, reqs, change_log, newnums)
     rc = 0 if status == "success" else (1 if R["pdf"] else 2)
@@ -797,7 +812,7 @@ def _short(d):
     return {k: d.get(k) for k in ("id", "class", "file", "line", "message", "hint", "cascade_of", "key", "cs", "name") if d.get(k) is not None}
 
 
-def map_field(f, res, overrides):
+def map_field(f, res, overrides, prop_schema=None):
     if f in overrides:
         v = overrides[f]
         if isinstance(v, dict) and "value" in v:
@@ -806,8 +821,9 @@ def map_field(f, res, overrides):
             return _get(res, v["from"])
         return v
     k = f.lower()
+    want_type = prop_schema.get("type") if isinstance(prop_schema, dict) else None
     if k in ("source", "fixed_source", "tex_source", "fixed_tex", "fixed_project", "deliverable_tex", "output_tex", "latex_source", "main_tex"):
-        return res["artifacts"]
+        return res["artifacts"].get("main_tex") or "" if want_type == "string" else res["artifacts"]
     if k in ("unresolved_citations", "undefined_citations", "missing_citations"):
         return res["diagnostics_summary"]["undefined_citations"]
     if k in ("unresolved_references", "undefined_references", "missing_references"):

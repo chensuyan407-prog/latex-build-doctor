@@ -7,13 +7,15 @@
   "status",
   "pdf"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "notes.md"
  ],
  "mains": [],
  "main": null,
- "created": "2026-11-25T05:29:45.515055+00:00",
+ "created": "2026-11-26T15:07:47.954083+00:00",
  "engine": "pdflatex",
  "bibtool": null,
  "order": [],

@@ -9,6 +9,8 @@
   "change_log",
   "remaining_issues"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "data.csv",
@@ -22,7 +24,7 @@
   "main.tex"
  ],
  "main": "main.tex",
- "created": "2026-11-25T05:28:45.459571+00:00",
+ "created": "2026-11-26T15:06:49.474371+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": "bibtex",

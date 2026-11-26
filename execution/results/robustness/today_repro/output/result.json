@@ -3,12 +3,12 @@
  "status": "success",
  "summary": "SUCCESS: main.tex with pdflatex, 1 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:30:18Z",
+ "built_at": "2026-11-26T15:08:19Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
   "pdf": "main.pdf",
-  "pdf_sha256": "b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d",
+  "pdf_sha256": "2253fe62322037401a6b37ccc3bb1383996135d9538d3090c9c0b4db0ab117bb",
   "pdf_pages": 1,
   "previews": [
    "preview/page-1.png"
@@ -33,13 +33,13 @@
   "engine_passes": 1,
   "converged": true,
   "timeout": false,
-  "seconds": 0.5,
+  "seconds": 0.44,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.5,
+    "seconds": 0.44,
     "aux_sha256": "fbabe80c887f95a1ede6847f22dd91b380bda9d17ae8bfaa72e1741b16aa41e9",
     "timeout": false,
     "stderr_tail": ""
@@ -48,8 +48,8 @@
   "source_date_epoch": "1704067200",
   "reproducibility": {
    "checked": true,
-   "pdf_sha256_build1": "b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d",
-   "pdf_sha256_build2": "b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d",
+   "pdf_sha256_build1": "2253fe62322037401a6b37ccc3bb1383996135d9538d3090c9c0b4db0ab117bb",
+   "pdf_sha256_build2": "2253fe62322037401a6b37ccc3bb1383996135d9538d3090c9c0b4db0ab117bb",
    "byte_identical": true,
    "source_date_epoch": "1704067200",
    "rounds_build2": [

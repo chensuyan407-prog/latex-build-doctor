@@ -53,7 +53,7 @@
   {
    "check": "source_date_epoch_repro",
    "passed": true,
-   "detail": "{\"checked\": true, \"pdf_sha256_build1\": \"b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d\", \"pdf_sha256_build2\": \"b822a249ea3bf31147a40c9dbd9f557931102e04726bad1412dddf98102a3b4d\", \"byt"
+   "detail": "{\"checked\": true, \"pdf_sha256_build1\": \"2253fe62322037401a6b37ccc3bb1383996135d9538d3090c9c0b4db0ab117bb\", \"pdf_sha256_build2\": \"2253fe62322037401a6b37ccc3bb1383996135d9538d3090c9c0b4db0ab117bb\", \"byt"
   },
   {
    "check": "v02_parser_and_contract",

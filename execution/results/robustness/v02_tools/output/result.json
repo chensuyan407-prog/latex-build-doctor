@@ -3,7 +3,7 @@
  "status": "success",
  "summary": "SUCCESS: main.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 2 edit hunk(s), 2 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:30:24Z",
+ "built_at": "2026-11-26T15:08:25Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
@@ -34,13 +34,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 0.96,
+  "seconds": 0.95,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.5,
+    "seconds": 0.46,
     "aux_sha256": "15cd69bdc41a631ea8c5f047737764534fbe05b1cef3e3e7b805e929eeaff7d7",
     "timeout": false,
     "stderr_tail": ""
@@ -49,7 +49,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.46,
+    "seconds": 0.49,
     "aux_sha256": "15cd69bdc41a631ea8c5f047737764534fbe05b1cef3e3e7b805e929eeaff7d7",
     "timeout": false,
     "stderr_tail": ""

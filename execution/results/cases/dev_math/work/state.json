@@ -9,6 +9,8 @@
   "edits",
   "open_questions"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "model.tex"
@@ -17,7 +19,7 @@
   "model.tex"
  ],
  "main": "model.tex",
- "created": "2026-11-25T05:28:38.241413+00:00",
+ "created": "2026-11-26T15:06:42.412781+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

@@ -3,7 +3,7 @@
  "status": "partial",
  "summary": "PARTIAL: main.tex with pdflatex, 3 engine pass(es) + bibtex; 2 error(s) in log (2 root cause(s) overall), 0 undefined ref(s), 1 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:30:21Z",
+ "built_at": "2026-11-26T15:08:22Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
@@ -36,13 +36,13 @@
   "engine_passes": 3,
   "converged": true,
   "timeout": false,
-  "seconds": 1.8,
+  "seconds": 1.75,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 1,
-    "seconds": 0.5,
+    "seconds": 0.47,
     "aux_sha256": "67899b2fab17d86828e066293bfeca4fd8cbd22e2aeb1ccd17d93dd8bce7a6dd",
     "timeout": false,
     "stderr_tail": ""
@@ -51,7 +51,7 @@
     "step": "bibtex",
     "cmd": "bibtex main",
     "exit": 0,
-    "seconds": 0.32,
+    "seconds": 0.3,
     "aux_sha256": "67899b2fab17d86828e066293bfeca4fd8cbd22e2aeb1ccd17d93dd8bce7a6dd",
     "timeout": false,
     "stderr_tail": ""
@@ -60,7 +60,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 1,
-    "seconds": 0.47,
+    "seconds": 0.5,
     "aux_sha256": "f109bf7e4876d4c781d0820b88cb86fb882c2d206bebcf5c5db610f9d1495d56",
     "timeout": false,
     "stderr_tail": ""
@@ -69,7 +69,7 @@
     "step": "pdflatex pass 3",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 1,
-    "seconds": 0.51,
+    "seconds": 0.47,
     "aux_sha256": "f109bf7e4876d4c781d0820b88cb86fb882c2d206bebcf5c5db610f9d1495d56",
     "timeout": false,
     "stderr_tail": ""

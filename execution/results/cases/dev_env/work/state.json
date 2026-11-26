@@ -9,6 +9,8 @@
   "changes",
   "status"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "report.tex"
@@ -17,7 +19,7 @@
   "report.tex"
  ],
  "main": "report.tex",
- "created": "2026-11-25T05:28:33.886130+00:00",
+ "created": "2026-11-26T15:06:38.088367+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

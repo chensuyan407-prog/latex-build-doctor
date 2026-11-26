@@ -9,6 +9,8 @@
   "changes",
   "open_items"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "thesis.tex",
@@ -20,7 +22,7 @@
   "thesis.tex"
  ],
  "main": "thesis.tex",
- "created": "2026-11-25T05:29:38.392702+00:00",
+ "created": "2026-11-26T15:07:41.093465+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

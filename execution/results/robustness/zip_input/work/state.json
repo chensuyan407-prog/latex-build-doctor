@@ -7,6 +7,8 @@
   "status",
   "pdf"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "project_extracted/paper/main.tex",
@@ -16,7 +18,7 @@
   "project_extracted/paper/main.tex"
  ],
  "main": "project_extracted/paper/main.tex",
- "created": "2026-11-25T05:29:57.425461+00:00",
+ "created": "2026-11-26T15:07:59.809836+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,

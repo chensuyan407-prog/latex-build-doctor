@@ -10,6 +10,8 @@
   "changes",
   "needs_confirmation"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "main.tex"
@@ -18,7 +20,7 @@
   "main.tex"
  ],
  "main": "main.tex",
- "created": "2026-11-25T05:29:11.957667+00:00",
+ "created": "2026-11-26T15:07:15.353098+00:00",
  "engine": "pdflatex",
  "engine_reason": "% !TEX program = pdflatex",
  "bibtool": null,

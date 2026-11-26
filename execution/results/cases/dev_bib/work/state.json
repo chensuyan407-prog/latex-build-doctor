@@ -9,6 +9,8 @@
   "unresolved_citations",
   "status"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "library.bib",
@@ -18,7 +20,7 @@
   "paper.tex"
  ],
  "main": "paper.tex",
- "created": "2026-11-25T05:28:16.155793+00:00",
+ "created": "2026-11-26T15:06:20.549414+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": "biber",

@@ -7,6 +7,8 @@
   "status",
   "pdf"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "main.tex"
@@ -15,7 +17,7 @@
   "main.tex"
  ],
  "main": "main.tex",
- "created": "2026-11-25T05:30:01.794901+00:00",
+ "created": "2026-11-26T15:08:04.116786+00:00",
  "engine": "xelatex",
  "engine_reason": "Unicode-engine package: fontspec",
  "bibtool": null,

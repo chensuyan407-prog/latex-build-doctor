@@ -3,7 +3,7 @@
  "status": "success",
  "summary": "SUCCESS: main.tex with xelatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:29:21Z",
+ "built_at": "2026-11-26T15:07:24Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
@@ -34,13 +34,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 2.55,
+  "seconds": 2.52,
   "rounds": [
    {
     "step": "xelatex pass 1",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.32,
+    "seconds": 1.24,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""
@@ -49,7 +49,7 @@
     "step": "xelatex pass 2",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.23,
+    "seconds": 1.28,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""
@@ -269,13 +269,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 2.55,
+  "seconds": 2.52,
   "rounds": [
    {
     "step": "xelatex pass 1",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.32,
+    "seconds": 1.24,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""
@@ -284,7 +284,7 @@
     "step": "xelatex pass 2",
     "cmd": "xelatex -interaction=nonstopmode -file-line-error -recorder -output-comment=xelatex -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 1.23,
+    "seconds": 1.28,
     "aux_sha256": "a763a4381df566c151b65af1c55e9c8e9c00b9128ae2ca5eb82115049b6d3ca6",
     "timeout": false,
     "stderr_tail": ""

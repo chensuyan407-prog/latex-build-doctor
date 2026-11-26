@@ -7,26 +7,26 @@ description: Compile-diagnose-fix, template-adaptation, and reproducible-build S
 
 You decide author intent; the scripts compile, locate, explain, record and verify. Python 3.8+ standard library only; needs TeX Live / MiKTeX (`pdflatex`/`xelatex`/`lualatex`, `bibtex`/`biber`, `kpsewhich`; optional `fc-list`, `pdftoppm`, `pdftotext`, `pdffonts`, `pdfinfo`).
 
-Set `SKILL_DIR` to the directory containing this `SKILL.md` (in Harbor typically `/skills/weekly-skill`, or discover with `SKILL_DIR=$(dirname "$(ls /skills/*/SKILL.md 2>/dev/null | head -1)")`). Paths below use `/input`, `/app/work`, `/app/output`; adjust if yours differ.
+Set `PY=$(command -v python3 || command -v python)` and `SKILL_DIR` to the directory containing this `SKILL.md` (discover with `for d in /skills/weekly-skill /app/submission /app/skills /app/skills/* "$(pwd)"; do [ -f "$d/SKILL.md" ] && SKILL_DIR="$d" && break; done`). Paths below use `/input`, `/app/work`, `/app/output`; adjust if yours differ.
 
 ## Workflow (typically 4-8 requests; each build 2-20 s)
 
 1. **Init** - copy `/input` (archives unpacked) to `/app/work/src` (edit here) and `/app/work/orig` (never edit):
    ```bash
-   python3 "$SKILL_DIR/scripts/lx_init.py" --case /input/case.json --out /app/output --work /app/work
+   $PY "$SKILL_DIR/scripts/lx_init.py" --case /input/case.json --out /app/output --work /app/work
    ```
    Prints `case_id`, `output_contract` fields, main file, engine (+ reason), bib tool, reached files, non-TeX materials, local `.cls` template summary (options/macros/checks), fonts and **PRECHECK problems** (missing files, subfolder classes, Linux case mismatches). Override guesses with `--main FILE`, `--engine xelatex`, `--src DIR`.
 2. **Read** `/input/task.md` and `/input/case.json` completely (template, journal, engine, required items, `output_contract`, what may change). Put verifiable template/task regex checks into `work/changes.json` → `requirements`.
    - **If writing from scratch or migrating into a template**: copy any subfolder `.cls/.sty/.bst` next to your main `.tex` (unchanged), create/update `/app/work/src/main.tex` (with `--main main.tex` if a sample exists in `template/`), convert data tables via `lx_table.py`, and fill required template fields ONLY from `/input` materials (leave visible placeholders + `needs_confirmation` for missing metadata like ORCID/funding).
 3. **Build + diagnose**:
    ```bash
-   python3 "$SKILL_DIR/scripts/lx_build.py" --work /app/work --out /app/output
+   $PY "$SKILL_DIR/scripts/lx_build.py" --work /app/work --out /app/output
    ```
    Prints status, rounds run (`pdflatex pass 1 -> bibtex -> pass 2 -> pass 3`), **ROOT CAUSES** in fix order (`id class file:line message`, `src:`, `log:`, `fix:`, `(+n follow-on)`), warnings, failed requirements, fact-guard hits, and any unmapped `output_contract` fields. Full list: `/app/output/diagnostics.json`. Exit `0` = success, `1` = PDF with remaining issues, `2` = no PDF.
 4. **Fix root causes top-down & record**:
    Edit `/app/work/src`, then record diffs cleanly into `work/changes.json` using `lx_record.py` (avoids manual line-number/JSON-escaping errors):
    ```bash
-   python3 "$SKILL_DIR/scripts/lx_record.py" --work /app/work --auto --reason "..." --fixes "E001" --type math
+   $PY "$SKILL_DIR/scripts/lx_record.py" --work /app/work --auto --reason "..." --fixes "E001" --type math
    ```
    (Use `--accept-numbers` / `--accept-keys` only when changing a number/key is the intended fix from materials; use `--confirm "..." --where "file:line"` for human-confirmation items; use `--set-field "key=value"` for custom `output_contract` fields.)
    Rebuild (step 3). Repeat until exit `0` or only items requiring human confirmation remain.
@@ -61,7 +61,7 @@ Set `SKILL_DIR` to the directory containing this `SKILL.md` (in Harbor typically
 ## Writing a table from data
 
 ```bash
-python3 "$SKILL_DIR/scripts/lx_table.py" /input/data.csv --caption "..." --label tab:x [--header "A,B"] [--width natural|tabularx|longtable] [--siunitx] --out /app/work/src/tab_x.tex
+$PY "$SKILL_DIR/scripts/lx_table.py" /input/data.csv --caption "..." --label tab:x [--header "A,B"] [--width natural|tabularx|longtable] [--siunitx] --out /app/work/src/tab_x.tex
 ```
 Then `\input{tab_x}` with `\usepackage{booktabs}` (+ `tabularx`/`longtable`/`siunitx` if chosen). Values are copied verbatim with `% row k <- file line n` source-map comments.
 

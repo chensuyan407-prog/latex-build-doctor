@@ -3,7 +3,7 @@
  "status": "failed",
  "summary": "FAILED: main.tex with pdflatex, 1 engine pass(es); 1 error(s) in log (1 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 0 edit hunk(s), 0 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:29:57Z",
+ "built_at": "2026-11-26T15:07:59Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
@@ -31,13 +31,13 @@
   "engine_passes": 1,
   "converged": true,
   "timeout": true,
-  "seconds": 8.02,
+  "seconds": 8.01,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 124,
-    "seconds": 8.02,
+    "seconds": 8.01,
     "aux_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
     "timeout": true,
     "stderr_tail": "timeout after 8s"

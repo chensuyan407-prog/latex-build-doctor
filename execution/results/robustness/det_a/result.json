@@ -3,12 +3,12 @@
  "status": "partial",
  "summary": "PARTIAL: main.tex with pdflatex, 3 engine pass(es) + bibtex; 0 error(s) in log (1 root cause(s) overall), 1 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 5 edit hunk(s), 5 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:30:12Z",
+ "built_at": "2026-11-26T15:08:14Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/main.tex",
   "pdf": "main.pdf",
-  "pdf_sha256": "614a47bdb0eed5a86864f6b1c3b8b9143877684cf81e2031b70920d7d1726304",
+  "pdf_sha256": "de3e8aa42038901b11054a89e209bafdf05446b589e4ee4080feee6877873d82",
   "pdf_pages": 2,
   "previews": [
    "preview/page-1.png",
@@ -37,13 +37,13 @@
   "engine_passes": 3,
   "converged": true,
   "timeout": false,
-  "seconds": 2.42,
+  "seconds": 2.33,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.73,
+    "seconds": 0.67,
     "aux_sha256": "c37e6761cd571723c359f4fd7f462ebc3955ea2f4b2110afd6595b5ff65a3902",
     "timeout": false,
     "stderr_tail": ""
@@ -52,7 +52,7 @@
     "step": "bibtex",
     "cmd": "bibtex main",
     "exit": 0,
-    "seconds": 0.31,
+    "seconds": 0.33,
     "aux_sha256": "c37e6761cd571723c359f4fd7f462ebc3955ea2f4b2110afd6595b5ff65a3902",
     "timeout": false,
     "stderr_tail": ""
@@ -61,7 +61,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.69,
+    "seconds": 0.67,
     "aux_sha256": "cb24f04597d2b38c9e56465636723a3ecc28f09bb3007e8e81244edfd970dd4d",
     "timeout": false,
     "stderr_tail": ""
@@ -70,7 +70,7 @@
     "step": "pdflatex pass 3",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape main.tex",
     "exit": 0,
-    "seconds": 0.69,
+    "seconds": 0.66,
     "aux_sha256": "cb24f04597d2b38c9e56465636723a3ecc28f09bb3007e8e81244edfd970dd4d",
     "timeout": false,
     "stderr_tail": ""
@@ -391,7 +391,7 @@
   "source_dir": "src/",
   "main_tex": "src/main.tex",
   "pdf": "main.pdf",
-  "pdf_sha256": "614a47bdb0eed5a86864f6b1c3b8b9143877684cf81e2031b70920d7d1726304",
+  "pdf_sha256": "de3e8aa42038901b11054a89e209bafdf05446b589e4ee4080feee6877873d82",
   "pdf_pages": 2,
   "previews": [
    "preview/page-1.png",

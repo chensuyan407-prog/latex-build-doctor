@@ -11,6 +11,8 @@
   "open_questions",
   "compile_status"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "main.tex",
@@ -20,7 +22,7 @@
   "main.tex"
  ],
  "main": "main.tex",
- "created": "2026-11-25T05:30:18.476640+00:00",
+ "created": "2026-11-26T15:08:19.748699+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": "bibtex",

@@ -3,7 +3,7 @@
  "status": "success",
  "summary": "SUCCESS: thesis.tex with pdflatex, 2 engine pass(es); 0 error(s) in log (0 root cause(s) overall), 0 undefined ref(s), 0 undefined citation(s), 0 overfull box(es) >1pt; 4 edit hunk(s), 4 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:29:45Z",
+ "built_at": "2026-11-26T15:07:47Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/thesis.tex",
@@ -37,13 +37,13 @@
   "engine_passes": 2,
   "converged": true,
   "timeout": false,
-  "seconds": 1.59,
+  "seconds": 1.46,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
     "exit": 0,
-    "seconds": 0.78,
+    "seconds": 0.74,
     "aux_sha256": "7dfcd637ee31af9537a64022cc0675fc62b924393daa28a309f5526131e4bdc9",
     "timeout": false,
     "stderr_tail": ""
@@ -52,7 +52,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape thesis.tex",
     "exit": 0,
-    "seconds": 0.8,
+    "seconds": 0.71,
     "aux_sha256": "7dfcd637ee31af9537a64022cc0675fc62b924393daa28a309f5526131e4bdc9",
     "timeout": false,
     "stderr_tail": ""

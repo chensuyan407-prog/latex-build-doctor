@@ -52,16 +52,21 @@ def main():
         if entry not in nc:
             nc.append(entry)
 
+    PROTECTED_FIELDS = {"case_id", "status", "skill", "artifacts", "build", "diagnostics_summary", "sources", "environment"}
     for kv in a.set_field:
         if "=" not in kv:
             print("ERROR --set-field must be key=value, got %r" % kv)
             return 2
         k, raw = kv.split("=", 1)
+        k = k.strip()
+        if k in PROTECTED_FIELDS:
+            print("ERROR cannot overwrite protected core field %r" % k)
+            return 2
         try:
             val = json.loads(raw)
         except ValueError:
             val = raw
-        data.setdefault("fields", {})[k.strip()] = {"value": val}
+        data.setdefault("fields", {})[k] = {"value": val}
 
     hunks, _ = diff_project(orig, src) if os.path.isdir(orig) and os.path.isdir(src) else ([], "")
     audit_changes(hunks, recs)

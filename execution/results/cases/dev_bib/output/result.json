@@ -3,12 +3,12 @@
  "status": "partial",
  "summary": "PARTIAL: paper.tex with pdflatex, 3 engine pass(es) + biber; 0 error(s) in log (1 root cause(s) overall), 0 undefined ref(s), 1 undefined citation(s), 0 overfull box(es) >1pt; 3 edit hunk(s), 3 documented.",
  "skill": "latex-build-doctor 0.2.0",
- "built_at": "2026-11-25T05:28:33Z",
+ "built_at": "2026-11-26T15:06:37Z",
  "artifacts": {
   "source_dir": "src/",
   "main_tex": "src/paper.tex",
   "pdf": "paper.pdf",
-  "pdf_sha256": "ac8e08d3f6baf06e34dfcc36368b88eaed474ce125dbec0582eea3efe906a2a7",
+  "pdf_sha256": "5b88867a892b623b91c7515ee08501095e71ff381fe0072ac5cb1d2ffad75bfd",
   "pdf_pages": 1,
   "previews": [
    "preview/page-1.png"
@@ -36,13 +36,13 @@
   "engine_passes": 3,
   "converged": true,
   "timeout": false,
-  "seconds": 4.05,
+  "seconds": 3.84,
   "rounds": [
    {
     "step": "pdflatex pass 1",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape paper.tex",
     "exit": 0,
-    "seconds": 0.85,
+    "seconds": 0.78,
     "aux_sha256": "c05b50f73fe33c643eae0344cd5a5f398cfb3296587f0d345a016056933891d9",
     "timeout": false,
     "stderr_tail": ""
@@ -51,7 +51,7 @@
     "step": "biber",
     "cmd": "biber paper",
     "exit": 0,
-    "seconds": 1.5,
+    "seconds": 1.39,
     "aux_sha256": "c05b50f73fe33c643eae0344cd5a5f398cfb3296587f0d345a016056933891d9",
     "timeout": false,
     "stderr_tail": ""
@@ -60,7 +60,7 @@
     "step": "pdflatex pass 2",
     "cmd": "pdflatex -interaction=nonstopmode -file-line-error -recorder -no-shell-escape paper.tex",
     "exit": 0,
-    "seconds": 0.86,
+    "seconds": 0.83,
     "aux_sha256": "2e70a90e646ff9dd5caf60db938a1554a4ee2a4c27b7cf03a5e6e757abf7ae6b",
     "timeout": false,
     "stderr_tail": ""
@@ -78,8 +78,8 @@
   "source_date_epoch": "1704067200",
   "reproducibility": {
    "checked": true,
-   "pdf_sha256_build1": "ac8e08d3f6baf06e34dfcc36368b88eaed474ce125dbec0582eea3efe906a2a7",
-   "pdf_sha256_build2": "ac8e08d3f6baf06e34dfcc36368b88eaed474ce125dbec0582eea3efe906a2a7",
+   "pdf_sha256_build1": "5b88867a892b623b91c7515ee08501095e71ff381fe0072ac5cb1d2ffad75bfd",
+   "pdf_sha256_build2": "5b88867a892b623b91c7515ee08501095e71ff381fe0072ac5cb1d2ffad75bfd",
    "byte_identical": true,
    "source_date_epoch": "1704067200",
    "rounds_build2": [

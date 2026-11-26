@@ -1,11 +1,11 @@
 {
- "recorded_at": "2026-11-25T05:29:37Z",
+ "recorded_at": "2026-11-26T15:07:40Z",
  "os": "Windows-11-10.0.26200-SP0",
  "python": "3.13.14",
  "engine": {
   "name": "pdflatex",
   "version": "pdfTeX 3.141592653-2.6-1.40.29 (TeX Live 2026)\r",
-  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  25 NOV 2026 13:29"
+  "banner": "This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026) (preloaded format=pdflatex 2026.5.7)  26 NOV 2026 23:07"
  },
  "bibtool": {
   "name": "bibtex",

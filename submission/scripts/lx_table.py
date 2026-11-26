@@ -87,8 +87,11 @@ def main():
     ncol = len(idx)
     width = max(len(r) for r in rows)
     bad = [(bsrc[k], len(r)) for k, r in enumerate(body) if len(r) != len(head)]
+    if width > len(head) and not a.cols:
+        print("ERROR rows wider than header (%d > %d) at (line, cells): %s - would silently drop columns" % (width, len(head), bad))
+        return 2
     numeric = [all(NUMERIC.match(r[i]) for r in body if i < len(r) and r[i] != "") and any(i < len(r) and r[i] for r in body) for i in idx]
-    align = a.align or "".join(("S" if a.siunitx else "r") if n else ("X" if a.width == "tabularx" and k == 0 else "l") for k, n in enumerate(numeric))
+    align = a.align or "".join(("X" if a.width == "tabularx" and k == 0 else ("S" if a.siunitx else "r")) if n else ("X" if a.width == "tabularx" and k == 0 else "l") for k, n in enumerate(numeric))
     hdr = [h.strip() for h in a.header.split(",")] if a.header else [head[i] for i in idx]
     if len(hdr) != ncol:
         print("ERROR --header has %d names for %d columns" % (len(hdr), ncol))

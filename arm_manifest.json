@@ -16,8 +16,8 @@
  "execution": {
   "log_path": "execution/run.log",
   "exit_code": 0,
-  "ran_at": "2026-11-25T05:30:24.060651Z",
-  "wall_time_s": 128.06,
+  "ran_at": "2026-11-26T15:08:25.236474Z",
+  "wall_time_s": 124.84,
   "ran_by": "agent",
   "artifacts": [
    {
@@ -32,7 +32,7 @@
     "path": "execution/results/eval_rows.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "595fd5615323fd3e6771ee68fa50a807aa40a6792bcb965058e38037c54ade4b"
+    "checksum_sha256": "1d3267e697f632bf3b805e89db32eb4b8c48b41c134b43f204653ccae45e5fec"
    },
    {
     "id": "metrics_holdout_at_freeze",
@@ -53,21 +53,21 @@
     "path": "execution/results/robustness.json",
     "type": "metric",
     "format": "json",
-    "checksum_sha256": "6d7be62f9445010e2ac5c6d16b761b4be41fb356b44af30c6019c726031f141e"
+    "checksum_sha256": "11e9528cfb2df218f30d6d2e4d03737888984f78e03adcd4d7ca6650337e43d7"
    },
    {
     "id": "commands",
     "path": "execution/results/commands.json",
     "type": "log",
     "format": "json",
-    "checksum_sha256": "10f0f9e4112d2d1878149bb1b7f1adca065457cf76efdba9fda017b18af5d08b"
+    "checksum_sha256": "64d71d05de405c4e9a407e4c24f7eee3edeb13b2bfb51b354f1f5298a2a17e32"
    },
    {
     "id": "dev_bib_result",
     "path": "execution/results/cases/dev_bib/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "5af2a173669e679fea3efeb896fbf8e151b29b919cdac2c5569f1b990e8e8ff9"
+    "checksum_sha256": "47d0fa73afb786f45c606350d62585eb0fd35f8d1446596aef92c6d2569cd2eb"
    },
    {
     "id": "dev_bib_report",
@@ -88,14 +88,14 @@
     "path": "execution/results/cases/dev_bib/output/preview/page-1.png",
     "type": "figure",
     "format": "png",
-    "checksum_sha256": "9b49dc2643f1fb3a320db89f2ac81fe5b5982556fa400e29baecb0ced9520da9"
+    "checksum_sha256": "cf6d6d2169c2cd08facdc46ad63b6eefba1a36f51b1877f994e1995ad764dd43"
    },
    {
     "id": "dev_env_result",
     "path": "execution/results/cases/dev_env/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "fb8b57ba1808849cee00bf1d34b747d2c996dc3da428c2f26adbd0eec4936757"
+    "checksum_sha256": "852188650e1b4c2082319e2312fb2704942e26b9d042b3223f5ddbd7c81a39e5"
    },
    {
     "id": "dev_env_report",
@@ -123,7 +123,7 @@
     "path": "execution/results/cases/dev_math/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "76f80e8a9359f2f887be3936de3bbd75122154edd83d574dd666df6ad3eef637"
+    "checksum_sha256": "2bf73b94c65332bcb4381897a6c6ca0dee1b430e3856be581f7742d4cdec3ac1"
    },
    {
     "id": "dev_math_report",
@@ -151,7 +151,7 @@
     "path": "execution/results/cases/dev_multi/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "e4c5c0ee62ffdd0a90ea2bdd0aa89dd244af06fd846f68d4d85f84dee3713ccd"
+    "checksum_sha256": "3c3623b46bc556856e9b5d2255f4322343c9fa80154f68e119d3d622278c9523"
    },
    {
     "id": "dev_multi_report",
@@ -172,14 +172,14 @@
     "path": "execution/results/cases/dev_multi/output/preview/page-1.png",
     "type": "figure",
     "format": "png",
-    "checksum_sha256": "fe5280717224402a66797f0e6b1dff8c0935ca5a7df1a24f68a2c675a9d5e75a"
+    "checksum_sha256": "a0e78e19492fa2a1adb70c8785e2dfc66cb81320db14a321f57f4726b2adde05"
    },
    {
     "id": "dev_template_result",
     "path": "execution/results/cases/dev_template/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "7644ad0a8772f412160cc4deda143655aa4cbdb73a728c2a1d71dcb86346c928"
+    "checksum_sha256": "d3ebd946a4401122382a98bcc1e6ba639e4815efe8fc888e111d00fbe2128fa7"
    },
    {
     "id": "dev_template_report",
@@ -207,7 +207,7 @@
     "path": "execution/results/cases/dev_xe/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "5a3d73ad19eecb1c3a0c3fc6b1be4f2dfa003a9a527c64a901a862fd2f4ed4b1"
+    "checksum_sha256": "96f1f7316322c0103d92c29a32fdb93768477b70fc858d84db982d5dcf2ea8f9"
    },
    {
     "id": "dev_xe_report",
@@ -235,7 +235,7 @@
     "path": "execution/results/cases/ho_ieee/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "b86976ab04ec807d0f61e14dbd8cf489ca58798881690c07f8395aff835d6ead"
+    "checksum_sha256": "d36ca32194f559bf3eba1d45216cb2c50a7e4e6952ee941940cd2e6e89fea3d3"
    },
    {
     "id": "ho_ieee_report",
@@ -263,7 +263,7 @@
     "path": "execution/results/cases/ho_report/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "4ff7bd7e5a388f23cad3b6e840024397c7713fee642913bb7ed85b2076bbcf83"
+    "checksum_sha256": "2f940f28b0688e8350efbf1c89f515dd286b2c76d8eb872ec711e0f0a3f56108"
    },
    {
     "id": "ho_report_report",
@@ -291,7 +291,7 @@
     "path": "execution/results/cases/ho_thesis/output/result.json",
     "type": "data",
     "format": "json",
-    "checksum_sha256": "b4d6e09e126317d52a1fa3b21a29bf148f810388156472ab4b4e9d1e8f08b78a"
+    "checksum_sha256": "02ef0ddcdde17fa3501bcf06e0789e53270c82e2878bcd058aa9b9f45534d50d"
    },
    {
     "id": "ho_thesis_report",

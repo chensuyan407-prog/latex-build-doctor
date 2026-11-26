@@ -114,6 +114,14 @@ def project_scan(src, main_hint=None):
     if main_hint:
         mh = main_hint.replace("\\", "/")
         main = mh if mh in files_info else next((m for m in files_info if m.endswith(mh)), None)
+        return files_info, mains, main, roots
+    if not main and roots:
+        counts = {}
+        for target in roots.values():
+            if target in mains:
+                counts[target] = counts.get(target, 0) + 1
+        if counts:
+            main = max(mains, key=lambda m: (counts.get(m, 0), -mains.index(m)))
     if not main and mains:
         main = mains[0]
     return files_info, mains, main, roots
@@ -305,7 +313,8 @@ def main():
     if not isinstance(case, dict):
         case = {"_raw": case}
     cid, contract = summarize_case(case)
-    fields = contract_fields(contract)
+    from lx_common import extract_contract_schema
+    fields, req_fields, prop_schemas = extract_contract_schema(contract)
     in_dir = os.path.abspath(a.src or (os.path.dirname(os.path.abspath(a.case)) if a.case else "."))
     # extract archives into work/extracted
     stage = os.path.join(work, "_stage")
@@ -336,8 +345,15 @@ def main():
         materials = [rel(p, os.path.join(work, "orig")) for p in iter_files(os.path.join(work, "orig")) if p.lower().endswith(TEXT_MATERIAL + (".pdf",))]
     src = os.path.join(work, "src")
     files_info, mains, main, roots = project_scan(src, a.main)
-    st = {"skill_version": VERSION, "case_id": cid, "case_file": os.path.abspath(a.case) if a.case else None, "input_dir": in_dir, "contract_fields": fields,
+    st = {"skill_version": VERSION, "case_id": cid, "case_file": os.path.abspath(a.case) if a.case else None, "input_dir": in_dir,
+          "contract_fields": fields, "contract_required": req_fields, "contract_properties": prop_schemas,
           "materials": materials, "mains": mains, "main": main, "created": dt.datetime.now(dt.timezone.utc).isoformat()}
+    if a.main and not main:
+        print("ERROR explicit --main '%s' not found in %s" % (a.main, sorted(files_info) or "none"))
+        st.update({"engine": a.engine or "pdflatex", "bibtool": None, "order": [], "problems": []})
+        write_json(os.path.join(work, "state.json"), st)
+        write_skeletons(work, out, st, failed_reason="explicit --main '%s' not found" % a.main)
+        return 2
     print("latex-build-doctor %s init" % VERSION)
     print("case_id:", cid, "| contract fields:", fields or "(none found - result.json gets the standard fields)")
     print("input dir:", in_dir, "| %d files copied to work/src (edit there), snapshot in work/orig" % sum(1 for _ in iter_files(src)))
@@ -390,17 +406,21 @@ def main():
     return 0
 
 
-def write_skeletons(work, out, st):
+def write_skeletons(work, out, st, failed_reason=None):
     ch = os.path.join(work, "changes.json")
     if not os.path.isfile(ch):
         write_json(ch, {"_doc": "Record every source edit: file, line (in the NEW file), from, to, reason, fixes (diagnostic id or task item), type. "
                                 "requirements = template/task items to verify by regex; needs_confirmation = items a human must decide; fields = contract overrides.",
                         "changes": [], "requirements": [], "needs_confirmation": [], "notes": [], "fields": {}})
-    res = {"case_id": st.get("case_id"), "status": "not_built", "skill": "latex-build-doctor " + VERSION,
-           "note": "initialised only - run lx_build.py to compile and fill this file"}
+    res_path = os.path.join(out, "result.json")
+    existing = load_json(res_path, None)
+    if isinstance(existing, dict) and existing.get("status") in ("success", "partial") and not failed_reason:
+        return
+    res = {"case_id": st.get("case_id"), "status": "failed" if failed_reason else "not_built", "skill": "latex-build-doctor " + VERSION,
+           "note": failed_reason or "initialised only - run lx_build.py to compile and fill this file"}
     for f in st.get("contract_fields") or []:
         res.setdefault(f, None)
-    write_json(os.path.join(out, "result.json"), res)
+    write_json(res_path, res)
 
 
 if __name__ == "__main__":

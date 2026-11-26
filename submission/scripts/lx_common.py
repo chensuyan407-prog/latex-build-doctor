@@ -305,7 +305,7 @@ def find_mains(root, files_info):
 
     def score(p):
         b = os.path.splitext(os.path.basename(p))[0].lower()
-        s = 0 if b in pref else 1
+        s = pref.index(b) if b in pref else len(pref)
         return (s, p.count("/"), -files_info[p]["n_lines"], p)
 
     return sorted(mains, key=score)
@@ -441,28 +441,33 @@ def summarize_case(case):
     """Find case id, output contract and declared inputs in an arbitrary case.json."""
     cid = None
     for k in ("case_id", "id", "caseId", "case", "name"):
-        if isinstance(case.get(k), (str, int)):
-            cid = str(case[k])
+        v = case.get(k)
+        if isinstance(v, (str, int)) and not isinstance(v, bool):
+            cid = v
             break
     contract = None
-    for k in ("output_contract", "outputs", "output", "expected_output", "deliverables", "output_schema"):
+    for k in ("output_contract", "outputs", "output", "expected_output", "deliverables", "output_schema", "output_fields", "schema"):
         if k in case:
             contract = case[k]
             break
     return cid, contract
 
 
-def contract_fields(contract):
+def extract_contract_schema(contract):
+    """Return (fields_list, required_list, properties_dict) from an output_contract."""
     if isinstance(contract, dict):
         if "schema" in contract and isinstance(contract["schema"], dict):
-            return contract_fields(contract["schema"])
+            return extract_contract_schema(contract["schema"])
         if "fields" in contract and isinstance(contract["fields"], (list, dict)):
-            return contract_fields(contract["fields"])
+            return extract_contract_schema(contract["fields"])
         if "properties" in contract and isinstance(contract["properties"], dict):
-            return list(contract["properties"].keys())
+            props = contract["properties"]
+            req = [str(x) for x in contract["required"]] if isinstance(contract.get("required"), list) else []
+            return list(props.keys()), req, props
         if "required" in contract and isinstance(contract["required"], list) and len(contract) <= 3:
-            return [str(x) for x in contract["required"]]
-        return list(contract.keys())
+            req = [str(x) for x in contract["required"]]
+            return req, req, {}
+        return list(contract.keys()), [], {}
     if isinstance(contract, list):
         out = []
         for x in contract:
@@ -473,10 +478,60 @@ def contract_fields(contract):
                     if k in x:
                         out.append(str(x[k]))
                         break
-        return out
+        return out, [], {}
     if isinstance(contract, str):
-        return re.findall(r"[A-Za-z_][A-Za-z0-9_]*", contract)
-    return []
+        return re.findall(r"[A-Za-z_][A-Za-z0-9_]*", contract), [], {}
+    return [], [], {}
+
+
+def contract_fields(contract):
+    return extract_contract_schema(contract)[0]
+
+
+def _check_type(val, schema, path):
+    errs = []
+    if not isinstance(schema, dict):
+        return errs
+    t = schema.get("type")
+    if t == "string" and not isinstance(val, str):
+        errs.append("%s: expected string, got %s" % (path, type(val).__name__))
+    elif t == "integer" and (not isinstance(val, int) or isinstance(val, bool)):
+        errs.append("%s: expected integer, got %s" % (path, type(val).__name__))
+    elif t == "number" and (not isinstance(val, (int, float)) or isinstance(val, bool)):
+        errs.append("%s: expected number, got %s" % (path, type(val).__name__))
+    elif t == "boolean" and not isinstance(val, bool):
+        errs.append("%s: expected boolean, got %s" % (path, type(val).__name__))
+    elif t == "array":
+        if not isinstance(val, list):
+            errs.append("%s: expected array, got %s" % (path, type(val).__name__))
+        elif isinstance(schema.get("items"), dict):
+            for i, item in enumerate(val[:20]):
+                errs.extend(_check_type(item, schema["items"], "%s[%d]" % (path, i)))
+    elif t == "object":
+        if not isinstance(val, dict):
+            errs.append("%s: expected object, got %s" % (path, type(val).__name__))
+        else:
+            for rk in schema.get("required") or []:
+                if rk not in val or val[rk] is None:
+                    errs.append("%s.%s: missing required field" % (path, rk))
+            for pk, ps in (schema.get("properties") or {}).items():
+                if pk in val and val[pk] is not None:
+                    errs.extend(_check_type(val[pk], ps, "%s.%s" % (path, pk)))
+    return errs
+
+
+def validate_contract(res, st):
+    """Validate result dict against contract_required and contract_properties in state."""
+    errs = []
+    req = st.get("contract_required") or []
+    props = st.get("contract_properties") or {}
+    for rk in req:
+        if rk not in res or res[rk] is None:
+            errs.append("%s: missing required field" % rk)
+    for pk, ps in props.items():
+        if pk in res and res[pk] is not None:
+            errs.extend(_check_type(res[pk], ps, pk))
+    return errs
 
 
 def inspect_cls(path):

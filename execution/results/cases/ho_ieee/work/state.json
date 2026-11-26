@@ -8,6 +8,8 @@
   "pdf",
   "status"
  ],
+ "contract_required": [],
+ "contract_properties": {},
  "materials": [
   "case.json",
   "conf.tex"
@@ -16,7 +18,7 @@
   "conf.tex"
  ],
  "main": "conf.tex",
- "created": "2026-11-25T05:29:25.123287+00:00",
+ "created": "2026-11-26T15:07:28.279150+00:00",
  "engine": "pdflatex",
  "engine_reason": "no Unicode-engine package found",
  "bibtool": null,
