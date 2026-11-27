@@ -17,17 +17,40 @@ import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lx_common import read_text
+from lx_static import column_count
 
 ESC = {"&": r"\&", "%": r"\%", "$": r"\$", "#": r"\#", "_": r"\_", "{": r"\{", "}": r"\}", "~": r"\textasciitilde{}", "^": r"\textasciicircum{}", "\\": r"\textbackslash{}"}
 NUMERIC = re.compile(r"^[-+−]?(\d+(?:[.,]\d+)*|\.\d+)(?:[eE][-+]?\d+)?%?$|^[-+]?\d+(?:\.\d+)?\s*±\s*\d+(?:\.\d+)?$")
 
 
+MATH = re.compile(r"(?<!\\)(?:\$(?:\\.|[^$\\\n])+\$|\\\(.+?\\\)|\\\[.+?\\\])")
+REFERENCES = re.compile(
+    r"(?<!\\)\\(?:[A-Za-z]*cite[A-Za-z]*|[A-Za-z]*ref|label)\*?"
+    r"(?:\s*\[[^\]\r\n]*\]){0,2}\s*\{[^{}\r\n]+\}", re.I
+)
+
+
 def esc(s, keep_math):
-    if keep_math and re.search(r"\$[^$]+\$", s):
-        parts = re.split(r"(\$[^$]+\$)", s)
-        return "".join(p if p.startswith("$") else esc(p, False) for p in parts)
-    out = "".join(ESC.get(c, c) for c in s)
-    return out.replace("±", r"$\pm$").replace("−", "$-$") if not keep_math else out
+    def plain(text):
+        return "".join(ESC.get(c, c) for c in text).replace("\u00b1", r"$\pm$").replace("\u2212", "$-$")
+
+    if not keep_math:
+        return plain(s)
+    tokens = sorted([*MATH.finditer(s), *REFERENCES.finditer(s)], key=lambda m: m.start())
+    parts, start = [], 0
+    for token in tokens:
+        if token.start() >= start:
+            parts.extend((plain(s[start:token.start()]), token.group()))
+            start = token.end()
+    return "".join(parts) + plain(s[start:])
+
+
+def markdown_cell(cell):
+    parts, start = [], 0
+    for token in MATH.finditer(cell):
+        parts.extend((cell[start:token.start()].replace(r"\|", "|"), token.group()))
+        start = token.end()
+    return "".join(parts) + cell[start:].replace(r"\|", "|")
 
 
 def read_table(path, sheet_sep=None):
@@ -37,16 +60,22 @@ def read_table(path, sheet_sep=None):
         rows, src = [], []
         for i, l in enumerate(lines, 1):
             if l.strip().startswith("|"):
-                cells = [c.strip() for c in l.strip().strip("|").split("|")]
-                if all(re.fullmatch(r":?-{2,}:?", c) for c in cells if c):
+                # Split only real delimiters, including when a math expression contains a bar.
+                row = l.strip()[1:]
+                masked = MATH.sub(lambda m: " " * len(m.group()), row)
+                cuts = [m.start() for m in re.finditer(r"(?<!\\)\|", masked)]
+                ends = cuts if cuts and cuts[-1] == len(row) - 1 else cuts + [len(row)]
+                cells = [markdown_cell(row[start + 1:end].strip())
+                         for start, end in zip([-1] + cuts, ends)]
+                if cells and all(re.fullmatch(r":?-{2,}:?", c) for c in cells):
                     continue
                 rows.append(cells)
                 src.append(i)
         return rows, src
-    sep = sheet_sep or ("\t" if path.lower().endswith(".tsv") or "\t" in lines[0] else ";" if lines and lines[0].count(";") > lines[0].count(",") else ",")
+    sep = sheet_sep or ("\t" if path.lower().endswith(".tsv") or (lines and "\t" in lines[0]) else ";" if lines and lines[0].count(";") > lines[0].count(",") else ",")
     rows, src = [], []
     rd = csv.reader(io.StringIO(text), delimiter=sep)
-    for i, r in enumerate(rd, 1):
+    for r in rd:
         if any(c.strip() for c in r):
             rows.append([c.strip() for c in r])
             src.append(rd.line_num)
@@ -67,7 +96,7 @@ def main():
     ap.add_argument("--siunitx", action="store_true", help="S columns for numeric data (needs siunitx)")
     ap.add_argument("--size", default="", help="e.g. small, footnotesize")
     ap.add_argument("--note", default="")
-    ap.add_argument("--keep-math", action="store_true", help="leave $...$ in cells untouched")
+    ap.add_argument("--keep-math", action="store_true", help="preserve LaTeX math and citation/reference/label commands in trusted cells")
     ap.add_argument("--out")
     a = ap.parse_args()
     rows, src = read_table(a.table)
@@ -85,10 +114,21 @@ def main():
                 return 2
             idx.append(head.index(w))
     ncol = len(idx)
-    width = max(len(r) for r in rows)
-    bad = [(bsrc[k], len(r)) for k, r in enumerate(body) if len(r) != len(head)]
+    extra = [(bsrc[k], len(r)) for k, r in enumerate(body) if len(r) > len(head)]
+    if extra:
+        print("ERROR rows exceed the %d-column header (line, cells): %s" % (len(head), extra))
+        return 2
+    bad = [(bsrc[k], len(r)) for k, r in enumerate(body) if len(r) < len(head)]
     numeric = [all(NUMERIC.match(r[i]) for r in body if i < len(r) and r[i] != "") and any(i < len(r) and r[i] for r in body) for i in idx]
-    align = a.align or "".join(("S" if a.siunitx else "r") if n else ("X" if a.width == "tabularx" and k == 0 else "l") for k, n in enumerate(numeric))
+    align = a.align or "".join(
+        ("S" if a.siunitx else "r") if is_numeric else ("X" if a.width == "tabularx" else "l")
+        for is_numeric in numeric
+    )
+    if not a.align and a.width == "tabularx" and "X" not in align:
+        align = "X" + align[1:]
+    if a.align and column_count(align) not in (None, ncol):
+        print("ERROR --align does not describe %d columns" % ncol)
+        return 2
     hdr = [h.strip() for h in a.header.split(",")] if a.header else [head[i] for i in idx]
     if len(hdr) != ncol:
         print("ERROR --header has %d names for %d columns" % (len(hdr), ncol))
@@ -143,8 +183,6 @@ def main():
     print("%% needs: \\usepackage{%s}" % ",".join(need))
     if bad:
         print("%% WARNING rows with a different number of cells than the header (line, cells): %s - check the source" % bad)
-    if width > len(head):
-        print("%% WARNING some rows are longer than the header")
     return 0
 
 

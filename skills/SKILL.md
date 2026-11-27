@@ -7,15 +7,26 @@ description: Compile-diagnose-fix, template-adaptation, and reproducible-build S
 
 You decide author intent; the scripts compile, locate, explain, record and verify. Python 3.8+ standard library only; needs TeX Live / MiKTeX (`pdflatex`/`xelatex`/`lualatex`, `bibtex`/`biber`, `kpsewhich`; optional `fc-list`, `pdftoppm`, `pdftotext`, `pdffonts`, `pdfinfo`).
 
-Set `SKILL_DIR` to the directory containing this `SKILL.md` (in Harbor typically `/skills/weekly-skill`, or discover with `SKILL_DIR=$(dirname "$(ls /skills/*/SKILL.md 2>/dev/null | head -1)")`). Paths below use `/input`, `/app/work`, `/app/output`; adjust if yours differ.
+Run these probes from the skill directory, or set `SKILL_DIR` to the absolute installed skill path.
+```bash
+command -v python3 && python3 --version
+SKILL_DIR="$(pwd -P)"
+test -f "$SKILL_DIR/scripts/lx_init.py"
+ls -l /input/case.json
+command -v pdfinfo pdftoppm pdftotext
+```
+On Windows, use the Python 3 interpreter on PATH and pass absolute paths. Adjust /input, /app/work and /app/output to match the case.
 
-## Workflow (typically 4-8 requests; each build 2-20 s)
+## Workflow
 
 1. **Init** - copy `/input` (archives unpacked) to `/app/work/src` (edit here) and `/app/work/orig` (never edit):
    ```bash
    python3 "$SKILL_DIR/scripts/lx_init.py" --case /input/case.json --out /app/output --work /app/work
    ```
-   Prints `case_id`, `output_contract` fields, main file, engine (+ reason), bib tool, reached files, non-TeX materials, local `.cls` template summary (options/macros/checks), fonts and **PRECHECK problems** (missing files, subfolder classes, Linux case mismatches). Override guesses with `--main FILE`, `--engine xelatex`, `--src DIR`.
+   Prints `case_id`, `output_contract` fields, main file, engine (+ reason), bib tool, reached files, non-TeX materials, local `.cls` template summary (options/macros/checks), fonts and **PRECHECK problems** (missing files, subfolder classes, Linux case mismatches). Choose an explicit entry with `--main FILE`, `--engine xelatex`, `--src DIR`.
+   Confirm the selected main before editing. An explicit CLI entry takes priority over case metadata such as main_tex or primary.
+   Without a declaration, init checks for a full document and excludes included or auxiliary candidates.
+   An invalid or ambiguous explicit entry stops the command. Use the full project-relative path to resolve ambiguity.
 2. **Read** `/input/task.md` and `/input/case.json` completely (template, journal, engine, required items, `output_contract`, what may change). Put verifiable template/task regex checks into `work/changes.json` → `requirements`.
    - **If writing from scratch or migrating into a template**: copy any subfolder `.cls/.sty/.bst` next to your main `.tex` (unchanged), create/update `/app/work/src/main.tex` (with `--main main.tex` if a sample exists in `template/`), convert data tables via `lx_table.py`, and fill required template fields ONLY from `/input` materials (leave visible placeholders + `needs_confirmation` for missing metadata like ORCID/funding).
 3. **Build + diagnose**:
@@ -30,10 +41,20 @@ Set `SKILL_DIR` to the directory containing this `SKILL.md` (in Harbor typically
    ```
    (Use `--accept-numbers` / `--accept-keys` only when changing a number/key is the intended fix from materials; use `--confirm "..." --where "file:line"` for human-confirmation items; use `--set-field "key=value"` for custom `output_contract` fields.)
    Rebuild (step 3). Repeat until exit `0` or only items requiring human confirmation remain.
-5. **Verify visually & check `output_contract` before finishing**:
-   - Inspect `/app/output/preview/page-*.png` (rendered at 100 dpi) or `pdftotext` output and `overfull_boxes` (>5 pt) for clipped tables, overlapping math, `??` references, or blank glyphs.
-   - Open `/app/output/result.json` and verify EVERY field from `case.json`'s `output_contract` is populated accurately (override any task-specific field via `lx_record.py --set-field` and rerun `lx_build.py`).
-   - Unresolvable items go to `needs_confirmation`, never fabricated content. Out of budget: the last build's `/app/output` is a valid partial deliverable.
+5. **Verify the finished deliverables**:
+   Run the checklist on the final build. Use --preview-page N for each critical page beyond the first eight.
+   Use typed JSON values with --set-field for task-specific contract fields, then rebuild.
+   Add unresolved items to needs_confirmation with the source location and the decision needed.
+
+## 编译与内容保真 Checklist
+
+- [ ] The selected entry, engine and template match case.json and the user task.
+- [ ] Every source-table column and row survives. Compare cells, units, headers and spans against the source.
+- [ ] Width matches the float: use tabularx with flexible text columns and linewidth, or table* for a two-column float.
+- [ ] Figures use the supplied assets. Equations, numbering, labels, citation keys and reference targets survive the diff.
+- [ ] The final PDF opens, the first page and each key PNG are readable, and no table cells or figures are clipped.
+- [ ] Check overfull boxes, unresolved citations/references and missing glyphs in the final log and visual output.
+- [ ] result.json has the original case_id, exact contract field names and nested value types. Artifact paths resolve under the output directory.
 
 ## changes.json (`/app/work/changes.json`, created by init)
 
@@ -63,13 +84,13 @@ Set `SKILL_DIR` to the directory containing this `SKILL.md` (in Harbor typically
 ```bash
 python3 "$SKILL_DIR/scripts/lx_table.py" /input/data.csv --caption "..." --label tab:x [--header "A,B"] [--width natural|tabularx|longtable] [--siunitx] --out /app/work/src/tab_x.tex
 ```
-Then `\input{tab_x}` with `\usepackage{booktabs}` (+ `tabularx`/`longtable`/`siunitx` if chosen). Values are copied verbatim with `% row k <- file line n` source-map comments.
+Then `\input{tab_x}` with `\usepackage{booktabs}` (+ `tabularx`/`longtable`/`siunitx` if chosen). Pass --keep-math for trusted LaTeX math and citation/reference commands in cells. Extra cells cause an error with source line numbers. Values are copied verbatim with `% row k <- file line n` source-map comments.
 
 ## Outputs (`/app/output`, rewritten by every build)
 
 `result.json` (case_id, all `output_contract` fields, status `success|partial|failed`, summary, artifacts, build, diagnostics_summary, requirements, changes, change_records, sources {materials, fact_guard}, needs_confirmation, uncertainty, environment) · `src/` · `<main>.pdf` · `preview/page-*.png` · `build_report.md` · `diagnostics.json` · `changes.diff` + `change_log.json` · `BUILD.md`, `build.sh`, `latexmkrc` · `environment.json` · `build_logs/`.
 
-**Status** `success` = PDF produced, 0 log/bib errors, 0 undefined refs/cites, 0 Linux case mismatches or pre-caption labels, passes converged, error-level requirements met, 0 missing glyphs. Clean rebuild with `SOURCE_DATE_EPOCH` (default `1704067200`) checks byte-identical PDF (`--no-repro` skips).
+**Status** `success` = PDF produced, 0 log/bib errors, 0 undefined refs/cites, 0 Linux case mismatches or pre-caption labels, passes converged, error-level requirements met, 0 missing glyphs, and verified PDF previews. Clean rebuild with `SOURCE_DATE_EPOCH` (default `1704067200`) checks byte-identical PDF (`--no-repro` skips).
 
 ## Exceptions & Limits
 

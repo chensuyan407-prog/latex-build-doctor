@@ -96,7 +96,7 @@ def copy_tree(src, dst, skip_aux=True):
 
 
 def project_scan(src, main_hint=None):
-    files_info, texts = {}, {}
+    files_info = {}
     for p in iter_files(src):
         if p.lower().endswith(TEX_EXT):
             try:
@@ -111,12 +111,47 @@ def project_scan(src, main_hint=None):
         if r and not inf.get("documentclass"):
             roots[f] = os.path.normpath(os.path.join(os.path.dirname(f), r)).replace(os.sep, "/")
     main = None
-    if main_hint:
-        mh = main_hint.replace("\\", "/")
-        main = mh if mh in files_info else next((m for m in files_info if m.endswith(mh)), None)
-    if not main and mains:
+    if main_hint is not None:
+        if not isinstance(main_hint, str) or not main_hint.strip():
+            raise ValueError("the main file must be a project-relative .tex path")
+        hint = os.path.normpath(main_hint.strip().replace("\\", "/")).replace(os.sep, "/")
+        if os.path.isabs(hint) or re.match(r"^[A-Za-z]:|^\.\.(?:/|$)", hint):
+            raise ValueError("main file must stay inside the project: %r" % main_hint)
+        matches = [hint] if hint in files_info else [
+            p for p in files_info if p.endswith("/" + hint)
+        ]
+        if len(matches) != 1:
+            raise ValueError("main file %r %s" % (main_hint, "is ambiguous" if matches else "was not found"))
+        main = matches[0]
+        inf = files_info[main]
+        if not inf.get("documentclass") or not inf.get("begin_document_line"):
+            raise ValueError("main file %r lacks \\documentclass or \\begin{document}" % main)
+    elif mains:
         main = mains[0]
     return files_info, mains, main, roots
+
+
+def declared_main(case):
+    """Read explicit entry-point metadata without interpreting arbitrary prose."""
+    keys = ("main_tex", "main_file", "main", "primary", "entry_tex", "entry_file", "entrypoint", "entry")
+    for scope in (case, case.get("input"), case.get("inputs"), case.get("project")):
+        if isinstance(scope, dict):
+            for key in keys:
+                if key not in scope or scope[key] is None:
+                    continue
+                value = scope[key]
+                if isinstance(value, dict):
+                    value = next((value[k] for k in ("path", "file", "filename", "main_tex") if k in value), value)
+                return value
+        if isinstance(scope, list):
+            primary = [item for item in scope if isinstance(item, dict)
+                       and (item.get("primary") is True or item.get("role") in ("main", "primary"))
+                       and str(item.get("path", item.get("file", ""))).lower().endswith(TEX_EXT)]
+            if len(primary) == 1:
+                return primary[0].get("path", primary[0].get("file"))
+            if len(primary) > 1:
+                raise ValueError("multiple inputs are marked as primary .tex files")
+    return None
 
 
 def reach(src, main, files_info):
@@ -297,17 +332,24 @@ def main():
     ap.add_argument("--keep-src", action="store_true", help="do not overwrite an existing work/src (re-scan only)")
     a = ap.parse_args()
     work, out = os.path.abspath(a.work), os.path.abspath(a.out)
+    case = load_json(a.case)
+    if not isinstance(case, dict):
+        print("ERROR missing or invalid case JSON:", a.case)
+        return 2
+    try:
+        hint = a.main if a.main is not None else declared_main(case)
+    except ValueError as exc:
+        print("ERROR:", exc)
+        return 2
     os.makedirs(work, exist_ok=True)
     os.makedirs(out, exist_ok=True)
-    case = load_json(a.case, {}) if a.case and os.path.isfile(a.case) else {}
-    if a.case and not os.path.isfile(a.case):
-        print("WARN case file not found:", a.case)
-    if not isinstance(case, dict):
-        case = {"_raw": case}
     cid, contract = summarize_case(case)
     fields = contract_fields(contract)
     in_dir = os.path.abspath(a.src or (os.path.dirname(os.path.abspath(a.case)) if a.case else "."))
-    # extract archives into work/extracted
+    if not os.path.isdir(in_dir):
+        print("ERROR project directory does not exist:", in_dir)
+        return 2
+    # Extract archives into the staging directory.
     stage = os.path.join(work, "_stage")
     if not (a.keep_src and os.path.isdir(os.path.join(work, "src"))):
         if os.path.isdir(stage):
@@ -318,6 +360,13 @@ def main():
                 names = safe_extract(p, os.path.splitext(p)[0].replace(".tar", "") + "_extracted")
                 if names:
                     os.remove(p)
+        try:
+            project = project_scan(stage, hint)
+            if not project[2] and os.path.exists(os.path.join(out, "result.json")):
+                raise ValueError("no primary .tex found; supply --main before rebuilding")
+        except ValueError as exc:
+            print("ERROR:", exc)
+            return 2
         # never treat the case description itself as a project file
         materials = []
         for p in iter_files(stage):
@@ -333,10 +382,19 @@ def main():
                 os.remove(p)
         shutil.rmtree(stage, ignore_errors=True)
     else:
+        try:
+            project = project_scan(os.path.join(work, "src"), hint)
+        except ValueError as exc:
+            print("ERROR:", exc)
+            return 2
         materials = [rel(p, os.path.join(work, "orig")) for p in iter_files(os.path.join(work, "orig")) if p.lower().endswith(TEXT_MATERIAL + (".pdf",))]
     src = os.path.join(work, "src")
-    files_info, mains, main, roots = project_scan(src, a.main)
-    st = {"skill_version": VERSION, "case_id": cid, "case_file": os.path.abspath(a.case) if a.case else None, "input_dir": in_dir, "contract_fields": fields,
+    files_info, mains, main, roots = project
+    if not main and os.path.isfile(os.path.join(out, "result.json")):
+        print("ERROR no primary .tex found; supply --main before rebuilding")
+        return 2
+    st = {"skill_version": VERSION, "case_id": cid, "case_file": os.path.abspath(a.case) if a.case else None, "input_dir": in_dir, "contract_fields": fields, "output_contract": contract,
+          "explicit_main": main if hint is not None else None,
           "materials": materials, "mains": mains, "main": main, "created": dt.datetime.now(dt.timezone.utc).isoformat()}
     print("latex-build-doctor %s init" % VERSION)
     print("case_id:", cid, "| contract fields:", fields or "(none found - result.json gets the standard fields)")
@@ -400,7 +458,8 @@ def write_skeletons(work, out, st):
            "note": "initialised only - run lx_build.py to compile and fill this file"}
     for f in st.get("contract_fields") or []:
         res.setdefault(f, None)
-    write_json(os.path.join(out, "result.json"), res)
+    if not os.path.exists(os.path.join(out, "result.json")):
+        write_json(os.path.join(out, "result.json"), res)
 
 
 if __name__ == "__main__":

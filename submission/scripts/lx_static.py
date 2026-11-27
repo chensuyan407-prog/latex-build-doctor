@@ -294,8 +294,7 @@ def table_checks(f, lines, add):
         if over:
             add("table_columns", "error", f, over[0][0], "%d row(s) have more cells than the %s spec '{%s}' (%d columns): lines %s (cells %s)" % (
                 len(over), env, spec, ncol, ",".join(str(x[0]) for x in over), ",".join(str(x[1]) for x in over)),
-                "Every row has %d cells: if all rows agree, the column spec is missing a column (e.g. {%s%s}); otherwise remove the extra '&' - check the source table." % (
-                    over[0][1], spec, "c" * (over[0][1] - ncol)) if len({x[1] for x in over}) == 1 else "Remove the extra '&' or add columns - check against the source table which value is extra.",
+                "Compare against the source data. Extend the column spec when values need more columns, or escape literal ampersands as \\&. Preserve each value and its math or references.",
                 cells=[x[1] for x in over], columns=ncol, rows=[x[0] for x in over], table_line=l0)
         if short:
             add("table_columns", "info", f, short[0][0], "%d short row(s) (fewer cells than %d columns): lines %s" % (len(short), ncol, ",".join(str(x[0]) for x in short)),

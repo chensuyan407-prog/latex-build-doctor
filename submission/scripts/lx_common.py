@@ -4,6 +4,7 @@ import json
 import os
 import re
 import shutil
+import tempfile
 import subprocess
 import sys
 
@@ -54,9 +55,18 @@ def read_text(path):
 
 
 def write_json(path, obj):
-    os.makedirs(os.path.dirname(os.path.abspath(path)), exist_ok=True)
-    with open(path, "w", encoding="utf-8", newline="\n") as fh:
-        json.dump(obj, fh, ensure_ascii=False, indent=1)
+    directory = os.path.dirname(os.path.abspath(path))
+    os.makedirs(directory, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", newline="\n",
+                                         dir=directory, delete=False) as fh:
+            temporary = fh.name
+            json.dump(obj, fh, ensure_ascii=False, indent=1)
+        os.replace(temporary, path)
+    finally:
+        if temporary and os.path.exists(temporary):
+            os.unlink(temporary)
 
 
 def write_text(path, text):
@@ -297,9 +307,24 @@ def resolve_graphic(target, base_dir, root, gpaths):
 
 
 def find_mains(root, files_info):
+    included = set()
+    for p, inf in files_info.items():
+        directory = os.path.join(root, os.path.dirname(p))
+        for inc in inf["includes"]:
+            path = resolve_tex(inc["target"], directory, root)
+            if path:
+                target = rel(path, root)
+                if target != p:
+                    included.add(target)
     mains = []
     for p, inf in files_info.items():
-        if inf.get("documentclass") and inf.get("begin_document_line"):
+        parts = p.lower().split("/")
+        auxiliary = any(re.match(r"^(?:appendi(?:x|ces)|supp(?:lement(?:ary)?)?|sections?|chapters?|append|fragments?|subfiles?|examples?|samples?|templates?)(?:[._ -]|\d|$)", part)
+                        for part in parts)
+        cls = inf.get("documentclass") or {}
+        if (cls.get("name") and cls["name"].lower() not in ("subfiles", "standalone")
+                and inf.get("begin_document_line") and not inf["magic"].get("root")
+                and p not in included and not auxiliary):
             mains.append(p)
     pref = ("main", "paper", "thesis", "manuscript", "article", "ms", "root", "document", "report")
 

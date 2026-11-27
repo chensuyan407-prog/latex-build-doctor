@@ -19,6 +19,7 @@ import re
 import shutil
 import sys
 import time
+import struct
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lx_common import (AUX_EXT, TEX_EXT, VERSION, code_lines, detect_bibtool, detect_engine, extract_pdf_text, iter_files, load_json, read_text, rel, run, sha256_file,
@@ -410,15 +411,64 @@ def environment(engine, bibtool, info, fls, src_root, main_dir, pdf):
     return env
 
 
-def previews(pdf, outdir, max_pages=8):
-    if not pdf or not which("pdftoppm"):
-        return []
+def pdf_pages(pdf):
+    with open(pdf, "rb") as stream:
+        if stream.read(5) != b"%PDF-":
+            return 0
+        size = stream.seek(0, os.SEEK_END)
+        stream.seek(max(0, size - 1024))
+        if not stream.read().rstrip().endswith(b"%%EOF"):
+            return 0
+    if which("pdfinfo"):
+        code, stdout, _ = run(["pdfinfo", pdf], timeout=30)
+        match = re.search(r"^Pages:\s+(\d+)", stdout, re.M)
+        return int(match.group(1)) if code == 0 and match else 0
+    return None
+
+
+def valid_preview(path):
+    with open(path, "rb") as stream:
+        header = stream.read(24)
+        if len(header) < 24 or header[:16] != b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR":
+            return False
+        if not all(struct.unpack(">II", header[16:24])):
+            return False
+        stream.seek(-12, os.SEEK_END)
+        return stream.read() == b"\x00\x00\x00\x00IEND\xaeB\x60\x82"
+
+
+def previews(pdf, outdir, pages, key_pages):
+    if os.path.isdir(outdir):
+        for name in os.listdir(outdir):
+            path = os.path.join(outdir, name)
+            if re.fullmatch(r"page-\d+\.png", name) and os.path.isfile(path):
+                os.remove(path)
+    if not pdf:
+        return [], []
+    if not which("pdftoppm"):
+        return [], ["pdftoppm unavailable: PDF previews could not be rendered"]
     os.makedirs(outdir, exist_ok=True)
-    for p in os.listdir(outdir):
-        if p.startswith("page-"):
-            os.remove(os.path.join(outdir, p))
-    run(["pdftoppm", "-png", "-r", "100", "-f", "1", "-l", str(max_pages), pdf, os.path.join(outdir, "page")], timeout=120)
-    return sorted(p for p in os.listdir(outdir) if p.endswith(".png"))
+    first = min(pages, 8) if pages else 8
+    prefix = os.path.join(outdir, "page")
+    ranges = [(1, first)] + [(n, n) for n in sorted(set(key_pages)) if n > first]
+    failures = []
+    for start, end in ranges:
+        code, _, _ = run(["pdftoppm", "-png", "-r", "100", "-f", str(start), "-l", str(end), pdf, prefix], timeout=120)
+        if code:
+            failures.append("PDF preview render failed for pages %d-%d" % (start, end))
+    rendered = {}
+    for name in os.listdir(outdir):
+        match = re.fullmatch(r"page-(\d+)\.png", name)
+        if match:
+            path = os.path.join(outdir, name)
+            if valid_preview(path):
+                rendered[int(match.group(1))] = name
+            else:
+                os.remove(path)
+    expected = (set(range(1, first + 1)) if pages else {1}) | set(key_pages)
+    if expected - rendered.keys():
+        failures.append("missing readable previews for pages %s" % sorted(expected - rendered.keys()))
+    return [rendered[n] for n in sorted(rendered)], failures
 
 
 # ---------------------------------------------------------------- main
@@ -437,8 +487,11 @@ def main():
     ap.add_argument("--shell-escape", action="store_true")
     ap.add_argument("--epoch", default=None, help="SOURCE_DATE_EPOCH (default %s)" % EPOCH_DEFAULT)
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--preview-page", action="append", type=int, default=[], help="render this key page in addition to the first eight (repeatable)")
     ap.add_argument("--max-show", type=int, default=25)
     a = ap.parse_args()
+    if any(n < 1 for n in a.preview_page):
+        ap.error("--preview-page must be positive")
     work, out = os.path.abspath(a.work), os.path.abspath(a.out)
     st = load_json(os.path.join(work, "state.json"), {}) or {}
     src, orig = os.path.join(work, "src"), os.path.join(work, "orig")
@@ -449,12 +502,15 @@ def main():
     if not isinstance(changes, dict):
         changes = {}
     bad_changes = changes == {} and os.path.isfile(os.path.join(work, "changes.json"))
-    hint_main = a.main or changes.get("main") or st.get("main")
-    if not a.main and not changes.get("main") and hint_main and re.match(r"^(?:template|templates|examples?)/", hint_main, re.I):
-        root_mains = [m for m in os.listdir(src) if m.lower().endswith(TEX_EXT) and os.path.isfile(os.path.join(src, m))]
-        if root_mains:
-            hint_main = None  # prefer newly created root-level main file over template sample
-    files_info, mains, main_rel, roots = project_scan(src, hint_main)
+    hint_main = a.main if a.main is not None else changes.get("main", st.get("explicit_main"))
+    try:
+        files_info, mains, main_rel, roots = project_scan(src, hint_main)
+    except ValueError as exc:
+        print("ERROR:", exc)
+        return 2
+    # Keep the reviewed entry point across builds when new candidates are added.
+    if hint_main is None and st.get("main") in mains:
+        main_rel = st["main"]
     t0 = time.time()
     diags = []
     if bad_changes:
@@ -465,7 +521,10 @@ def main():
                "uncertainty": ["nothing compiled"]}
         for f in st.get("contract_fields") or []:
             res.setdefault(f, None)
-        write_json(os.path.join(out, "result.json"), res)
+        result_path = os.path.join(out, "result.json")
+        previous = load_json(result_path)
+        if (isinstance(previous, dict) and previous.get("status") == "not_built") or not os.path.exists(result_path):
+            write_json(result_path, contract_result(st, res, {})[0])
         print("FAILED: no main file in work/src. Create one or pass --main.")
         return 2
     order, pre = reach(src, main_rel, files_info)
@@ -648,6 +707,11 @@ def main():
     overfull = [d for d in logd if d["class"] == "overfull_box"]
     glyphs = [d for d in logd if d["class"] == "missing_glyph"]
     req_fail = [r for r in reqs if r["ok"] is False and r["severity"] == "error"]
+    pdf_issues = []
+    page_count = pdf_pages(R["pdf"]) if R["pdf"] else None
+    if page_count == 0:
+        pdf_issues.append("generated PDF failed validation or has no readable pages")
+        R["pdf"] = None
     # reproducibility
     repro = {"checked": False}
     use_shell_escape = a.shell_escape or changes.get("shell_escape", False)
@@ -680,7 +744,10 @@ def main():
     write_text(os.path.join(logdir, R["job"] + ".log"), R["log"])
     if R["blg"]:
         write_text(os.path.join(logdir, R["job"] + ".blg"), R["blg"])
-    prev = previews(pdf_out, os.path.join(out, "preview"))
+    prev, preview_issues = previews(pdf_out, os.path.join(out, "preview"), page_count, a.preview_page)
+    pdf_issues.extend(preview_issues)
+    if status == "success" and pdf_issues:
+        status = "partial"
     env = environment(engine, bibtool, info, R["fls"], bdir, R["main_dir"], R["pdf"])
     env["project_files_used"] = [p for p in env.get("project_files_used", []) if not p.startswith("..")]
     write_json(os.path.join(out, "environment.json"), env)
@@ -696,10 +763,9 @@ def main():
                            "types": [r.get("type") for r in rr if r.get("type")], "documented": bool(rr)})
     write_json(os.path.join(out, "change_log.json"), change_log)
     diag_out = {"status": status, "roots": [d["id"] for d in roots_], "diagnostics": D, "requirements": reqs, "new_numbers_not_in_materials": newnums[:200]}
-    write_json(os.path.join(out, "diagnostics.json"), diag_out)
     nc = (changes.get("needs_confirmation") or []) + [{"item": "numbers not found in any input material", "where": "%s:%s" % (x["file"], x["line"]), "value": x["number"]} for x in newnums[:30]]
     nc += [{"item": "requirement unknown/failed: " + r["desc"], "where": r["origin"]} for r in reqs if r["ok"] is not True and r["severity"] == "error"]
-    unc = []
+    unc = list(pdf_issues)
     if info.get("fatal"):
         unc.append("TeX stopped at a fatal error: errors after that point are not known yet - fix the root causes and rebuild")
     if not R["converged"]:
@@ -715,21 +781,25 @@ def main():
     if pdf_out:
         ptxt = extract_pdf_text(pdf_out)
         if "\ufffd" in ptxt:
+            if status == "success":
+                status = "partial"
+                diag_out["status"] = status
             unc.append("replacement character (U+FFFD) found in extracted PDF text")
     if any(r["ok"] is None for r in reqs):
         unc.append("some requirements could not be checked automatically")
     und = [d for d in audit if d["class"] == "undocumented_change"]
     if und:
         unc.append("%d source change(s) without a change record" % len(und))
+    write_json(os.path.join(out, "diagnostics.json"), diag_out)
     summary = "%s: %s with %s, %d engine pass(es)%s; %d error(s) in log (%d root cause(s) overall), %d undefined ref(s), %d undefined citation(s), %d overfull box(es) >1pt; %d edit hunk(s), %d documented." % (
         status.upper(), main_rel, engine, R["engine_passes"], (" + " + R["bib_ran"]) if R["bib_ran"] else "", len(log_err), len(roots_), len(undef_ref), len(undef_cite), len(overfull),
         len(hunks), sum(1 for h in hunks if h["records"]))
     res = {
         "case_id": st.get("case_id"), "status": status, "summary": summary, "skill": "latex-build-doctor " + VERSION, "built_at": now(),
         "artifacts": {"source_dir": "src/", "main_tex": "src/" + main_rel, "pdf": (R["job"] + ".pdf") if pdf_out else None, "pdf_sha256": sha256_file(pdf_out) if pdf_out else None,
-                      "pdf_pages": info.get("pdf_pages"), "previews": ["preview/" + p for p in prev], "diff": "changes.diff", "change_log": "change_log.json",
+                      "pdf_pages": page_count or info.get("pdf_pages"), "previews": ["preview/" + p for p in prev], "diff": "changes.diff", "change_log": "change_log.json",
                       "diagnostics": "diagnostics.json", "build_report": "build_report.md", "build_instructions": "BUILD.md", "build_script": "build.sh", "latexmkrc": "latexmkrc",
-                      "environment": "environment.json", "logs": "build_logs/"},
+                      "environment": "environment.json", "logs": "build_logs/", "log": "build_logs/" + R["job"] + ".log"},
         "build": {"main": main_rel, "engine": engine, "bibtool": R["bib_ran"] or bibtool, "commands": cmds, "engine_passes": R["engine_passes"], "converged": R["converged"],
                   "timeout": R["timeout"], "seconds": R["seconds"], "rounds": R["rounds"], "source_date_epoch": str(epoch), "reproducibility": repro},
         "diagnostics_summary": {"errors_in_log": len(log_err), "root_causes": [_short(d) for d in roots_[:30]], "errors_total": len(errors),
@@ -746,20 +816,8 @@ def main():
         "environment": {"distribution": env.get("distribution"), "engine_version": env["engine"]["version"], "bibtool_version": (env.get("bibtool") or {}).get("version"),
                         "documentclass": env.get("documentclass"), "n_packages": len(env.get("packages", {})), "details": "environment.json"},
     }
-    fields = st.get("contract_fields") or []
-    overrides = changes.get("fields") or {}
-    unmapped_fields = []
-    for f in fields:
-        if f in res and f not in overrides:
-            continue
-        mapped = map_field(f, res, overrides)
-        if isinstance(mapped, dict) and mapped.get("note", "").startswith("no automatic mapping"):
-            unmapped_fields.append(f)
-        res[f] = mapped
-    for f, v in overrides.items():
-        if f not in fields:
-            res[f] = v.get("value") if isinstance(v, dict) and "value" in v else v
-    write_json(os.path.join(out, "result.json"), res)
+    result, unmapped_fields = contract_result(st, res, changes.get("fields") or {})
+    write_json(os.path.join(out, "result.json"), result)
     write_report(out, res, D, roots_, reqs, change_log, newnums)
     rc = 0 if status == "success" else (1 if R["pdf"] else 2)
     if not a.quiet:
@@ -797,6 +855,69 @@ def _short(d):
     return {k: d.get(k) for k in ("id", "class", "file", "line", "message", "hint", "cascade_of", "key", "cs", "name") if d.get(k) is not None}
 
 
+CONTRACT_TYPES = {
+    "string": str, "str": str, "array": list, "list": list, "object": dict, "dict": dict,
+    "integer": int, "int": int, "number": (int, float), "boolean": bool, "bool": bool,
+    "null": type(None),
+}
+
+
+def fit_field(value, spec):
+    """Apply explicit field types and recursively shape structured values."""
+    if not isinstance(spec, dict):
+        spec = {"type": spec} if isinstance(spec, str) else {}
+    declared = spec.get("type")
+    names = declared if isinstance(declared, list) else [declared]
+    types = tuple(t for n in names if isinstance(n, str) and n in CONTRACT_TYPES
+                  for t in (CONTRACT_TYPES[n] if isinstance(CONTRACT_TYPES[n], tuple) else (CONTRACT_TYPES[n],)))
+    properties = spec.get("properties")
+    if isinstance(properties, dict):
+        if value is None and type(None) in types:
+            return None
+        source = value if isinstance(value, dict) else {}
+        value = dict(source) if spec.get("additionalProperties") is True else {}
+        value.update({key: fit_field(source.get(key), shape) for key, shape in properties.items()})
+    elif isinstance(value, list) and "items" in spec:
+        value = [fit_field(item, spec["items"]) for item in value]
+    if not types or type(value) in types:
+        return value
+    if str in types and isinstance(value, dict):
+        for key in ("path", "main_tex", "pdf"):
+            if isinstance(value.get(key), str):
+                return value[key]
+    if type(spec.get("default")) in types:
+        return spec["default"]
+    if type(None) in types:
+        return None
+    return types[0]()
+
+
+def contract_result(state, res, overrides):
+    schema = state.get("output_contract")
+    if isinstance(schema, dict):
+        schema = schema.get("schema", schema)
+    explicit = isinstance(schema, dict) and isinstance(schema.get("properties"), dict)
+    specs = schema["properties"] if explicit else schema.get("fields", schema) if isinstance(schema, dict) else {}
+    if isinstance(specs, list):
+        specs = {entry.get("name", entry.get("field")): entry for entry in specs if isinstance(entry, dict)}
+    specs = specs if isinstance(specs, dict) else {}
+    result = {"case_id": res.get("case_id")} if explicit else dict(res)
+    unmapped = []
+    for key in state.get("contract_fields") or []:
+        if key == "case_id":
+            continue
+        if key in res and key not in overrides:
+            value = res[key]
+        elif res.get("artifacts"):
+            value = map_field(key, res, overrides)
+        else:
+            value = None
+        if value is None and key not in res and key not in overrides:
+            unmapped.append(key)
+        result[key] = fit_field(value, specs.get(key))
+    return result, unmapped
+
+
 def map_field(f, res, overrides):
     if f in overrides:
         v = overrides[f]
@@ -806,6 +927,15 @@ def map_field(f, res, overrides):
             return _get(res, v["from"])
         return v
     k = f.lower()
+    paths = {
+        "main_tex": "artifacts.main_tex", "change_log": "changes", "build_commands": "build.commands",
+        "compile_commands": "build.commands", "preview": "artifacts.previews",
+        "previews": "artifacts.previews", "pdf_pages": "artifacts.pdf_pages",
+        "remaining_issues": "diagnostics_summary.root_causes", "errors": "diagnostics_summary.root_causes",
+        "compile_log": "artifacts.log", "build_log": "artifacts.log",
+    }
+    if k in paths:
+        return _get(res, paths[k])
     if k in ("source", "fixed_source", "tex_source", "fixed_tex", "fixed_project", "deliverable_tex", "output_tex", "latex_source", "main_tex"):
         return res["artifacts"]
     if k in ("unresolved_citations", "undefined_citations", "missing_citations"):
@@ -837,7 +967,7 @@ def map_field(f, res, overrides):
     for keys, fn in table:
         if any(x in k for x in keys):
             return fn()
-    return {"value": None, "note": "no automatic mapping for this field - set it in work/changes.json fields"}
+    return None
 
 
 def _get(obj, path):
