@@ -20,12 +20,15 @@ import shutil
 import sys
 import time
 import struct
+import zlib
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from lx_common import (AUX_EXT, TEX_EXT, VERSION, code_lines, detect_bibtool, detect_engine, extract_pdf_text, iter_files, load_json, read_text, rel, run, sha256_file,
                        tex_env, tool_version, which, write_json, write_text, load_rules)
 from lx_init import project_scan, reach, precheck
 from lx_log import ROOT_RANK, parse_biber_blg, parse_bibtex_blg, parse_tex_log
+from lx_repair import PACKAGES, chktex_findings, repair_source
 from lx_static import cite_checks, package_checks, parse_bib, scan_project
 
 EPOCH_DEFAULT = "1704067200"  # 2024-01-01T00:00:00Z, recorded in BUILD.md
@@ -427,14 +430,40 @@ def pdf_pages(pdf):
 
 
 def valid_preview(path):
-    with open(path, "rb") as stream:
-        header = stream.read(24)
-        if len(header) < 24 or header[:16] != b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR":
-            return False
-        if not all(struct.unpack(">II", header[16:24])):
-            return False
-        stream.seek(-12, os.SEEK_END)
-        return stream.read() == b"\x00\x00\x00\x00IEND\xaeB\x60\x82"
+    # Poppler writes non-interlaced RGB PNGs. Check CRCs and decode all scanlines.
+    try:
+        with open(path, "rb") as stream:
+            if stream.read(8) != b"\x89PNG\r\n\x1a\n":
+                return False
+            decoder = zlib.decompressobj()
+            rows = None
+            stride = size = 0
+            while True:
+                length, kind = struct.unpack(">I4s", stream.read(8))
+                if length > 128 * 1024 * 1024:
+                    return False
+                data = stream.read(length)
+                crc, = struct.unpack(">I", stream.read(4))
+                if crc != zlib.crc32(data, zlib.crc32(kind)):
+                    return False
+                if kind == b"IHDR":
+                    width, height, depth, color, comp, filt, interlace = struct.unpack(">IIBBBBB", data)
+                    if rows is not None or not width or not height or (depth, color, comp, filt, interlace) != (8, 2, 0, 0, 0):
+                        return False
+                    stride = width * 3 + 1
+                    size = stride * height
+                    if size > 128 * 1024 * 1024:
+                        return False
+                    rows = bytearray()
+                elif kind == b"IDAT" and rows is not None:
+                    rows.extend(decoder.decompress(data, size + 1 - len(rows)))
+                    if len(rows) > size or decoder.unconsumed_tail or decoder.unused_data:
+                        return False
+                elif kind == b"IEND":
+                    return (not data and not stream.read(1) and rows is not None and decoder.eof
+                            and len(rows) == size and all(f <= 4 for f in rows[::stride]))
+    except (OSError, struct.error, zlib.error, OverflowError):
+        return False
 
 
 def previews(pdf, outdir, pages, key_pages):
@@ -471,6 +500,80 @@ def previews(pdf, outdir, pages, key_pages):
     return [rendered[n] for n in sorted(rendered)], failures
 
 
+def repair_build(src, work, main, engine, inspect, compile_at, initial, deadline, key_pages):
+    candidate = os.path.join(work, "repair_src")
+    build = os.path.join(work, "build_repair")
+    copy_src(src, candidate)
+    result = initial
+    rounds, reasons = [], {}
+    for attempt in range(6):
+        files, order, pre, bibs, bibtool = inspect(candidate)
+        base = os.path.dirname(main)
+        paths = [os.path.relpath(f, base or ".").replace(os.sep, "/") for f in files]
+        loaded = {p["name"] for f in order for p in files[f]["packages"]}
+        log, info = parse_tex_log(result["log"], paths, loaded)
+        for d in log:
+            if d.get("file"):
+                d["file"] = os.path.normpath(os.path.join(base, d["file"])).replace(os.sep, "/")
+            elif len(order) == 1:
+                d["file"] = main
+        if attempt == 5 or time.monotonic() >= deadline or result["timeout"]:
+            break
+        issues = log + pre
+        if info["fatal"] and not any(d["class"] == "no_end" for d in log):
+            issues.append({"class": "no_end", "severity": "error", "file": main, "message": "TeX stopped before document end"})
+        missing = {d["needs_package"] for d in log if d.get("needs_package")} - loaded - set(info["packages"])
+        packages = [p for p in PACKAGES if p in missing]
+        gpaths = [g for f in order for g in files[f]["graphicspath"]]
+        applied = []
+        for f in order:
+            path = Path(candidate) / f
+            text, encoding = read_text(path)
+            fixed, why = repair_source(text, f, issues, Path(candidate), main, gpaths, packages, not packages, engine)
+            if fixed != text:
+                path.write_bytes(fixed.encode(encoding))
+                reasons.setdefault(f, set()).update(why)
+                applied.append(f)
+        if not applied:
+            break
+        rounds.append({"round": attempt + 1, "files": applied, "input_diagnostics": [_short(d) for d in log[:30]]})
+        result = compile_at(candidate, build, bibtool)
+        rounds[-1]["engine_steps"] = result["rounds"]
+    if not rounds:
+        return src, initial, [], {}
+    hunks, patch = diff_project(src, candidate)
+    static, _ = scan_project(candidate, order, main, engine)
+    unresolved = [d for d in log if d["severity"] == "error" or d["class"] in
+                  {"overfull_box", "missing_glyph", "undefined_ref", "undefined_cite"}]
+    bib_errors = parse_bibtex_blg(result["blg"], bibs) if result["bib_ran"] == "bibtex" else (
+        parse_biber_blg(result["blg"], bibs) if result["bib_ran"] == "biber" else [])
+    accepted = (result["pdf"] and result["converged"] and not result["timeout"] and not info["fatal"]
+                and result["rounds"] and result["rounds"][-1]["exit"] == 0 and not unresolved
+                and not any(d["severity"] == "error" for d in bib_errors)
+                and not any(d["severity"] == "error" and d.get("actual") for d in pre)
+                and not any(d["class"] in {"table_columns", "float_label"} and d["severity"] == "error" for d in static))
+    issues = []
+    if accepted:
+        pages = pdf_pages(result["pdf"])
+        if pages == 0:
+            issues = ["candidate PDF failed validation"]
+        else:
+            _, issues = previews(result["pdf"], os.path.join(build, "repair_preview"), pages, key_pages)
+        if which("pdftotext"):
+            code, extracted, _ = run(["pdftotext", "-enc", "UTF-8", result["pdf"], "-"], timeout=30)
+            if code or "\ufffd" in extracted:
+                issues.append("candidate PDF text extraction failed")
+        accepted = not issues
+    detail = {"accepted": bool(accepted), "diff": patch, "rounds": rounds, "verification_issues": issues,
+              "log_summary": {"fatal": info["fatal"], "pages": info["pdf_pages"],
+                              "diagnostics": [_short(d) for d in unresolved[:30]]}}
+    if not accepted:
+        return src, initial, [], detail
+    records = [{"file": h["file"], "line": h["new_start"], "from": h["old"], "to": h["new"],
+                "reason": ", ".join(sorted(reasons[h["file"]])), "type": "auto_fix"} for h in hunks]
+    return candidate, result, records, detail
+
+
 # ---------------------------------------------------------------- main
 
 
@@ -483,6 +586,7 @@ def main():
     ap.add_argument("--passes", type=int, default=5)
     ap.add_argument("--timeout", type=int, default=180, help="seconds per tool call")
     ap.add_argument("--budget", type=int, default=420, help="seconds for the whole build sequence")
+    ap.add_argument("--auto-fix", action="store_true", help="try verified repairs on a staged source copy")
     ap.add_argument("--no-repro", action="store_true", help="skip the second clean build")
     ap.add_argument("--shell-escape", action="store_true")
     ap.add_argument("--epoch", default=None, help="SOURCE_DATE_EPOCH (default %s)" % EPOCH_DEFAULT)
@@ -535,8 +639,30 @@ def main():
     pre += p2
     epoch = a.epoch or changes.get("source_date_epoch") or EPOCH_DEFAULT
     bdir = os.path.join(work, "build")
-    copy_src(src, bdir)
-    R = compile_once(bdir, main_rel, engine, bibtool, a.passes, a.timeout, a.shell_escape or changes.get("shell_escape", False), str(epoch), a.budget)
+    deadline = time.monotonic() + a.budget
+
+    def compile_at(source, directory, tool):
+        copy_src(source, directory)
+        remaining = max(1, deadline - time.monotonic())
+        return compile_once(directory, main_rel, engine, tool, a.passes, min(a.timeout, remaining),
+                            a.shell_escape or changes.get("shell_escape", False), str(epoch), remaining)
+
+    R = compile_at(src, bdir, bibtool)
+    repair_detail = {}
+    if a.auto_fix:
+        def inspect(source):
+            finfo, _, _, _ = project_scan(source, main_rel)
+            reached, findings = reach(source, main_rel, finfo)
+            tool = detect_bibtool([finfo[f] for f in reached if f in finfo])[0]
+            checked, bibfiles, *_ = precheck(source, main_rel, reached, finfo, engine, tool)
+            return finfo, reached, findings + checked, bibfiles, tool
+
+        repaired, R, records, repair_detail = repair_build(src, work, main_rel, engine, inspect,
+                                                           compile_at, R, deadline, a.preview_page)
+        if repaired != src:
+            src, bdir = repaired, os.path.join(work, "build_repair")
+            files_info, order, pre, bibs, bibtool = inspect(src)
+            changes["changes"] = (changes.get("changes") or []) + records
     main_dir_rel = os.path.dirname(main_rel)
     proj_files_main = [os.path.relpath(os.path.join(src, f), os.path.join(src, main_dir_rel)).replace(os.sep, "/") for f in files_info] + \
                       [os.path.relpath(os.path.join(src, b), os.path.join(src, main_dir_rel)).replace(os.sep, "/") for b in bibs]
@@ -627,7 +753,7 @@ def main():
     reqd = [{"class": "requirement_failed", "severity": "error" if r["severity"] == "error" else "warning", "source": "static", "file": main_rel, "line": None,
              "message": "requirement %s not met: %s" % (r["id"], r["desc"]), "hint": "Origin %s; pattern %s" % (r["origin"], r["pattern"]), "key": r["id"]}
             for r in reqs if r["ok"] is False]
-    allds = diags + pre + logd + bibd + static + bibf + citef + pk + audit + fabd + reqd
+    allds = diags + pre + logd + bibd + static + chktex_findings(src, order) + bibf + citef + pk + audit + fabd + reqd
     seen = set()
     D = []
     for d in allds:
@@ -816,6 +942,10 @@ def main():
         "environment": {"distribution": env.get("distribution"), "engine_version": env["engine"]["version"], "bibtool_version": (env.get("bibtool") or {}).get("version"),
                         "documentclass": env.get("documentclass"), "n_packages": len(env.get("packages", {})), "details": "environment.json"},
     }
+    if a.auto_fix:
+        res["build"]["auto_fix"] = repair_detail
+        res["build"]["log_summary"] = {"engine_banner": info["engine_banner"], "fatal": info["fatal"],
+                                        "errors": [_short(d) for d in log_err[:30]]}
     result, unmapped_fields = contract_result(st, res, changes.get("fields") or {})
     write_json(os.path.join(out, "result.json"), result)
     write_report(out, res, D, roots_, reqs, change_log, newnums)
@@ -1042,6 +1172,10 @@ def write_report(out, res, D, roots_, reqs, change_log, newnums):
         L += ["## Needs human confirmation", ""] + ["- " + _md(json.dumps(x, ensure_ascii=False))[:300] for x in res["needs_confirmation"][:40]] + [""]
     if res["uncertainty"]:
         L += ["## Uncertainty / limits", ""] + ["- " + x for x in res["uncertainty"]] + [""]
+    repair = res["build"].get("auto_fix")
+    if repair:
+        L += ["## Automatic repairs", "", "Accepted" if repair["accepted"] else "Candidate rejected", "",
+              "Candidate log summary", "", _md(json.dumps(repair["log_summary"], ensure_ascii=False)), ""]
     write_text(os.path.join(out, "build_report.md"), "\n".join(L))
 
 

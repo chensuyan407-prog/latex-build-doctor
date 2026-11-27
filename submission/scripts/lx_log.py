@@ -19,7 +19,7 @@ ERROR_CLASSES = [
     ("missing_class", r"LaTeX Error: File `([^']+)\.cls' not found", "Document class file {0}.cls is missing: copy the template's .cls into the project root (next to the main .tex) or install it; do not switch to another class silently."),
     ("missing_package", r"LaTeX Error: File `([^']+)\.sty' not found", "Package {0}.sty is not installed or misspelled. Check the name; if it is a template-local package, copy it into the project; else install (tlmgr install <pkg>) or remove the \\usepackage and its commands."),
     ("missing_file", r"LaTeX Error: File `([^']+)' not found", "File '{0}' was not found: check path/case/extension relative to the main file and \\graphicspath."),
-    ("missing_file", r"! I can't find file `([^']+)'", "Input file '{0}' not found: check the \\input/\\include path (relative to the main file, case-sensitive on Linux)."),
+    ("missing_file", r"(?:! )?I can't find file `([^']+)'", "Input file '{0}' not found: check the \\input/\\include path (relative to the main file, case-sensitive on Linux)."),
     ("missing_file", r"Package (?:pdftex\.def|graphics|xetex\.def|luatex\.def) Error: File `([^']+)' not found", "Graphic '{0}' not found: check path/case/extension and \\graphicspath."),
     ("missing_font", r'fontspec Error: The font "([^"]+)" cannot be found', "Font '{0}' is not installed on this system. Use an installed font (check with fc-list) or ship the font file and load it by file name with Path=; record the substitution."),
     ("missing_font", r"Font \\[^=]+=([^ ]+) (?:at [^ ]+ )?not loadable: Metric \(TFM\) file not found", "TFM for font '{0}' not found: the font package is missing or the font name is wrong."),
@@ -236,13 +236,15 @@ def parse_tex_log(text, project_files, loaded_pkgs=(), defined_cmds=()):
             j = i + 1
             while j < n and j < i + 40:
                 lj = lines[j]
-                mm = re.match(r"^l\.(\d+) (.*)$", lj)
+                mm = re.match(r"^\s*l\.(\d+)(?:[ \t]+(.*))?$", lj)
                 if mm:
                     if eline is None and not raised_in:
                         eline = int(mm.group(1))
-                    ctx_before = mm.group(2)
-                    ctx_after = lines[j + 1].strip() if j + 1 < n else ""
-                    j += 2
+                    ctx_before = mm.group(2) or ""
+                    j += 1
+                    if j < n and lines[j].startswith((" ", "\t")) and not re.match(r"^\s*l\.\d+", lines[j]):
+                        ctx_after = lines[j].strip()
+                        j += 1
                     break
                 if FLE.match(lj) or lj.startswith("! ") or lj.startswith("Here is how much") or lj.startswith("(see the transcript"):
                     break
