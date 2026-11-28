@@ -456,8 +456,10 @@ def write_skeletons(work, out, st):
                         "changes": [], "requirements": [], "needs_confirmation": [], "notes": [], "fields": {}})
     res = {"case_id": st.get("case_id"), "status": "not_built", "skill": "latex-build-doctor " + VERSION,
            "note": "initialised only - run lx_build.py to compile and fill this file"}
-    for f in st.get("contract_fields") or []:
-        res.setdefault(f, None)
+    fields = st.get("contract_fields") or []
+    for field in fields:
+        res.setdefault(field, None)
+    res["output_contract"] = {field: res[field] for field in fields if field != "case_id"}
     if not os.path.exists(os.path.join(out, "result.json")):
         write_json(os.path.join(out, "result.json"), res)
 

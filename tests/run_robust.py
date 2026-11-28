@@ -153,9 +153,10 @@ def main():
     classes = {x["class"] for x in D}
     si_roots = [x for x in D if x.get("cs") == "\\SI"]
     mf_ok = (
-        isinstance(res.get("fixed_source"), dict) and res["fixed_source"].get("main_tex") == "src/main.tex"
-        and isinstance(res.get("tex_source"), dict) and res["tex_source"].get("main_tex") == "src/main.tex"
-        and isinstance(res.get("source"), dict) and res["source"].get("main_tex") == "src/main.tex"
+        all(res.get(field) == "src/main.tex" for field in ("fixed_source", "tex_source", "source"))
+        and res.get("output_contract") == {
+            field: res.get(field) for field in json.loads(c12)["output_contract"]
+        }
         and "missing2021" in (res.get("unresolved_citations") or [])
         and isinstance(res.get("open_questions"), list)
         and res.get("compile_status") in ("partial", "failed", "success")

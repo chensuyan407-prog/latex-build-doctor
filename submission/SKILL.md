@@ -62,7 +62,7 @@ On Windows, use the Python 3 interpreter on PATH and pass absolute paths. Adjust
 - [ ] Figures use the supplied assets. Equations, numbering, labels, citation keys and reference targets survive the diff.
 - [ ] The final PDF opens, the first page and each key PNG are readable, and no table cells or figures are clipped.
 - [ ] Check overfull boxes, unresolved citations/references and missing glyphs in the final log and visual output.
-- [ ] result.json has the original case_id, exact contract field names and nested value types. Artifact paths resolve under the output directory.
+- [ ] result.json has the original case_id, top-level status, and each requested field at the top level and in output_contract. Artifact paths are relative to the output directory. For example, a fixed_source typed as path points to src/main.tex, and preview_paths lists the rendered PNG files.
 
 ## changes.json (`/app/work/changes.json`, created by init)
 

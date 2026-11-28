@@ -986,7 +986,7 @@ def _short(d):
 
 
 CONTRACT_TYPES = {
-    "string": str, "str": str, "array": list, "list": list, "object": dict, "dict": dict,
+    "string": str, "str": str, "path": str, "array": list, "list": list, "object": dict, "dict": dict,
     "integer": int, "int": int, "number": (int, float), "boolean": bool, "bool": bool,
     "null": type(None),
 }
@@ -1031,7 +1031,7 @@ def contract_result(state, res, overrides):
     if isinstance(specs, list):
         specs = {entry.get("name", entry.get("field")): entry for entry in specs if isinstance(entry, dict)}
     specs = specs if isinstance(specs, dict) else {}
-    result = {"case_id": res.get("case_id")} if explicit else dict(res)
+    result = {"case_id": res["case_id"], "status": res["status"]} if explicit else dict(res)
     unmapped = []
     for key in state.get("contract_fields") or []:
         if key == "case_id":
@@ -1045,6 +1045,7 @@ def contract_result(state, res, overrides):
         if value is None and key not in res and key not in overrides:
             unmapped.append(key)
         result[key] = fit_field(value, specs.get(key))
+    result["output_contract"] = {key: result.get(key) for key in state.get("contract_fields") or [] if key != "case_id"}
     return result, unmapped
 
 
@@ -1060,7 +1061,7 @@ def map_field(f, res, overrides):
     paths = {
         "main_tex": "artifacts.main_tex", "change_log": "changes", "build_commands": "build.commands",
         "compile_commands": "build.commands", "preview": "artifacts.previews",
-        "previews": "artifacts.previews", "pdf_pages": "artifacts.pdf_pages",
+        "previews": "artifacts.previews", "preview_paths": "artifacts.previews", "pdf_pages": "artifacts.pdf_pages",
         "remaining_issues": "diagnostics_summary.root_causes", "errors": "diagnostics_summary.root_causes",
         "compile_log": "artifacts.log", "build_log": "artifacts.log",
     }
