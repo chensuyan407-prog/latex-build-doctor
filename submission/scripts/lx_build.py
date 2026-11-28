@@ -591,6 +591,7 @@ def main():
     ap.add_argument("--shell-escape", action="store_true")
     ap.add_argument("--epoch", default=None, help="SOURCE_DATE_EPOCH (default %s)" % EPOCH_DEFAULT)
     ap.add_argument("--quiet", action="store_true")
+    ap.add_argument("--strict", action="store_true", help="include formatting/whitespace chktex warnings")
     ap.add_argument("--preview-page", action="append", type=int, default=[], help="render this key page in addition to the first eight (repeatable)")
     ap.add_argument("--max-show", type=int, default=25)
     a = ap.parse_args()
@@ -753,7 +754,7 @@ def main():
     reqd = [{"class": "requirement_failed", "severity": "error" if r["severity"] == "error" else "warning", "source": "static", "file": main_rel, "line": None,
              "message": "requirement %s not met: %s" % (r["id"], r["desc"]), "hint": "Origin %s; pattern %s" % (r["origin"], r["pattern"]), "key": r["id"]}
             for r in reqs if r["ok"] is False]
-    allds = diags + pre + logd + bibd + static + chktex_findings(src, order) + bibf + citef + pk + audit + fabd + reqd
+    allds = diags + pre + logd + bibd + static + chktex_findings(src, order, strict=a.strict) + bibf + citef + pk + audit + fabd + reqd
     seen = set()
     D = []
     for d in allds:
@@ -1067,8 +1068,10 @@ def map_field(f, res, overrides):
     }
     if k in paths:
         return _get(res, paths[k])
-    if k in ("source", "fixed_source", "tex_source", "fixed_tex", "fixed_project", "deliverable_tex", "output_tex", "latex_source", "main_tex"):
-        return res["artifacts"]
+    if k in ("fixed_project",):
+        return _get(res, "artifacts.src_dir") or "src/"
+    if k in ("source", "fixed_source", "tex_source", "fixed_tex", "deliverable_tex", "output_tex", "latex_source", "main_tex"):
+        return _get(res, "artifacts.main_tex") or "src/main.tex"
     if k in ("unresolved_citations", "undefined_citations", "missing_citations"):
         return res["diagnostics_summary"]["undefined_citations"]
     if k in ("unresolved_references", "undefined_references", "missing_references"):

@@ -338,22 +338,32 @@ def find_mains(root, files_info):
 
 def detect_engine(main_info, all_info):
     """Return (engine, reason)."""
+    pk = {p["name"] for inf in all_info for p in inf["packages"]}
+    cls = (main_info.get("documentclass") or {}).get("name", "")
+    req_eng, req_reason = None, None
+    if pk & {"luatexja", "luatexja-fontspec", "luacode", "luaotfload", "lua-ul", "luatexbase"}:
+        req_eng = "lualatex"
+        req_reason = "LuaTeX-only package: " + ", ".join(sorted(pk & {"luatexja", "luatexja-fontspec", "luacode", "luaotfload", "lua-ul"}))
+    elif pk & {"fontspec", "xeCJK", "unicode-math", "polyglossia", "xltxtra", "xunicode", "mathspec"}:
+        req_eng = "xelatex"
+        req_reason = "Unicode-engine package: " + ", ".join(sorted(pk & {"fontspec", "xeCJK", "unicode-math", "polyglossia", "xltxtra", "xunicode", "mathspec"}))
+    elif cls.startswith("ctex") or "ctex" in pk or cls in ("elegantpaper", "elegantbook", "thuthesis", "ustcthesis", "njuthesis", "sjtuthesis", "fduthesis", "pkuthss", "zjuthesis", "bithesis"):
+        req_eng = "xelatex"
+        req_reason = "CJK class/package (ctex family) - XeLaTeX is the usual engine"
+    elif any(inf["fonts"] for inf in all_info):
+        req_eng = "xelatex"
+        req_reason = "fontspec font commands present"
+
     magic = (main_info.get("magic") or {}).get("program")
     if magic:
         m = magic.lower()
         for e in ("xelatex", "lualatex", "pdflatex", "latex", "uplatex", "platex"):
             if e in m:
+                if req_eng and (e not in ("xelatex", "lualatex") or (req_eng == "lualatex" and e != "lualatex")):
+                    return req_eng, "%s (overriding %% !TEX program = %s)" % (req_reason, magic)
                 return e, "% !TEX program = " + magic
-    pk = {p["name"] for inf in all_info for p in inf["packages"]}
-    cls = (main_info.get("documentclass") or {}).get("name", "")
-    if pk & {"luatexja", "luatexja-fontspec", "luacode", "luaotfload", "lua-ul", "luatexbase"}:
-        return "lualatex", "LuaTeX-only package: " + ", ".join(sorted(pk & {"luatexja", "luatexja-fontspec", "luacode", "luaotfload", "lua-ul"}))
-    if pk & {"fontspec", "xeCJK", "unicode-math", "polyglossia", "xltxtra", "xunicode", "mathspec"}:
-        return "xelatex", "Unicode-engine package: " + ", ".join(sorted(pk & {"fontspec", "xeCJK", "unicode-math", "polyglossia", "xltxtra", "xunicode", "mathspec"}))
-    if cls.startswith("ctex") or "ctex" in pk or cls in ("elegantpaper", "elegantbook", "thuthesis", "ustcthesis", "njuthesis", "sjtuthesis", "fduthesis", "pkuthss", "zjuthesis", "bithesis"):
-        return "xelatex", "CJK class/package (ctex family) - XeLaTeX is the usual engine"
-    if any(inf["fonts"] for inf in all_info):
-        return "xelatex", "fontspec font commands present"
+    if req_eng:
+        return req_eng, req_reason
     return "pdflatex", "no Unicode-engine package found"
 
 

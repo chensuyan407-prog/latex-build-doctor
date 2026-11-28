@@ -3,9 +3,28 @@ import os
 import re
 from pathlib import Path
 
-from lx_common import VERB_ENVS, strip_comment, which, run
+from lx_common import VERB_ENVS, load_rules, strip_comment, which, run
 
-PACKAGES = ("amsmath", "booktabs", "graphicx", "tabularx", "hyperref")
+_CORE_PACKAGES = ("amsmath", "booktabs", "graphicx", "tabularx", "hyperref")
+
+
+def _load_known_packages():
+    rules = load_rules("packages.json")
+    seen = list(_CORE_PACKAGES)
+    seen_set = set(seen)
+    for section in ("commands", "environments"):
+        for val in (rules.get(section) or {}).values():
+            if not isinstance(val, str) or val.startswith("(") or " class" in val:
+                continue
+            pkg = val.split()[0].split("[")[0].strip()
+            if pkg and pkg not in seen_set:
+                seen_set.add(pkg)
+                seen.append(pkg)
+    return tuple(seen)
+
+
+PACKAGES = _load_known_packages()
+CHKTEX_NOISE_RULES = {1, 2, 3, 8, 12, 13, 18, 24, 26, 36, 44}
 ENV = re.compile(r"\\(begin|end)\s*\{([\w*]+)\}")
 MATH = {"math", "displaymath", "equation", "align", "alignat", "flalign", "gather",
         "multline", "split", "aligned", "gathered", "array", "cases", "matrix"}
@@ -15,9 +34,10 @@ CLOSABLE = {"document", "abstract", "itemize", "enumerate", "description", "quot
 TABLE = re.compile(r"\\begin\{tabular\}(\s*(?:\[[tbc]\]\s*)?)\{([lcr|\s]+)\}([\s\S]*?)\\end\{tabular\}")
 TOKEN = re.compile(r"\\(?:verb\*?([^\w\s]).*?\1|[A-Za-z@]+|.)|\$\$?|\{|\}|[_&#%]")
 GRAPHIC = re.compile(r"\\includegraphics\*?\s*(?:\[[^\]]*\]\s*)?\{\s*([^{}\\%#]+?)\s*\}")
+INCLUDE_RE = re.compile(r"\\(include|input)\s*\{\s*([^{}\\%#]+?)\s*\}")
 
 
-def chktex_findings(root, order):
+def chktex_findings(root, order, strict=False):
     tool = which("chktex")
     if not tool:
         return []
@@ -29,8 +49,11 @@ def chktex_findings(root, order):
             m = re.match(r"^(.+?):(\d+):(\d+):([^:]+):(\d+):(.*)$", line)
             if m:
                 _, row, col, kind, rule, msg = m.groups()
+                rnum = int(rule)
+                if not strict and (rnum in CHKTEX_NOISE_RULES or kind.lower() == "message"):
+                    continue
                 findings.append({"class": "chktex", "severity": "info" if kind.lower() == "message" else "warning",
-                                 "file": f, "line": int(row), "column": int(col), "rule": int(rule),
+                                 "file": f, "line": int(row), "column": int(col), "rule": rnum,
                                  "kind": kind, "message": msg.strip(), "source": "chktex"})
     return findings
 
@@ -77,6 +100,34 @@ def graphic_target(target, bases, main_dir, engine):
         return os.path.relpath(matches.pop(), main_dir).replace(os.sep, "/")
 
 
+def _norm_tex_stem(s):
+    return re.sub(r"(\D)0+(\d)", r"\1\2", s.casefold())
+
+
+def tex_target(target, bases, main_dir, cmd):
+    raw = Path(target)
+    if raw.is_absolute() or raw.drive or ".." in raw.parts:
+        return None
+    for base in bases:
+        cand = base / raw
+        if cand.is_file() or (not raw.suffix and (base / (target + ".tex")).is_file()):
+            return None
+    raw_stem = _norm_tex_stem(raw.stem)
+    matches = set()
+    for base in bases:
+        if not base.is_dir():
+            continue
+        for path in base.rglob("*.tex"):
+            if path.is_file() and not path.is_symlink() and _norm_tex_stem(path.stem) == raw_stem:
+                matches.add(path)
+    if len(matches) == 1:
+        rel = os.path.relpath(matches.pop(), main_dir).replace(os.sep, "/")
+        if cmd == "include" and rel.endswith(".tex"):
+            rel = rel[:-4]
+        return rel
+    return None
+
+
 def repair_source(text, file, diagnostics, root, main, gpaths, packages, structural, engine):
     code = visible(text.replace('\r', ' '))
     start = re.search(r"\\begin\{document\}", code)
@@ -110,6 +161,12 @@ def repair_source(text, file, diagnostics, root, main, gpaths, packages, structu
         target = graphic_target(m[1], bases, main_dir, engine)
         if target and target != m[1]:
             path_edits.append((m.start(1), m.end(1), target, "resolve unique local graphic path"))
+    for m in INCLUDE_RE.finditer(code):
+        if line(m.start()) not in missing:
+            continue
+        target = tex_target(m[2], [main_dir, root], main_dir, m[1])
+        if target and target != m[2]:
+            path_edits.append((m.start(2), m.end(2), target, "resolve unique local TeX include/input path"))
     edits.extend((a, b, new) for a, b, new, _ in path_edits)
     reasons.update(reason for *_, reason in path_edits)
 

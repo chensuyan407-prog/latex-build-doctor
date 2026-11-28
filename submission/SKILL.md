@@ -85,7 +85,8 @@ On Windows, use the Python 3 interpreter on PATH and pass absolute paths. Adjust
 - **Engine/fonts**: `fontspec`, `xeCJK`, `unicode-math`, `ctex` → XeLaTeX/LuaLaTeX (`% !TEX program` or `--engine`). Missing font: use template/task font if installed (`fc-list` or TeX `kpsewhich`), else substitute an installed font and record under `needs_confirmation`. Never leave `missing_glyph`.
 - **Templates**: never edit `.cls/.sty/.bst`; copy subfolder template files next to main. Fill required items from materials only; mark missing items visibly + `needs_confirmation`.
 - **Tables & Math**: match column spec to cells; fit wide tables with `tabularx`/`longtable`/`p{}`/`\small`/`table*` — never `\resizebox`. Generate data tables with `lx_table.py`. Use `align` for `&`, `\[ \]` not `$$`, no blank lines in display math, upright units (`\SI`/`\qty` or `\mathrm{nm}`), `\mathrm{...}` for multi-letter subscripts.
-- **References**: `\label` after `\caption`; cite keys are case-sensitive; never invent `.bib` entries/fields; `\addbibresource{x.bib}` requires `.bib`.
+- **References**: `\label` after `\caption`; only `biber` cite keys are case-sensitive (normal `bibtex` is case-insensitive — never modify author `\cite` keys for case); for dangling `\ref` with no unique candidate, replace with a clear text placeholder + `% TODO(author)` and record in `needs_confirmation` (never leave `??` in the PDF); never invent `.bib` entries/fields; `\addbibresource{x.bib}` requires `.bib`.
+- **Minimal edits**: only reorder packages (`load_order` / `S003`) if compilation actually reports an option-clash / load-order error.
 
 ## Writing a table from data
 

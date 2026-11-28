@@ -71,15 +71,19 @@ def main():
         if not a.reason:
             print("ERROR --auto requires --reason")
             return 2
+        fixes_list = [x.strip() for x in a.fixes.split(",")] if a.fixes else []
+        reasons_list = [x.strip() for x in a.reason.split(";")] if ";" in a.reason else []
         added = 0
-        for h in undoc:
-            rec = {"file": h["file"], "line": h.get("new_start") or 1, "from": h["old"], "to": h["new"], "reason": a.reason, "type": a.type}
+        for idx, h in enumerate(undoc):
+            h_reason = reasons_list[idx] if len(reasons_list) == len(undoc) else a.reason
+            h_fixes = fixes_list[idx] if len(fixes_list) == len(undoc) else a.fixes
+            rec = {"file": h["file"], "line": h.get("new_start") or 1, "from": h["old"], "to": h["new"], "reason": h_reason, "type": a.type}
             if h["kind"] in ("new_file", "binary_or_other"):
                 rec["type"] = "new_file"
                 rec["from"] = ""
                 rec["to"] = ""
-            if a.fixes:
-                rec["fixes"] = a.fixes
+            if h_fixes:
+                rec["fixes"] = h_fixes
             if a.accept_numbers:
                 rec["accept_numbers"] = True
             if a.accept_keys:

@@ -5,7 +5,7 @@ description: Compile-diagnose-fix, template-adaptation, and reproducible-build S
 
 # latex-build-doctor (v0.2.0)
 
-You decide author intent; the scripts compile, locate, explain, record and verify. Python 3.8+ standard library only; needs TeX Live / MiKTeX (`pdflatex`/`xelatex`/`lualatex`, `bibtex`/`biber`, `kpsewhich`; optional `fc-list`, `pdftoppm`, `pdftotext`, `pdffonts`, `pdfinfo`).
+You decide author intent; the scripts compile, locate, explain, record and verify. Python 3.8+ standard library only; needs TeX Live / MiKTeX (`pdflatex`/`xelatex`/`lualatex`, `bibtex`/`biber`, `kpsewhich`; optional `chktex`, `fc-list`, `pdftoppm`, `pdftotext`, `pdffonts`, `pdfinfo`).
 
 Run these probes from the skill directory, or set `SKILL_DIR` to the absolute installed skill path.
 ```bash
@@ -34,7 +34,15 @@ On Windows, use the Python 3 interpreter on PATH and pass absolute paths. Adjust
    python3 "$SKILL_DIR/scripts/lx_build.py" --work /app/work --out /app/output
    ```
    Prints status, rounds run (`pdflatex pass 1 -> bibtex -> pass 2 -> pass 3`), **ROOT CAUSES** in fix order (`id class file:line message`, `src:`, `log:`, `fix:`, `(+n follow-on)`), warnings, failed requirements, fact-guard hits, and any unmapped `output_contract` fields. Full list: `/app/output/diagnostics.json`. Exit `0` = success, `1` = PDF with remaining issues, `2` = no PDF.
-4. **Fix root causes top-down & record**:
+4. **Try conservative automatic repairs, then review remaining root causes**:
+   ```bash
+   python3 "$SKILL_DIR/scripts/lx_build.py" --work /app/work --out /app/output --auto-fix
+   ```
+   ChkTeX supplements the built-in static checks when available. Automatic repair uses compiler locations and clear source patterns to escape literal punctuation, close simple groups and environments, add known packages, and resolve unique local graphics. It can restore missing separators marked by spacing, extend consistent row shapes, and wrap supported overwide tables at the local linewidth.
+
+   Repairs are compiled in a staged copy for up to five rounds. Accepted source appears in `output/src/` with `changes.diff` and change records. Build details include the candidate diff and compiler summaries where the case contract permits them. Review ambiguous separators, comments and custom macros manually. To continue editing, copy the reviewed files to `work/src/` and record the edits.
+
+   For manual changes:
    Edit `/app/work/src`, then record diffs cleanly into `work/changes.json` using `lx_record.py` (avoids manual line-number/JSON-escaping errors):
    ```bash
    python3 "$SKILL_DIR/scripts/lx_record.py" --work /app/work --auto --reason "..." --fixes "E001" --type math
@@ -54,7 +62,7 @@ On Windows, use the Python 3 interpreter on PATH and pass absolute paths. Adjust
 - [ ] Figures use the supplied assets. Equations, numbering, labels, citation keys and reference targets survive the diff.
 - [ ] The final PDF opens, the first page and each key PNG are readable, and no table cells or figures are clipped.
 - [ ] Check overfull boxes, unresolved citations/references and missing glyphs in the final log and visual output.
-- [ ] result.json has the original case_id, exact contract field names and nested value types. Artifact paths resolve under the output directory.
+- [ ] result.json has the original case_id, top-level status, and each requested field at the top level and in output_contract. Artifact paths are relative to the output directory. For example, a fixed_source typed as path points to src/main.tex, and preview_paths lists the rendered PNG files.
 
 ## changes.json (`/app/work/changes.json`, created by init)
 
@@ -77,7 +85,8 @@ On Windows, use the Python 3 interpreter on PATH and pass absolute paths. Adjust
 - **Engine/fonts**: `fontspec`, `xeCJK`, `unicode-math`, `ctex` → XeLaTeX/LuaLaTeX (`% !TEX program` or `--engine`). Missing font: use template/task font if installed (`fc-list` or TeX `kpsewhich`), else substitute an installed font and record under `needs_confirmation`. Never leave `missing_glyph`.
 - **Templates**: never edit `.cls/.sty/.bst`; copy subfolder template files next to main. Fill required items from materials only; mark missing items visibly + `needs_confirmation`.
 - **Tables & Math**: match column spec to cells; fit wide tables with `tabularx`/`longtable`/`p{}`/`\small`/`table*` — never `\resizebox`. Generate data tables with `lx_table.py`. Use `align` for `&`, `\[ \]` not `$$`, no blank lines in display math, upright units (`\SI`/`\qty` or `\mathrm{nm}`), `\mathrm{...}` for multi-letter subscripts.
-- **References**: `\label` after `\caption`; cite keys are case-sensitive; never invent `.bib` entries/fields; `\addbibresource{x.bib}` requires `.bib`.
+- **References**: `\label` after `\caption`; only `biber` cite keys are case-sensitive (normal `bibtex` is case-insensitive — never modify author `\cite` keys for case); for dangling `\ref` with no unique candidate, replace with a clear text placeholder + `% TODO(author)` and record in `needs_confirmation` (never leave `??` in the PDF); never invent `.bib` entries/fields; `\addbibresource{x.bib}` requires `.bib`.
+- **Minimal edits**: only reorder packages (`load_order` / `S003`) if compilation actually reports an option-clash / load-order error.
 
 ## Writing a table from data
 

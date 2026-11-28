@@ -86,7 +86,7 @@ def scan_project(src_root, files, main_rel, engine):
         if k not in labels and not k.startswith("#"):
             sug = difflib.get_close_matches(k, list(labels), n=2, cutoff=0.6)
             add("undefined_ref", "error", f, ln, "\\%s{%s}: no \\label{%s} in the project" % (c, k, k),
-                ("closest existing labels: " + ", ".join(sug) + " - fix the key, do not invent a target.") if sug else "No matching label: the target is missing from the source - mark for human confirmation rather than guessing.",
+                ("closest existing labels: " + ", ".join(sug) + " - fix the key, do not invent a target.") if sug else "No matching label: replace \\%s{%s} with a clear text placeholder + %% TODO(author) and record in needs_confirmation so PDF does not show '??'." % (c, k),
                 key=k, suggestions=sug)
     return F, {"labels": labels, "refs": refs, "cites": cites, "packages": pkgs, "newcommands": newcmds, "texts": texts}
 
@@ -520,7 +520,7 @@ def bib_fields(s):
             return
 
 
-def cite_checks(cites, bibentries, has_thebib_keys):
+def cite_checks(cites, bibentries, has_thebib_keys, bibtool=None):
     F = []
     keys = set(bibentries) | set(has_thebib_keys)
     lower = {k.lower(): k for k in keys}
@@ -530,8 +530,12 @@ def cite_checks(cites, bibentries, has_thebib_keys):
         if k in keys:
             continue
         if k.lower() in lower:
-            F.append({"class": "undefined_cite", "severity": "error", "file": f, "line": ln, "message": "\\%s{%s}: key differs only in case from %s" % (c, k, lower[k.lower()]),
-                      "hint": "BibTeX keys are case-sensitive: use %s." % lower[k.lower()], "key": k, "suggestions": [lower[k.lower()]], "source": "static"})
+            if bibtool == "biber":
+                F.append({"class": "undefined_cite", "severity": "warning", "file": f, "line": ln, "message": "\\%s{%s}: key differs only in case from %s (biber is case-sensitive)" % (c, k, lower[k.lower()]),
+                          "hint": "Biber keys are case-sensitive: check whether %s is intended." % lower[k.lower()], "key": k, "suggestions": [lower[k.lower()]], "source": "static"})
+            else:
+                F.append({"class": "undefined_cite", "severity": "info", "file": f, "line": ln, "message": "\\%s{%s}: key differs in case from %s (BibTeX is case-insensitive)" % (c, k, lower[k.lower()]),
+                          "hint": "BibTeX is case-insensitive; do not modify the author's \\cite key.", "key": k, "source": "static"})
             continue
         sug = difflib.get_close_matches(k, list(keys), n=2, cutoff=0.7)
         F.append({"class": "undefined_cite", "severity": "error", "file": f, "line": ln, "message": "\\%s{%s}: no entry with this key in the bibliography" % (c, k),
